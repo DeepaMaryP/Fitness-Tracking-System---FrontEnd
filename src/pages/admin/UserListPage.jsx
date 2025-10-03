@@ -1,16 +1,42 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
+
+import { deleteUser, fetchAllUsers } from '../../api/user';
 
 function UserListPage() {
     const [usersList, setUsersList] = useState([]);
+    const user = useSelector((state) => state.auth)
 
-    const doDeleteUser = (id) => {
-        if (window.confirm("Are you sure you want to delete this user?")) {
-           
-            console.log("User deleted.");
-        } else {
-            // User cancelled
-            console.log("Deletion cancelled.");
+    const loadUsers = async () => {
+        try {
+            const data = await fetchAllUsers(user.token)
+            setUsersList(data)
+        } catch (err) {
+            console.error("Error fetching users:", err)
+        }
+    }
+
+    useEffect(() => {
+        loadUsers()
+    }, [])
+
+    const doDeleteUser = async (id) => {
+        try {
+            if (window.confirm("Are you sure you want to delete this user?")) {
+                const data = await deleteUser(id, user.token)
+                if (data.success) {
+                    console.log("Succesully deleted user details")
+                    await loadUsers()
+                } else {
+                    console.log(data.message);
+                }
+            } else {
+                // User cancelled
+                console.log("Deletion cancelled.");
+            }
+        } catch (err) {
+            console.error("Failed to delete user:", err)
         }
     }
 

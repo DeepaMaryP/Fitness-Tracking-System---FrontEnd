@@ -1,11 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+
 import MetricsCard from '../../components/admin/MetricsCard'
-import SideBarMenu from '../../components/admin/SideMenuBar'
 import UserGrowthStatistics from '../../components/admin/UserGrowthStatistics'
 import TrainerUsersBarChart from '../../components/admin/TrainerUsersBarChart'
+import { signIn } from '../../api/auth'
+
 
 
 function AdminDashboardPage() {
+  const dispatch = useDispatch();
+  const [credentials, setCredentials] = useState(
+    {
+      email: 'admin@gmail.com',
+      password: '12345'
+    }
+  );
+
+  useEffect(() => {
+    try {
+      dispatch(signIn(credentials))
+
+    } catch (error) {
+      console.log(error);      
+    }
+  }, [])
+
   return (
     <div >
       <MetricsCard />

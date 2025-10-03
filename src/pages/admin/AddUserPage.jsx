@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 import DynamicDropdown from '../../components/DynamicDropdown';
 import { getRoles } from '../../helpers/userHelper';
+import { createUser, createUserTrainer, fetchUserWithId, updateUser, updateUserTrainer } from '../../api/user';
+import { fetchTrainerWithUserId } from '../../api/trainerProfile';
 
 function AddUserPage() {
-  const [user, setUser] = useState({ role: 0 });
-  const [trainer, setTrainer] = useState();
+  const userId = useParams().id
+  const [user, setUser] = useState({ role: 0, _id: 0 });
+  const [trainer, setTrainer] = useState({ _id: 0, userId: userId });
+  const auth = useSelector((state) => state.auth)
 
   const [roleList, SetRoleList] = useState([]);
   const [error, SetError] = useState("");
@@ -21,20 +27,55 @@ function AddUserPage() {
     }
   }
 
+  const loadUser = async () => {
+    try {
+      const data = await fetchUserWithId(userId, auth.token)
+      setUser(data)    
+      
+      if (data.role == "Trainer") {
+        loadTrainer()
+      }
+    } catch (err) {
+      SetError("Unable to get user details")
+      console.error("Error fetching user:", err)
+    }
+  }
+
+  const loadTrainer = async () => {
+    try {          
+      const data = await fetchTrainerWithUserId(userId, auth.token)
+      setTrainer(data)
+    } catch (err) {
+      SetError("Unable to get trainer details")
+      console.error("Error fetching trainer:", err)
+    }
+  }
+
   useEffect(() => {
     loadRoles()
+    if (userId) {
+      loadUser();  
+    }
   }, [])
 
   const getSelectedRole = (selectedItem) => {
-   setUser((prevUser) => ({
-    ...prevUser,
-    role: selectedItem
-  }));
+    setUser((prevUser) => ({
+      ...prevUser,
+      role: selectedItem
+    }));
   }
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setUser(prevValues => ({
+      ...prevValues,
+      [name]: value,
+    }))
+  }
+
+  const handleChangeTrainer = (event) => {
+    const { name, value } = event.target;
+    setTrainer(prevValues => ({
       ...prevValues,
       [name]: value,
     }))
@@ -57,6 +98,8 @@ function AddUserPage() {
       }))
       isValid = false;
     }
+
+    if (user._id != 0) return isValid;
     if (user.passwordHash.length == 0) {
       setErrorObject((prevValue) => ({
         ...prevValue,
@@ -91,7 +134,7 @@ function AddUserPage() {
 
   const createNewUser = async () => {
     try {
-      const data = await createUser(user);
+      const data = await createUser(user, auth.token);
       if (data.success) {
         SetError("User Created Succesfully.Continue Sign in with " + data.userName)
         //navigate("/login");
@@ -105,15 +148,75 @@ function AddUserPage() {
     }
   };
 
+  const createNewUserTrainer = async () => {
+    try {
+      const userTrainer = { user, trainer }
+      const data = await createUserTrainer(userTrainer, auth.token);
+      if (data.success) {
+        SetError("User Created Succesfully.Continue Sign in with " + data.userName)
+      } else {
+        console.log(data);
+        SetError(data || "Failed to create user");
+      }
+    } catch (err) {
+      SetError("Something went wrong. Please try again.");
+      console.error("Failed to create user:", err);
+    }
+  };
+
+  const updateUserDetails = async () => {
+    try {
+      const data = await updateUser(user, auth.token);
+      if (data.success) {
+        SetError("User Updated Succesfully")
+      } else {
+        console.log(data);
+        SetError(data);
+      }
+    } catch (err) {
+      SetError("Something went wrong. Please try again.");
+      console.error("Failed to update user:", err);
+    }
+  };
+
+  const updateUserTrainerDetails = async () => {
+    try {
+      const userTrainer = { user, trainer }
+      const data = await updateUserTrainer(userTrainer, auth.token);
+      if (data.success) {
+        SetError("User Updated Succesfully")
+      } else {
+        console.log(data);
+        SetError(data);
+      }
+    } catch (err) {
+      SetError("Something went wrong. Please try again.");
+      console.error("Failed to update user:", err);
+    }
+  };
+
   const saveUser = (event) => {
     event.preventDefault();
+
     if (validateInputs()) {
-      createNewUser();
+      if (user._id != 0) { //update user
+        if (user.role == "Trainer") { // for trainer, update trainer profile too
+          updateUserTrainerDetails();
+        } else {
+          updateUserDetails();
+        }
+      } else {
+        if (user.role == "Trainer") { // for trainer, insert trainer profile too
+          createNewUserTrainer();
+        } else {
+          createNewUser();
+        }
+      }
     }
   }
 
   return (
-    <div className='m-2'>
+    <div className='m-2 mt-10'>
       <div className='flex flex-col sm:flex-row justify-center sm:justify-around mb-3 items-center'>
         <h1 className='text-xl font-bold m-2 sm:m-0 '>Create User</h1>
         <Link to='/admin/users' >
@@ -125,33 +228,35 @@ function AddUserPage() {
           <div>
             <div className='grid grid-cols-5'>
               <label htmlFor="name" className='text-center'>Name :</label>
-              <input type="text" id="name" value={user?.firstName} required name="name" maxLength="50" className='col-span-4 border w-1/2' onChange={handleChange} placeholder='Enter Name' />
+              <input type="text" id="name" value={user?.name} required name="name" maxLength="50" className='col-span-4 border w-1/2' onChange={handleChange} placeholder='Enter Name' />
             </div>
 
             <div className="grid grid-cols-5 my-5">
               <label htmlFor="email" className='text-center'>Email :</label>
               <input type="email" id="email" value={user?.email} maxLength="35" required name="email" className='col-span-4 border w-1/2' onChange={handleChange} placeholder='Enter email' />
             </div>
-
-            <div className="grid grid-cols-5 ">
-              <label htmlFor="password" className='text-center'>Password :</label>
-              <div className='col-span-4 flex'>
-                <input type={showPassword ? "text" : "password"} id="password" maxLength="8" value={user?.passwordHash} required name="passwordHash" className='border w-1/2' onChange={handleChange} placeholder='Enter password' />
-                <div className='pl-3'>
-                  <input type="checkbox" name="showpassword" id="showpassword" onClick={() => setShowPassword(!showPassword)} className="m-2" />
-                  <label htmlFor="showpassword">Show Password</label>
-                  <div>{errorObject.passwordHash.length > 0 && <label htmlFor="password" className='text-red-500 pl-2'>{errorObject.passwordHash}</label>}</div>
+            {(!userId) &&
+              <div>
+                <div className="grid grid-cols-5 ">
+                  <label htmlFor="password" className='text-center'>Password :</label>
+                  <div className='col-span-4 flex'>
+                    <input type={showPassword ? "text" : "password"} id="password" maxLength="8" value={user?.passwordHash} required name="passwordHash" className='border w-1/2' onChange={handleChange} placeholder='Enter password' />
+                    <div className='pl-3'>
+                      <input type="checkbox" name="showpassword" id="showpassword" onClick={() => setShowPassword(!showPassword)} className="m-2" />
+                      <label htmlFor="showpassword">Show Password</label>
+                      <div>{errorObject.passwordHash.length > 0 && <label htmlFor="password" className='text-red-500 pl-2'>{errorObject.passwordHash}</label>}</div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <div className="grid grid-cols-5 my-5">
-              <label htmlFor="confirmpassword" className='text-center'>Confirm Password :</label>
-              <div className='col-span-4'>
-                <input type="password" id="confirmpassword" maxLength="8" value={user?.confirmPassword} required name="confirmpassword" className='border w-1/2' onChange={handleChange} placeholder='Confirm Password' />
-                <div>{errorObject.passwordMismatch.length > 0 && <label htmlFor="confirmpassword" className='text-red-500 pl-2'>{errorObject.passwordMismatch}</label>}</div>
-              </div>
-            </div>
+                <div className="grid grid-cols-5 my-5">
+                  <label htmlFor="confirmpassword" className='text-center'>Confirm Password :</label>
+                  <div className='col-span-4'>
+                    <input type="password" id="confirmpassword" maxLength="8" value={user?.confirmPassword} required name="confirmpassword" className='border w-1/2' onChange={handleChange} placeholder='Confirm Password' />
+                    <div>{errorObject.passwordMismatch.length > 0 && <label htmlFor="confirmpassword" className='text-red-500 pl-2'>{errorObject.passwordMismatch}</label>}</div>
+                  </div>
+                </div>
+              </div>}
 
             <div className="grid grid-cols-5 my-5">
               <label htmlFor="role" className='text-center' >Role :</label>
@@ -161,27 +266,26 @@ function AddUserPage() {
               </div>
             </div>
           </div>
-{console.log(user?.role)}
           {user?.role === "Trainer" &&
             <div>
               <div className='grid grid-cols-5'>
                 <label htmlFor="qualification" className='text-center'>Qualification :</label>
-                <input type="text" id="qualification" value={trainer?.qualification} required name="qualification" maxLength="25" className='col-span-4 border w-1/2' onChange={handleChange} placeholder='Enter Qualification' />
+                <input type="text" id="qualification" value={trainer?.qualification} required name="qualification" maxLength="25" className='col-span-4 border w-1/2' onChange={handleChangeTrainer} placeholder='Enter Qualification' />
               </div>
 
               <div className="grid grid-cols-5 my-5">
                 <label htmlFor="experience" className='text-center'>Experience (Years) :</label>
-                <input type="text" id="experience" value={trainer?.experience} maxLength="10" required name="experience" className='col-span-4 border w-1/2' onChange={handleChange} placeholder='Enter Experience' />
+                <input type="text" id="experience" value={trainer?.experience_years} maxLength="10" required name="experience_years" className='col-span-4 border w-1/2' onChange={handleChangeTrainer} placeholder='Enter Experience' />
               </div>
 
               <div className="grid grid-cols-5 my-5">
                 <label htmlFor="specialization" className='text-center'>Specialization :</label>
-                <input type="text" id="specialization" value={trainer?.specialization} maxLength="35" required name="specialization" className='col-span-4 border w-1/2' onChange={handleChange} placeholder='Enter Specialization' />
+                <input type="text" id="specialization" value={trainer?.specialization} maxLength="35" required name="specialization" className='col-span-4 border w-1/2' onChange={handleChangeTrainer} placeholder='Enter Specialization' />
               </div>
 
               <div className="grid grid-cols-5 my-5">
                 <label htmlFor="certification" className='text-center'>Certification :</label>
-                <input type="text" id="certification" value={trainer?.certification} maxLength="35" required name="certification" className='col-span-4 border w-1/2' onChange={handleChange} placeholder='Enter Certification' />
+                <input type="text" id="certification" value={trainer?.certification} maxLength="35" required name="certification" className='col-span-4 border w-1/2' onChange={handleChangeTrainer} placeholder='Enter Certification' />
               </div>
             </div>
           }
@@ -200,6 +304,12 @@ function AddUserPage() {
               className="rounded-md bg-blue-600 px-3 py-2 text-md font-semibold text-white shadow-xs hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
               Save
             </button>
+            {userId &&
+              <Link to={`/admin/changepwd/${user._id}`}>
+                <span
+                  className="rounded-md bg-blue-600 px-3 py-2 text-md font-semibold text-white shadow-xs hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+                  Change Password
+                </span> </Link>}
           </div>
         </div>
       </form>

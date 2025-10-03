@@ -14,6 +14,9 @@ import Login from './pages/auth/Login'
 import ManageTrainerPage from './pages/admin/ManageTrainerPage'
 import FitnessProgramsPage from './pages/admin/FitnessProgramsPage'
 import AddFitnessProgramPage from './pages/admin/AddFitnessProgramPage'
+import { Provider } from 'react-redux'
+import { store } from './redux/store'
+import ChangePasswordPage from './pages/admin/changePasswordPage'
 
 const router = createBrowserRouter([
   {
@@ -36,6 +39,7 @@ const router = createBrowserRouter([
       { index: true, element: <AdminDashboardPage /> },
       { path: "adduser", element: <AddUserPage /> },
       { path: "adduser/:id", element: <AddUserPage /> },
+      { path: "changepwd/:id", element: <ChangePasswordPage /> },
       { path: "users", element: <UserListPage /> },
       { path: "trainers", element: <ManageTrainerPage /> },
       { path: "fitness", element: <FitnessProgramsPage /> },
@@ -47,6 +51,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+       <RouterProvider router={router} />
+     </Provider>
   </StrictMode>,
 )
