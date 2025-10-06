@@ -15,7 +15,7 @@ import AdminLayOutPage from './pages/admin/AdminLayOutPage'
 import Login from './pages/auth/Login'
 import ManageTrainerPage from './pages/admin/ManageTrainerPage'
 import AddFitnessProgramPage from './pages/admin/AddFitnessProgramPage'
-import ChangePasswordPage from './pages/admin/changePasswordPage'
+import ChangePasswordPage from './pages/admin/UpdatePasswordPage'
 import FitnessProgramListPage from './pages/admin/FitnessProgramListPage'
 import UserListPage from './pages/admin/ManageUserListPage'
 
