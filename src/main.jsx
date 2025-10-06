@@ -9,7 +9,7 @@ import ErrorPage from './pages/ErrorPage'
 import LayOutPage from './pages/LayOutPage'
 import Home from './pages/Home'
 import AddUserPage from './pages/admin/AddUserPage'
-import UserListPage from './pages/admin/userListPage'
+
 import AdminDashboardPage from './pages/admin/AdminDashboardPage'
 import AdminLayOutPage from './pages/admin/AdminLayOutPage'
 import Login from './pages/auth/Login'
@@ -17,6 +17,7 @@ import ManageTrainerPage from './pages/admin/ManageTrainerPage'
 import AddFitnessProgramPage from './pages/admin/AddFitnessProgramPage'
 import ChangePasswordPage from './pages/admin/changePasswordPage'
 import FitnessProgramListPage from './pages/admin/FitnessProgramListPage'
+import UserListPage from './pages/admin/ManageUserListPage'
 
 const router = createBrowserRouter([
   {
