@@ -3,6 +3,7 @@ import { signIn } from "../../api/auth";
 
 const initialState = {
     userName: null,
+    userId:null,
     status: "",
     token: null,
     error: null,
@@ -15,6 +16,7 @@ const authSlice = createSlice(
         reducers: {
             logout(state) {
                 state.userName = null;
+                state.userId = null;
                 state.token = null;
                 state.status = "";
                 state.error = null;
@@ -31,6 +33,7 @@ const authSlice = createSlice(
                 state.status = "success";
                 state.token = action.payload.token;
                 state.userName = action.payload.name;
+                state.userId = action.payload._Id;
                 localStorage.setItem("token", action.payload.token);
             }).addCase(signIn.rejected, (state, action) => {
                 state.status = "failed";

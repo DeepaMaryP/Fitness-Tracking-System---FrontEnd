@@ -10,7 +10,7 @@ import { fetchTrainerWithUserId } from '../../api/trainerProfile';
 function AddUserPage() {
   const userId = useParams().id
   const [user, setUser] = useState({ role: 0, _id: 0 });
-  const [trainer, setTrainer] = useState({ _id: 0, userId: userId });
+  const [trainer, setTrainer] = useState({ userId: userId });
   const auth = useSelector((state) => state.auth)
 
   const [roleList, SetRoleList] = useState([]);
@@ -30,8 +30,8 @@ function AddUserPage() {
   const loadUser = async () => {
     try {
       const data = await fetchUserWithId(userId, auth.token)
-      setUser(data)    
-      
+      setUser(data)
+
       if (data.role == "Trainer") {
         loadTrainer()
       }
@@ -42,7 +42,7 @@ function AddUserPage() {
   }
 
   const loadTrainer = async () => {
-    try {          
+    try {
       const data = await fetchTrainerWithUserId(userId, auth.token)
       setTrainer(data)
     } catch (err) {
@@ -54,7 +54,7 @@ function AddUserPage() {
   useEffect(() => {
     loadRoles()
     if (userId) {
-      loadUser();  
+      loadUser();
     }
   }, [])
 
@@ -216,76 +216,80 @@ function AddUserPage() {
   }
 
   return (
-    <div className='m-2 mt-10'>
+    <div className='max-w-5xl mx-auto bg-white shadow-lg rounded-2xl m-2 mt-10'>
       <div className='flex flex-col sm:flex-row justify-center sm:justify-around mb-3 items-center'>
         <h1 className='text-xl font-bold m-2 sm:m-0 '>Create User</h1>
         <Link to='/admin/users' >
           <span className="rounded-md text-blue-600 font-bold px-4 py-1.5 hover:bg-blue-50 transition-colors">Manage Users</span></Link>
       </div>
 
-      <form className='border rounded pt-5 ml-2' onSubmit={saveUser}>
+      <form className=' m-5 mb-10' onSubmit={saveUser}>
         <div className=''>
-          <div>
-            <div className='grid grid-cols-5'>
-              <label htmlFor="name" className='text-center'>Name :</label>
-              <input type="text" id="name" value={user?.name} required name="name" maxLength="50" className='col-span-4 border w-1/2' onChange={handleChange} placeholder='Enter Name' />
+
+          <div className='space-y-3'>
+            <div>
+              <label htmlFor="name" className='block' >Name</label>
+              <input type="text" id="name" value={user?.name} required name="name" maxLength="50" className='border w-3/4 rounded-sm p-1' onChange={handleChange} placeholder='Enter Name' />
             </div>
 
-            <div className="grid grid-cols-5 my-5">
-              <label htmlFor="email" className='text-center'>Email :</label>
-              <input type="email" id="email" value={user?.email} maxLength="35" required name="email" className='col-span-4 border w-1/2' onChange={handleChange} placeholder='Enter email' />
+            <div>
+              <label htmlFor="email" className='block'>Email</label>
+              <input type="email" id="email" value={user?.email} maxLength="35" required name="email" className='border w-3/4 rounded-sm p-1' onChange={handleChange} placeholder='Enter email' />
             </div>
             {(!userId) &&
               <div>
-                <div className="grid grid-cols-5 ">
-                  <label htmlFor="password" className='text-center'>Password :</label>
-                  <div className='col-span-4 flex'>
-                    <input type={showPassword ? "text" : "password"} id="password" maxLength="8" value={user?.passwordHash} required name="passwordHash" className='border w-1/2' onChange={handleChange} placeholder='Enter password' />
-                    <div className='pl-3'>
-                      <input type="checkbox" name="showpassword" id="showpassword" onClick={() => setShowPassword(!showPassword)} className="m-2" />
-                      <label htmlFor="showpassword">Show Password</label>
-                      <div>{errorObject.passwordHash.length > 0 && <label htmlFor="password" className='text-red-500 pl-2'>{errorObject.passwordHash}</label>}</div>
-                    </div>
+                <div className='space-y-3'>
+                  <div>
+                    <label htmlFor="password" className='block'>Password</label>
+                    <input type={showPassword ? "text" : "password"} id="password" maxLength="8" value={user?.passwordHash} required name="passwordHash" className='border w-3/4 rounded-sm p-1' onChange={handleChange} placeholder='Enter password' />
                   </div>
+
+                  <div className='pl-3 my-2 flex'>
+                    <input type="checkbox" name="showpassword" id="showpassword" onClick={() => setShowPassword(!showPassword)} className="m-2" />
+                    <label htmlFor="showpassword" >Show Password</label>
+                    <div>{errorObject.passwordHash.length > 0 && <label htmlFor="password" className='text-red-500 pl-2'>{errorObject.passwordHash}</label>}</div>
+                  </div>
+
                 </div>
 
-                <div className="grid grid-cols-5 my-5">
-                  <label htmlFor="confirmpassword" className='text-center'>Confirm Password :</label>
+                <div >
+                  <label htmlFor="confirmpassword" className='block'>Confirm Password</label>
                   <div className='col-span-4'>
-                    <input type="password" id="confirmpassword" maxLength="8" value={user?.confirmPassword} required name="confirmpassword" className='border w-1/2' onChange={handleChange} placeholder='Confirm Password' />
+                    <input type="password" id="confirmpassword" maxLength="8" value={user?.confirmPassword} required name="confirmpassword" className='border w-3/4 rounded-sm p-1' onChange={handleChange} placeholder='Confirm Password' />
                     <div>{errorObject.passwordMismatch.length > 0 && <label htmlFor="confirmpassword" className='text-red-500 pl-2'>{errorObject.passwordMismatch}</label>}</div>
                   </div>
                 </div>
               </div>}
 
-            <div className="grid grid-cols-5 my-5">
-              <label htmlFor="role" className='text-center' >Role :</label>
-              <div className='col-span-4'>
-                <DynamicDropdown onData={getSelectedRole} item={roleList} selectedItem={user?.role} id="role" name='Select Role' />
+            <div >
+              <label htmlFor="role" className='block' >Role</label>
+              <div className='flex w-fit'>
+                <DynamicDropdown onData={getSelectedRole} item={roleList}  selectedItem={user?.role} id="role"  readOnly={user._id != 0} name='Select Role' />
                 <div>{errorObject.role.length > 0 && <label htmlFor="role" className='text-red-500 pl-2'>{errorObject.role}</label>}</div>
               </div>
             </div>
           </div>
+
           {user?.role === "Trainer" &&
-            <div>
-              <div className='grid grid-cols-5'>
-                <label htmlFor="qualification" className='text-center'>Qualification :</label>
-                <input type="text" id="qualification" value={trainer?.qualification} required name="qualification" maxLength="25" className='col-span-4 border w-1/2' onChange={handleChangeTrainer} placeholder='Enter Qualification' />
+            <div className='space-y-3 mt-2'>
+              <div >
+                <label htmlFor="qualification" className='block'>Qualification</label>
+                <input type="text" id="qualification" value={trainer?.qualification} required name="qualification" maxLength="25" className='border w-3/4 rounded-sm p-1' onChange={handleChangeTrainer} placeholder='Enter Qualification' />
               </div>
 
-              <div className="grid grid-cols-5 my-5">
-                <label htmlFor="experience" className='text-center'>Experience (Years) :</label>
-                <input type="text" id="experience" value={trainer?.experience_years} maxLength="10" required name="experience_years" className='col-span-4 border w-1/2' onChange={handleChangeTrainer} placeholder='Enter Experience' />
+              <div >
+                <label htmlFor="experience" className='block'>Experience (Years)</label>
+                <input type="text" id="experience" value={trainer?.experience_years} maxLength="10" required name="experience_years" className='border w-3/4 rounded-sm p-1' onChange={handleChangeTrainer} placeholder='Enter Experience' />
               </div>
 
-              <div className="grid grid-cols-5 my-5">
-                <label htmlFor="specialization" className='text-center'>Specialization :</label>
-                <input type="text" id="specialization" value={trainer?.specialization} maxLength="35" required name="specialization" className='col-span-4 border w-1/2' onChange={handleChangeTrainer} placeholder='Enter Specialization' />
+              <div >
+                <label htmlFor="specialization" className='block'>Specialization :</label>
+                <input type="text" id="specialization" value={trainer?.specialization} maxLength="35" required name="specialization" className='border w-3/4 rounded-sm p-1' onChange={handleChangeTrainer} placeholder='Enter Specialization' />
               </div>
 
-              <div className="grid grid-cols-5 my-5">
-                <label htmlFor="certification" className='text-center'>Certification :</label>
-                <input type="text" id="certification" value={trainer?.certification} maxLength="35" required name="certification" className='col-span-4 border w-1/2' onChange={handleChangeTrainer} placeholder='Enter Certification' />
+              <div >
+                <label htmlFor="certification" className='block'>Certification :</label>
+                <input type="text" id="certification" value={trainer?.certification} maxLength="35" required name="certification" className='border w-3/4 rounded-sm p-1' onChange={handleChangeTrainer} placeholder='Enter Certification' />
               </div>
             </div>
           }

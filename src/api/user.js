@@ -81,9 +81,10 @@ export const updateUserPassword = async (user, token) => {
 }
 
 
-export const createUser = async (user, token) => {
+export const createUser = async (userDet, token) => {
     try {
         if (!token) return
+        const { _id, ...user } = userDet;
         const response = await axios.post(BASE_API_URL, user, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -105,13 +106,14 @@ export const createUser = async (user, token) => {
 export const createUserTrainer = async (userTrainer, token) => {
     try {
         if (!token) return
+        const { _id, ...userDet } = userTrainer.user;
+        userTrainer.user = userDet // remove the _id
+
         const response = await axios.post(`${BASE_API_URL}/trainer`, userTrainer, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
-        });
-        console.log(response.data);
-
+        });     
         return response.data
     } catch (error) {
         console.log({ error });
@@ -161,5 +163,43 @@ export const deleteUser = async (id, token) => {
         }
         console.log({ error });
         return error.response?.data?.message || "Failed to delete User";
+    }
+}
+
+export const getUserStats = async (token) => {
+    try {
+        if (!token) return        
+        const response = await axios.get(`${BASE_API_URL}/dash/userstat`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch (error) {
+        if (error.response && error.response.status === 403 && error.response.data.message === "invalid token") {
+            localStorage.removeItem("token")
+            window.location.href = '/login';
+        }
+        console.log({ error });
+        return error.response?.data?.message || "Failed to fetch User stats";
+    }
+}
+
+export const getMetrics = async (token) => {
+    try {
+        if (!token) return        
+        const response = await axios.get(`${BASE_API_URL}/dash/metrics`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })        
+        return response.data
+    } catch (error) {
+        if (error.response && error.response.status === 403 && error.response.data.message === "invalid token") {
+            localStorage.removeItem("token")
+            window.location.href = '/login';
+        }
+        console.log({ error });
+        return error.response?.data?.message || "Failed to fetch User stats";
     }
 }

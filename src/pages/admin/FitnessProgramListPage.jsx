@@ -1,8 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-function FitnessProgramsPage() {
-      const [programList, setprogramList] = useState([]);
+import { fetchAllFitnessProgram } from '../../api/fitnessPrograms';
+
+function FitnessProgramListPage() {
+      const [fitprogramList, setFitprogramList] = useState([]);
+      const auth = useSelector((state) => state.auth)
+
+       const loadFitnessPrograms = async () => {
+              try {
+                  const data = await fetchAllFitnessProgram(auth.token)
+                  setFitprogramList(data)
+              } catch (err) {
+                  console.error("Error fetching FitnessPrograms:", err)
+              }
+          }
 
       const doDeleteProgram = (id) => {
         if (window.confirm("Are you sure you want to delete this program?")) {
@@ -13,6 +26,10 @@ function FitnessProgramsPage() {
             console.log("Deletion cancelled.");
         }
     }
+
+      useEffect(() => {
+            loadFitnessPrograms()
+        }, [])
 
   return (
     <div>
@@ -51,7 +68,7 @@ function FitnessProgramsPage() {
                             </thead>
                             <tbody>
                                 {
-                                    programList.map(program =>
+                                    fitprogramList?.map(program =>
                                         <tr key={program._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                                             <td className="text-center">
                                                 {program.name}
@@ -63,7 +80,7 @@ function FitnessProgramsPage() {
                                                 {program.price}
                                             </td>
                                             <td className="px-6 py-4">
-                                                {program.duration}
+                                                {program.duration_days}
                                             </td>
                                             <td className="relative flex flex-col items-center sm:flex-row p-2 sm:p-4 sm:space-x-2">
                                                 <Link to={`/admin/addfitness/${program._id}`}>
@@ -84,4 +101,4 @@ function FitnessProgramsPage() {
   )
 }
 
-export default FitnessProgramsPage
+export default FitnessProgramListPage

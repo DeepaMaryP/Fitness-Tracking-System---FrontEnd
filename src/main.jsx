@@ -1,6 +1,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { store } from './redux/store'
 
 import './index.css'
 import ErrorPage from './pages/ErrorPage'
@@ -12,11 +14,9 @@ import AdminDashboardPage from './pages/admin/AdminDashboardPage'
 import AdminLayOutPage from './pages/admin/AdminLayOutPage'
 import Login from './pages/auth/Login'
 import ManageTrainerPage from './pages/admin/ManageTrainerPage'
-import FitnessProgramsPage from './pages/admin/FitnessProgramsPage'
 import AddFitnessProgramPage from './pages/admin/AddFitnessProgramPage'
-import { Provider } from 'react-redux'
-import { store } from './redux/store'
 import ChangePasswordPage from './pages/admin/changePasswordPage'
+import FitnessProgramListPage from './pages/admin/FitnessProgramListPage'
 
 const router = createBrowserRouter([
   {
@@ -42,8 +42,9 @@ const router = createBrowserRouter([
       { path: "changepwd/:id", element: <ChangePasswordPage /> },
       { path: "users", element: <UserListPage /> },
       { path: "trainers", element: <ManageTrainerPage /> },
-      { path: "fitness", element: <FitnessProgramsPage /> },
-      { path: "addfitness", element: <AddFitnessProgramPage /> }
+      { path: "fitness", element: <FitnessProgramListPage /> },
+      { path: "addfitness", element: <AddFitnessProgramPage /> },
+       { path: "addfitness/:id", element: <AddFitnessProgramPage /> }
     ]
   }
 ])

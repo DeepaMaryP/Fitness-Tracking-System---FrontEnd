@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Line } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -10,6 +10,8 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
+import { getUserStats } from '../../api/user';
+import { useSelector } from 'react-redux';
 
 ChartJS.register(
     CategoryScale,
@@ -21,12 +23,53 @@ ChartJS.register(
     Legend
 );
 
-  const data = {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+
+
+const options = {
+    responsive: true,
+    plugins: {
+        title: {
+            display: true,
+            text: 'Registrations in past 6 months',
+        },
+    },
+    scales: {
+        y: {
+            beginAtZero: true,
+        },
+    },
+};
+
+
+function UserGrowthStatistics() {
+    const auth = useSelector((state) => state.auth)
+    const [userStat, setUserStat] = useState();
+
+    const getUserStatistics = async () => {
+        try {
+            const data = await getUserStats(auth.token);
+            if (data.success) {
+                setUserStat(data.monthsList)
+            } else {
+                console.log(data);
+            }
+        } catch (err) {
+            console.error("Failed to get user metrics:", err);
+        }
+    };
+
+    useEffect(() => {
+        getUserStatistics()
+    }, [])
+
+    const months = userStat?.map(stat => stat.label);
+    const regCount =  userStat?.map(stat => stat.registrations);
+    const data = {        
+        labels: months,
         datasets: [
             {
-                label: 'My First Dataset',
-                data: [65, 59, 80, 81, 56, 55, 40],
+                label: 'Number of Users',
+                data: regCount,
                 fill: false,
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.1,
@@ -34,28 +77,11 @@ ChartJS.register(
         ],
     };
 
-    const options = {
-        responsive: true,
-        plugins: {
-            title: {
-                display: true,
-                text: 'Chart.js Line Chart in React',
-            },
-        },
-        scales: {
-            y: {
-                beginAtZero: true,
-            },
-        },
-    };
-
-
-function UserGrowthStatistics() {  
     return (
-        <div>         
+        <div>
             <div style={{ width: '700px', height: '400px' }}>
                 <Line data={data} options={options} />
-            </div>           
+            </div>
         </div>
     )
 }

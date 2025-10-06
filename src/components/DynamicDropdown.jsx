@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
 function DynamicDropdown(props) {
-    const options = props.item
-    const optionCategory = props.name
-    const selectedItem = props.selectedItem
+    
+    const { item, name, selectedItem, onData, readOnly } = props;
     const [selectedValue, setSelectedValue] = useState(selectedItem)
 
     useEffect(() => {
@@ -14,14 +13,15 @@ function DynamicDropdown(props) {
 
     function handleChange(event) {
         setSelectedValue(event.target.value)
-        props.onData(event.target.value)
+        onData(event.target.value)
     }
 
     return (
         <div>
-            <select onChange={handleChange} value={selectedValue} className='border w-72'>
-                <option value=""> {optionCategory}</option>
-                {options.map(option =>
+            <select onChange={handleChange} value={selectedValue}   className={`border w-72 rounded p-2 ${
+          readOnly ? "bg-gray-100 pointer-events-none text-gray-600" : ""  }`}>           
+                <option value=""> {name}</option>
+                {item.map(option =>
                     <option key={option.value} value={option.value}>{option.label}</option>
                 )}
             </select>

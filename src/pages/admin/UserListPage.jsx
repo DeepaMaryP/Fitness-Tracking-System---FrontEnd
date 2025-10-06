@@ -6,11 +6,11 @@ import { deleteUser, fetchAllUsers } from '../../api/user';
 
 function UserListPage() {
     const [usersList, setUsersList] = useState([]);
-    const user = useSelector((state) => state.auth)
+    const auth = useSelector((state) => state.auth)
 
     const loadUsers = async () => {
         try {
-            const data = await fetchAllUsers(user.token)
+            const data = await fetchAllUsers(auth.token)
             setUsersList(data)
         } catch (err) {
             console.error("Error fetching users:", err)
@@ -24,7 +24,7 @@ function UserListPage() {
     const doDeleteUser = async (id) => {
         try {
             if (window.confirm("Are you sure you want to delete this user?")) {
-                const data = await deleteUser(id, user.token)
+                const data = await deleteUser(id, auth.token)
                 if (data.success) {
                     console.log("Succesully deleted user details")
                     await loadUsers()
@@ -76,7 +76,7 @@ function UserListPage() {
                             </thead>
                             <tbody>
                                 {
-                                    usersList.map(user =>
+                                    usersList?.map(user =>
                                         <tr key={user._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                                             <td className="text-center">
                                                 {user.name}
