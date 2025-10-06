@@ -2,6 +2,7 @@ import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuIt
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import userLogo from '../assets/userLogo.png'
 import companyLogo from '../assets/CompanyLogo.jpg'
+import { Link } from 'react-router-dom'
 
 const navigation = [
     { name: 'Home', href: '#', current: true },
@@ -70,19 +71,20 @@ function Header() {
 
                         {/* Profile dropdown */}
                         <Menu as="div" className="relative ml-3">
-                            <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
-                                <span className="absolute -inset-1.5" />
-                                <span className="sr-only">Open user menu</span>
-                                <span >Hello, Sign In</span>
-                                {/* <img
+                            <Link to="/admin">
+                                <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+                                    <span className="absolute -inset-1.5" />
+                                    <span className="sr-only">Open user menu</span>
+                                    <span >Hello, Sign In</span>
+                                    {/* <img
                   alt=""
                   src={userLogo}
                 //  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                   className="size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10"
                 /> */}
-                            </MenuButton>
+                                </MenuButton></Link>
 
-                            <MenuItems
+                            {/*  <MenuItems
                                 transition
                                 className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg outline outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
                             >
@@ -110,7 +112,7 @@ function Header() {
                                         Sign out
                                     </a>
                                 </MenuItem>
-                            </MenuItems>
+                            </MenuItems> */}
                         </Menu>
                     </div>
                 </div>
