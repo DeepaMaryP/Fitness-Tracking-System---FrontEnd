@@ -10,7 +10,7 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
-import { getUserStats } from '../../api/user';
+import { getUserStats } from '../../api/admin/user';
 import { useSelector } from 'react-redux';
 
 ChartJS.register(

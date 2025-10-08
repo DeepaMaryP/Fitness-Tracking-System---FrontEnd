@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { updateUserPassword } from '../../api/user';
+import { updateUserPassword } from '../../api/admin/user';
 
 function ChangePasswordPage() {
     const userId = useParams().id

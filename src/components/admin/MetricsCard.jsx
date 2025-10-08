@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux';
 
 import RupeeSign from '../../assets/rupee-sign.svg'
-import { getMetrics } from '../../api/user';
+import { getMetrics } from '../../api/admin/user';
 import { useState } from 'react';
-import { getApprovedTrainers } from '../../api/trainerProfile';
+import { getApprovedTrainers } from '../../api/admin/trainerProfile';
 
 
 function MetricsCard() {

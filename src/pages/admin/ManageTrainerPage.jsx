@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { approveTrainerDetails, getAllTrainers } from '../../api/trainerProfile';
+import { approveTrainerDetails, getAllTrainers } from '../../api/admin/trainerProfile';
 import { useSelector } from 'react-redux';
 
 function ManageTrainerPage() {

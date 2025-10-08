@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux';
 
 import DynamicDropdown from '../../components/DynamicDropdown';
 import { getRoles } from '../../helpers/userHelper';
-import { createUser, createUserTrainer, fetchUserWithId, updateUser, updateUserTrainer } from '../../api/user';
-import { fetchTrainerWithUserId } from '../../api/trainerProfile';
+import { createUser, createUserTrainer, fetchUserWithId, updateUser, updateUserTrainer } from '../../api/admin/user';
+import { fetchTrainerWithUserId } from '../../api/admin/trainerProfile';
 
 function AddUserPage() {
   const userId = useParams().id
@@ -225,7 +225,6 @@ function AddUserPage() {
 
       <form className=' m-5 mb-10' onSubmit={saveUser}>
         <div className=''>
-
           <div className='space-y-3'>
             <div>
               <label htmlFor="name" className='block' >Name</label>

@@ -18,6 +18,12 @@ import AddFitnessProgramPage from './pages/admin/AddFitnessProgramPage'
 import ChangePasswordPage from './pages/admin/UpdatePasswordPage'
 import FitnessProgramListPage from './pages/admin/FitnessProgramListPage'
 import UserListPage from './pages/admin/ManageUserListPage'
+import AddFoodMasterPage from './pages/admin/AddFoodMasterPage'
+import ManageFoodMasterList from './pages/admin/ManageFoodMasterList'
+import AddWorkOutPlanPage from './pages/trainer/AddWorkOutPlanPage'
+import ManageWorkoutPlanListPage from './pages/trainer/ManageWorkoutPlanListPage'
+import AddDietPlanPage from './pages/trainer/AddDietPlanPage'
+import ManageDietPlanListPage from './pages/trainer/ManageDietPlanListPage'
 
 const router = createBrowserRouter([
   {
@@ -45,7 +51,16 @@ const router = createBrowserRouter([
       { path: "trainers", element: <ManageTrainerPage /> },
       { path: "fitness", element: <FitnessProgramListPage /> },
       { path: "addfitness", element: <AddFitnessProgramPage /> },
-       { path: "addfitness/:id", element: <AddFitnessProgramPage /> }
+      { path: "addfitness/:id", element: <AddFitnessProgramPage /> },
+      { path: "foodmaster", element: <ManageFoodMasterList /> },
+      { path: "addfoodmaster", element: <AddFoodMasterPage /> },
+      { path: "addfoodmaster/:id", element: <AddFoodMasterPage /> },
+
+       { path: "workoutplan", element: <ManageWorkoutPlanListPage /> },
+      { path: "addworkoutplan", element: <AddWorkOutPlanPage /> },
+      { path: "addworkoutplan/:id", element: <AddWorkOutPlanPage /> },
+       { path: "dietplan", element: <ManageDietPlanListPage /> },
+       { path: "adddietplan", element: <AddDietPlanPage /> },
     ]
   }
 ])

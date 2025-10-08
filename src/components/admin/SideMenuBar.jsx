@@ -57,6 +57,27 @@ function SideBarMenu() {
                                     <span className="ms-3">Fitness Programs</span>
                                 </p></Link>
                         </li>
+                         <li>
+                            <Link to='/admin/foodmaster' >
+                                <p href="#" className="flex items-center p-2 text-white rounded-lg   dark:text-white hover:bg-blue-600 dark:hover:bg-blue-700 group"     >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon></svg>
+                                    <span className="ms-3">Food Master</span>
+                                </p></Link>
+                        </li>
+                        <li>
+                            <Link to='/admin/workoutplan' >
+                                <p href="#" className="flex items-center p-2 text-white rounded-lg   dark:text-white hover:bg-blue-600 dark:hover:bg-blue-700 group"     >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon></svg>
+                                    <span className="ms-3">WorkOut Plan</span>
+                                </p></Link>
+                        </li>
+                         <li>
+                            <Link to='/admin/adddietplan' >
+                                <p href="#" className="flex items-center p-2 text-white rounded-lg   dark:text-white hover:bg-blue-600 dark:hover:bg-blue-700 group"     >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon></svg>
+                                    <span className="ms-3">Diet Plan</span>
+                                </p></Link>
+                        </li>
 
                         {/* Reports Dropdown */}
                         <li>

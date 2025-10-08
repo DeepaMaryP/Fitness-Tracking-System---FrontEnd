@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 
-import { deleteUser, fetchAllUsers } from '../../api/user';
+import { deleteUser, fetchAllUsers } from '../../api/admin/user';
 
 function UserListPage() {
     const [usersList, setUsersList] = useState([]);

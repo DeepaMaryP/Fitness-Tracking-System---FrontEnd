@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { createFitnessProgram, fetchFitnessProgramWithId, updateFitnessProgram } from "../../api/fitnessPrograms";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { createFitnessProgram, fetchFitnessProgramWithId, updateFitnessProgram } from "../../api/admin/fitnessPrograms";
 
 function AddFitnessProgramPage() {
   const [error, SetError] = useState("");
   const auth = useSelector((state) => state.auth)
+  const navigate = useNavigate()
   const trainerTypes = ["Diet", "Workout", "Yoga", "General"];
   const fitProgramId = useParams().id
   const [fitProgram, SetFitProgram] = useState({
@@ -37,7 +38,9 @@ function AddFitnessProgramPage() {
   }
 
   useEffect(() => {
-    loadFitnessProgram();
+    if (fitProgramId) {
+      loadFitnessProgram();
+    }
   }, [])
 
   const handleChange = (e) => {
@@ -67,6 +70,7 @@ function AddFitnessProgramPage() {
       ...prev,
       features: { ...prev.features, trainers: updatedTrainers },
     }));
+    validateTrainer(updatedTrainers);
   };
 
   // Add new trainer row
@@ -88,13 +92,17 @@ function AddFitnessProgramPage() {
 
   // Remove trainer row
   const handleRemoveTrainer = (index) => {
+    const updatedTrainers = fitProgram.features.trainers.filter((_, i) => i !== index);
     SetFitProgram((prev) => ({
       ...prev,
       features: {
         ...prev.features,
-        trainers: prev.features.trainers.filter((_, i) => i !== index),
+        trainers: updatedTrainers,
       },
     }));
+    
+    validateTrainer(updatedTrainers)
+        console.log('after remove');
   };
 
   const [errorObject, setErrorObject] = useState({ name: "", price: "", duration: "", trainer: "" })
@@ -127,14 +135,32 @@ function AddFitnessProgramPage() {
       isValid = false;
     }
 
-    /*  if (fitProgram.features?.trainers.length > 0) {      
-       setErrorObject((prevValue) => ({
-         ...prevValue,
-         trainer: "Please select Trainer"
-       }))
-       isValid = false;
-     } */
+   if(!validateTrainer(fitProgram?.features?.trainers)) isValid = false;
+
     return isValid;
+  }
+
+  const validateTrainer = (updatedTrainers) => {
+    const hasInvalidTrainer = updatedTrainers.some(
+      (trainer) => trainer.count > 0 && trainer.trainer_type.trim().length === 0
+    );
+    if (hasInvalidTrainer) {      
+      setErrorObject((prevValue) => ({
+        ...prevValue,
+        trainer: "Please select Trainer",
+      }));
+      return false
+    } else {
+      setErrorObject((prevValue) => ({
+        ...prevValue,
+        trainer: "",
+      }));
+      return true;
+    }
+  }
+
+  const cancelAddFitness = () => {
+    navigate("/admin/fitness")
   }
 
   const createFitProgram = async () => {
@@ -154,11 +180,8 @@ function AddFitnessProgramPage() {
 
   const saveFitnesProgram = (event) => {
     event.preventDefault();
-    console.log(fitProgram);
 
     if (validateInputs()) {
-      console.log(fitProgram);
-
       if (fitProgram._id != 0) { //update fitness program       
         updateFitProgram();
       }
@@ -185,13 +208,19 @@ function AddFitnessProgramPage() {
 
   return (
     <div className="max-w-5xl mx-auto bg-white shadow-lg rounded-2xl m-2 mt-10">
-      <h2 className="text-xl font-bold ml-5 mb-4">Create Fitness Program</h2>
+      <div className='flex flex-col sm:flex-row justify-center sm:justify-around mb-3 items-center'>
+        <h1 className='text-xl font-bold m-2 sm:m-0 '>Create Fitness Program</h1>
+        <Link to='/admin/fitness' >
+          <span className="rounded-md text-blue-600 font-bold px-4 py-1.5 hover:bg-blue-50 transition-colors">Manage Fitness Program</span></Link>
+      </div>
+
       <form onSubmit={saveFitnesProgram} className="space-y-2 m-5 mb-10">
         {/* Plan Name */}
         <div>
           <label className="block" >Plan Name</label>
           <input type="text" name="name" value={fitProgram.name} onChange={handleChange} className="w-3/4 border rounded-sm p-1"
             required />
+          <div>{errorObject.name.length > 0 && <label htmlFor="name" className='text-red-500 pl-2'>{errorObject.name}</label>}</div>
         </div>
 
         {/* Description */}
@@ -206,10 +235,12 @@ function AddFitnessProgramPage() {
           <div>
             <label className="block">Price</label>
             <input type="number" name="price" value={fitProgram.price} onChange={handleChange} className="w-1/2 border rounded-sm p-1" required />
+            <div>{errorObject.price.length > 0 && <label htmlFor="price" className='text-red-500 pl-2'>{errorObject.price}</label>}</div>
           </div>
           <div>
             <label className="block">Duration (days)</label>
             <input type="number" name="duration_days" value={fitProgram.duration_days} onChange={handleChange} className="w-1/2 border rounded-sm p-1" required />
+            <div>{errorObject.duration.length > 0 && <label htmlFor="duration_days" className='text-red-500 pl-2'>{errorObject.duration}</label>}</div>
           </div>
         </div>
 
@@ -255,6 +286,7 @@ function AddFitnessProgramPage() {
           >
             Add Trainer
           </button>
+          <div>{errorObject.trainer.length > 0 && <label htmlFor="trainer_type" className='text-red-500 pl-2'>{errorObject.trainer}</label>}</div>
         </div>
 
 
@@ -305,12 +337,12 @@ function AddFitnessProgramPage() {
           </div>}
 
         {/* Submit */}
-        <div className="mt-10 grid grid-cols-4 gap-4">
+        <div className="mt-10 flex items-center justify-center gap-4">
           <button
             type="submit" className="rounded-md bg-blue-600 px-3 py-2 text-md font-semibold text-white shadow-xs hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
             Save Plan
           </button>
-          <button className="border border-transparent bg-white hover:border-blue-500 hover:bg-blue-50 px-4 py-2 rounded transition" >
+          <button type="button" className="border border-transparent bg-white hover:border-blue-500 hover:bg-blue-50 px-4 py-2 rounded transition " onClick={cancelAddFitness}>
             Cancel
           </button>
         </div>
