@@ -57,15 +57,14 @@ export const updateWorkOutPlan  = async (workout, token) => {
             window.location.href = '/login';
         }
         console.log({ error });
-        return error.response?.data || "Failed to update WorkOutPlan";
+        return error.response?.data?.message || "Failed to update WorkOutPlan";
     }
 }
 
 export const createWorkOutPlan  = async (workoutDet, token) => {
     try {
         if (!token) return
-        const { _id, ...workout } = workoutDet;
-        console.log(workout);
+        const { _id, ...workout } = workoutDet;    
         
         const response = await axios.post(BASE_API_URL, workout, {
             headers: {

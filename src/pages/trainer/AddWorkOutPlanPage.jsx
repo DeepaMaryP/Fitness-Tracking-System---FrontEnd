@@ -26,7 +26,7 @@ function AddWorkOutPlanPage() {
             const data = await fetchWorkOutPlanWithId(workOutId, auth.token)
             setWorkout(data)
         } catch (err) {
-            SetErrors("Unable to get WorkOut Plan details")
+            setErrors("Unable to get WorkOut Plan details")
             console.error("Error fetching WorkOut Plan:", err)
         }
     }
@@ -73,7 +73,7 @@ function AddWorkOutPlanPage() {
     };
 
     const cancelAddPlan = () => {
-        navigate("/admin/workoutplan")
+        navigate("/trainer/workoutplan")
     }
 
     const validateForm = () => {
@@ -149,7 +149,7 @@ function AddWorkOutPlanPage() {
         <div className="max-w-5xl mx-auto bg-white p-6 rounded-2xl shadow">
             <div className='flex flex-col sm:flex-row justify-center sm:justify-around mb-3 items-center'>
                 <h1 className='text-xl font-bold m-2 sm:m-0 '>Create WorkOut Plan</h1>
-                <Link to='/admin/workoutplan' >
+                <Link to='/trainer/workoutplan' >
                     <span className="rounded-md text-blue-600 font-bold px-4 py-1.5 hover:bg-blue-50 transition-colors">Manage WorkOut Plans</span></Link>
             </div>
 
@@ -231,12 +231,11 @@ function AddWorkOutPlanPage() {
                     <button type="button" className="border border-transparent bg-white hover:border-blue-500 hover:bg-blue-50 px-4 py-2 rounded transition " onClick={cancelAddPlan}>
                         Cancel
                     </button>
-                </div>
-
-                {errors.length > 0 &&
+                     {errors.length > 0 &&
                     <div>
                         <span className='text-red-400 p-5'>{errors}</span>
                     </div>}
+                </div>               
             </form>
 
         </div>

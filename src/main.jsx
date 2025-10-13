@@ -18,12 +18,16 @@ import AddFitnessProgramPage from './pages/admin/AddFitnessProgramPage'
 import ChangePasswordPage from './pages/admin/UpdatePasswordPage'
 import FitnessProgramListPage from './pages/admin/FitnessProgramListPage'
 import UserListPage from './pages/admin/ManageUserListPage'
-import AddFoodMasterPage from './pages/admin/AddFoodMasterPage'
-import ManageFoodMasterList from './pages/admin/ManageFoodMasterList'
+import AddFoodMasterPage from './pages/trainer/AddFoodMasterPage'
+import ManageFoodMasterList from './pages/trainer/ManageFoodMasterList'
 import AddWorkOutPlanPage from './pages/trainer/AddWorkOutPlanPage'
 import ManageWorkoutPlanListPage from './pages/trainer/ManageWorkoutPlanListPage'
 import AddDietPlanPage from './pages/trainer/AddDietPlanPage'
 import ManageDietPlanListPage from './pages/trainer/ManageDietPlanListPage'
+import TrainerLayOutPage from './pages/trainer/TrainerLayOutPage'
+import TrainerDashBoardPage from './pages/trainer/TrainerDashBoardPage'
+import AssignTrainerToUserPage from './pages/admin/AssignTrainerToUserPage'
+import ManageTrainerAssignmentPage from './pages/admin/ManageTrainerAssignmentPage'
 
 const router = createBrowserRouter([
   {
@@ -49,18 +53,30 @@ const router = createBrowserRouter([
       { path: "changepwd/:id", element: <ChangePasswordPage /> },
       { path: "users", element: <UserListPage /> },
       { path: "trainers", element: <ManageTrainerPage /> },
+      { path: "assignments", element: <ManageTrainerAssignmentPage /> },
+      { path: "assigntrainer/:userid", element: <AssignTrainerToUserPage /> },
+      { path: "assigntrainer", element: <AssignTrainerToUserPage /> },
       { path: "fitness", element: <FitnessProgramListPage /> },
       { path: "addfitness", element: <AddFitnessProgramPage /> },
       { path: "addfitness/:id", element: <AddFitnessProgramPage /> },
+    ]
+  },
+  , {
+    path: "/trainer",
+    element: <TrainerLayOutPage />,
+    errorElement: <ErrorPage />,
+
+    children: [
+      { index: true, element: <TrainerDashBoardPage /> },
       { path: "foodmaster", element: <ManageFoodMasterList /> },
       { path: "addfoodmaster", element: <AddFoodMasterPage /> },
       { path: "addfoodmaster/:id", element: <AddFoodMasterPage /> },
-
-       { path: "workoutplan", element: <ManageWorkoutPlanListPage /> },
+      { path: "workoutplan", element: <ManageWorkoutPlanListPage /> },
       { path: "addworkoutplan", element: <AddWorkOutPlanPage /> },
       { path: "addworkoutplan/:id", element: <AddWorkOutPlanPage /> },
-       { path: "dietplan", element: <ManageDietPlanListPage /> },
-       { path: "adddietplan", element: <AddDietPlanPage /> },
+      { path: "dietplan", element: <ManageDietPlanListPage /> },
+      { path: "adddietplan", element: <AddDietPlanPage /> },
+      { path: "adddietplan/:id", element: <AddDietPlanPage /> },
     ]
   }
 ])
@@ -69,7 +85,7 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
-       <RouterProvider router={router} />
-     </Provider>
+      <RouterProvider router={router} />
+    </Provider>
   </StrictMode>,
 )

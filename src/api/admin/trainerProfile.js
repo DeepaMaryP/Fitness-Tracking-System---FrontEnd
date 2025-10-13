@@ -12,7 +12,28 @@ export const getAllTrainers = async (token) => {
                 }
             }
         )
-        return response.data
+        return response.data.allTrainersProfile
+    } catch (error) {
+        if (error.response && error.response.status === 403 && error.response.data.message === "invalid token") {
+            localStorage.removeItem("token")
+            window.location.href = '/login';
+        }
+        console.log({ error });
+        return error.response?.data?.message || "Failed to fetch Trainer";
+    }
+}
+
+export const getApprovedTrainers = async (token) => {
+    try {
+        if (!token) return
+        const response = await axios.get(`${BASE_API_URL}/approved`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        )
+        return response.data.allTrainersProfile
     } catch (error) {
         if (error.response && error.response.status === 403 && error.response.data.message === "invalid token") {
             localStorage.removeItem("token")
@@ -44,7 +65,7 @@ export const fetchTrainerWithUserId = async (id, token) => {
     }
 }
 
-export const getApprovedTrainers = async (token) => {
+export const getApprovedTrainerCount = async (token) => {
     try {
         if (!token) return
         const response = await axios.get(`${BASE_API_URL}/dash/approved`,

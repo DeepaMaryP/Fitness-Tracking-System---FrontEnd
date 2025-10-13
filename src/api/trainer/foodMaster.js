@@ -1,27 +1,27 @@
 import axios from "axios";
 
-const BASE_API_URL = "http://localhost:3000/api/fitplans"
+const BASE_API_URL = "http://localhost:3000/api/foodMaster"
 
-export const fetchAllFitnessProgram = async (token) => {
+export const fetchAllFoodMaster = async (token) => {
     try {
-        if (!token) return
+        if (!token) return        
         const response = await axios.get(BASE_API_URL, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
-        return response.data.allPaymentPlan
+        return response.data.allFoodMaster
     } catch (error) {
         if (error.response && error.response.status === 403 && error.response.data.message === "invalid token") {
             localStorage.removeItem("token")
             window.location.href = '/login';
         }
         console.log({ error });
-        return error.response?.data?.message || "Failed to fetch Fitness Programs";
+        return error.response?.data?.message || "Failed to fetch FoodMaster";
     }
 }
 
-export const fetchFitnessProgramWithId = async (id, token) => {
+export const fetchFoodMasterWithId = async (id, token) => {
     try {
         if (!token) return
         const response = await axios.get(`${BASE_API_URL}/${id}`,
@@ -38,14 +38,14 @@ export const fetchFitnessProgramWithId = async (id, token) => {
             window.location.href = '/login';
         }
         console.log({ error });
-        return error.response?.data?.message || "Failed to fetch FitnessProgram";
+        return error.response?.data?.message || "Failed to fetch FoodMaster";
     }
 }
 
-export const updateFitnessProgram  = async (fitProgram, token) => {
+export const updateFoodMaster  = async (food, token) => {
     try {
         if (!token) return
-        const response = await axios.patch(`${BASE_API_URL}/${fitProgram._id}`, fitProgram, {
+        const response = await axios.patch(`${BASE_API_URL}/${food._id}`, food, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -57,15 +57,17 @@ export const updateFitnessProgram  = async (fitProgram, token) => {
             window.location.href = '/login';
         }
         console.log({ error });
-        return error.response?.data?.message || "Failed to update FitnessProgram";
+        return error.response?.data?.message || "Failed to update FoodMaster";
     }
 }
 
-export const createFitnessProgram  = async (fitProgramDet, token) => {
+export const createFoodMaster = async (foodDet, token) => {
     try {
         if (!token) return
-        const { _id, ...fitProgram } = fitProgramDet;
-        const response = await axios.post(BASE_API_URL, fitProgram, {
+        console.log(foodDet);
+        
+        const { _id, ...food } = foodDet;
+        const response = await axios.post(BASE_API_URL, food, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -78,11 +80,12 @@ export const createFitnessProgram  = async (fitProgramDet, token) => {
             localStorage.removeItem("token")
             window.location.href = '/login';
         }
-        return (error.response?.data?.message || 'Failed to Create Fitness Program')
+        return (error.response?.data?.message || 'Failed to Create FoodMaster')
     }
 }
 
-export const deleteFitnessProgaram = async (id, token) => {
+
+export const deleteFoodMaster = async (id, token) => {
     try {
         if (!token) return
         const response = await axios.delete(`${BASE_API_URL}/${id}`, {
@@ -97,6 +100,6 @@ export const deleteFitnessProgaram = async (id, token) => {
             window.location.href = '/login';
         }
         console.log({ error });
-        return error.response?.data?.message || "Failed to delete FitnessProgram";
+        return error.response?.data?.message || "Failed to delete FoodMaster";
     }
 }

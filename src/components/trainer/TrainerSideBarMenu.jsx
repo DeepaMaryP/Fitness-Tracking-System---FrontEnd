@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-function SideBarMenu() {
+function TrainerSideMenuBar() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -30,49 +30,36 @@ function SideBarMenu() {
                 <div className="h-full px-3 py-4 overflow-y-auto bg-blue-900 dark:bg-gray-950">
                     <ul className="space-y-2 font-medium">
                         <li>
-                            <Link to='/admin' >
+                            <Link to='/trainer' >
                                 <p href="#" className="flex items-center p-2 text-white rounded-lg   dark:text-white hover:bg-blue-600 dark:hover:bg-blue-700 group"     >
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18M15 21V9" /></svg>
                                     <span className="ms-3">Dashboard</span>
                                 </p></Link>
                         </li>
                         <li>
-                            <Link to='/admin/users' >
+                            <Link to='/trainer/users' >
                                 <p className="flex items-center p-2 text-white rounded-lg   dark:text-white hover:bg-blue-600 dark:hover:bg-blue-700 group"     >
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                                     <span className="ms-3">User</span>
                                 </p></Link>
-                        </li>
-                        <li>
-                            <Link to='/admin/trainers' >
-                                <p href="#" className="flex items-center p-2 text-white rounded-lg   dark:text-white hover:bg-blue-600 dark:hover:bg-blue-700 group"     >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                                    <span className="ms-3">Trainer</span>
-                                </p></Link>
-                        </li>
-                        <li>
-                            <Link to='/admin/fitness' >
-                                <p href="#" className="flex items-center p-2 text-white rounded-lg   dark:text-white hover:bg-blue-600 dark:hover:bg-blue-700 group"     >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon></svg>
-                                    <span className="ms-3">Fitness Programs</span>
-                                </p></Link>
-                        </li>
+                        </li>                    
+                       
                          <li>
-                            <Link to='/admin/foodmaster' >
+                            <Link to='/trainer/foodmaster' >
                                 <p href="#" className="flex items-center p-2 text-white rounded-lg   dark:text-white hover:bg-blue-600 dark:hover:bg-blue-700 group"     >
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon></svg>
                                     <span className="ms-3">Food Master</span>
                                 </p></Link>
                         </li>
                         <li>
-                            <Link to='/admin/workoutplan' >
+                            <Link to='/trainer/workoutplan' >
                                 <p href="#" className="flex items-center p-2 text-white rounded-lg   dark:text-white hover:bg-blue-600 dark:hover:bg-blue-700 group"     >
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon></svg>
                                     <span className="ms-3">WorkOut Plan</span>
                                 </p></Link>
                         </li>
                          <li>
-                            <Link to='/admin/adddietplan' >
+                            <Link to='/trainer/dietplan' >
                                 <p href="#" className="flex items-center p-2 text-white rounded-lg   dark:text-white hover:bg-blue-600 dark:hover:bg-blue-700 group"     >
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon></svg>
                                     <span className="ms-3">Diet Plan</span>
@@ -122,4 +109,4 @@ function SideBarMenu() {
     );
 }
 
-export default SideBarMenu;
+export default TrainerSideMenuBar

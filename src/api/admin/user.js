@@ -21,6 +21,44 @@ export const fetchAllUsers = async (token) => {
     }
 }
 
+export const fetchAllActivePaidUsers = async (token) => {
+    try {
+        if (!token) return      
+        const response = await axios.get(`${BASE_API_URL}/users`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })       
+        return response.data.allUsers
+    } catch (error) {
+        if (error.response && error.response.status === 403 && error.response.data.message === "invalid token") {
+            localStorage.removeItem("token")
+            window.location.href = '/login';
+        }
+        console.log({ error });
+        return error.response?.data?.message || "Failed to fetch Users";
+    }
+}
+
+export const fetchAllActiveUnAsssignedPaidUsers = async (token) => {
+    try {
+        if (!token) return      
+        const response = await axios.get(`${BASE_API_URL}/unassignedusers`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })       
+        return response.data.unassignedUsers
+    } catch (error) {
+        if (error.response && error.response.status === 403 && error.response.data.message === "invalid token") {
+            localStorage.removeItem("token")
+            window.location.href = '/login';
+        }
+        console.log({ error });
+        return error.response?.data?.message || "Failed to fetch Users";
+    }
+}
+
 export const fetchUserWithId = async (id, token) => {
     try {
         if (!token) return

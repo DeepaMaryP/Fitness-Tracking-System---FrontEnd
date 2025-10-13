@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import RupeeSign from '../../assets/rupee-sign.svg'
 import { getMetrics } from '../../api/admin/user';
 import { useState } from 'react';
-import { getApprovedTrainers } from '../../api/admin/trainerProfile';
+import { getApprovedTrainerCount } from '../../api/admin/trainerProfile';
 
 
 function MetricsCard() {
@@ -29,7 +29,7 @@ function MetricsCard() {
 
      const getTrainerCount = async () => {
         try {
-            const data = await getApprovedTrainers(auth.token);
+            const data = await getApprovedTrainerCount(auth.token);
             if (data.success) {
                 setApprovedTrainers(data.count)                
             } else {

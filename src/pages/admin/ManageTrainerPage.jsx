@@ -10,7 +10,7 @@ function ManageTrainerPage() {
     const loadTrainers = async () => {
         try {
             const data = await getAllTrainers(auth.token)
-            setTrainersList(data.allTrainersProfile)
+            setTrainersList(data)
         } catch (err) {
             console.error("Error fetching trainers:", err)
         }

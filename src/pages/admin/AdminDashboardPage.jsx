@@ -6,8 +6,6 @@ import UserGrowthStatistics from '../../components/admin/UserGrowthStatistics'
 import TrainerUsersBarChart from '../../components/admin/TrainerUsersBarChart'
 import { signIn } from '../../api/auth'
 
-
-
 function AdminDashboardPage() {
   const dispatch = useDispatch();
   const [credentials, setCredentials] = useState(

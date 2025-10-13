@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { deleteFoodMaster, fetchAllFoodMaster } from '../../api/admin/foodMaster';
+import { deleteUserTrainerByUser, fetchAllUserTrainers } from '../../api/admin/usertrainer';
 
-function ManageFoodMasterList() {
-  const [foodMasterList, setFoodMasterList] = useState([]);
+function ManageTrainerAssignmentPage() {
+  const [assignments, setAssignments] = useState([]);
   const auth = useSelector((state) => state.auth)
 
-  const loadFoodMaster = async () => {
+  const loadAssignments = async () => {
     try {
-      const data = await fetchAllFoodMaster(auth.token)
-      setFoodMasterList(data)
+      const data = await fetchAllUserTrainers(auth.token)      
+      setAssignments(data)
     } catch (err) {
-      console.error("Error fetching FoodMaster:", err)
+      console.error("Error fetching Assignments:", err)
     }
   }
 
-  const doDeleteFood = async (id) => {
+  const doDeleteAssignment = async (id) => {
     try {
-      if (window.confirm("Are you sure you want to delete this Food Master?")) {
-        const data = await deleteFoodMaster(id, auth.token)
+      if (window.confirm("Are you sure you want to delete this Assignment?")) {
+        const data = await deleteUserTrainerByUser(id, auth.token)
         if (data.success) {
-          console.log("Succesully deleted FoodMaster")
-          await loadFoodMaster()
+          console.log("Succesully deleted Trainer Assignments")
+          await loadAssignments()
         } else {
           console.log(data.message);
         }
@@ -31,12 +31,12 @@ function ManageFoodMasterList() {
         console.log("Deletion cancelled.");
       }
     } catch (err) {
-      console.error("Failed to delete FoodMaster:", err)
+      console.error("Failed to delete Trainer Assignment:", err)
     }
   }
 
   useEffect(() => {
-    loadFoodMaster()
+    loadAssignments()
   }, [])
 
   return (
@@ -45,9 +45,9 @@ function ManageFoodMasterList() {
         <div>
           <div>
             <div className="flex flex-col gap-2 sm:flex-row justify-around items-center px-4 py-5 text-sm text-gray-700 border-b border-gray-200 gap-x-16 dark:border-gray-700">
-              <h1 className='text-xl font-bold'>Manage Food Master</h1>
+              <h1 className='text-xl font-bold'>Manage Trainer Assignments</h1>
               <div>
-                <Link to={`/admin/addfoodmaster`}>
+                <Link to={`/admin/assigntrainer`}>
                   <button className="text-white block bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-medium rounded-lg text-sm px-4 py-2.5 text-center dark:focus:ring-blue-900">Add New</button>
                 </Link>
               </div>
@@ -58,16 +58,16 @@ function ManageFoodMasterList() {
                 <thead className="text-xs text-white text-justify uppercase bg-blue-800 dark:bg-gray-700 dark:text-white">
                   <tr>
                     <th scope="col" className="text-center">
-                      Name
+                      User
                     </th>
                     <th scope="col" className="text-center">
-                      Category
+                      Trainer
                     </th>
                     <th scope="col" className="px-6 py-3">
-                     Serving Size
+                     StartDate
                     </th>
                     <th scope="col" className="py-3 px-6">
-                     Calories
+                    EndDate
                     </th>
                     <th scope="col" className="py-3 px-6">
                       Actions
@@ -76,25 +76,25 @@ function ManageFoodMasterList() {
                 </thead>
                 <tbody>
                   {
-                    foodMasterList?.map(food =>
-                      <tr key={food._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    assignments?.map(usertrainer =>
+                      <tr key={usertrainer.userId} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <td className="text-center">
-                          {food.name}
+                          {usertrainer.userName}
                         </td>
                         <td className="text-center">
-                          {food.category}
+                          {usertrainer.trainerNames}
                         </td>
                         <td className="px-6 py-4">
-                          {food.serving_size + food.serving_unit}
+                          {usertrainer.startDate}
                         </td>
                         <td className="px-6 py-4">
-                          {food.calories}
+                          {usertrainer.endDate}
                         </td>
                         <td className="relative flex flex-col items-center sm:flex-row p-2 sm:p-4 sm:space-x-2">
-                          <Link to={`/admin/addfoodmaster/${food._id}`}>
+                          <Link to={`/admin/assigntrainer/${usertrainer.userId}`}>
                             <button className="bg-blue-500 text-white px-3 py-1 mb-2 sm:mb-0 rounded-md text-xs md:text-sm">Edit</button>
                           </Link>
-                          <button className="bg-red-500 text-white px-3 py-1 rounded-md text-xs md:text-sm" onClick={() => doDeleteFood(food._id)}>Delete</button>
+                          <button onClick={() => doDeleteAssignment(usertrainer.userId)} className="bg-red-500 text-white px-3 py-1 rounded-md text-xs md:text-sm" >Delete</button>
                         </td>
                       </tr>
                     )
@@ -109,4 +109,4 @@ function ManageFoodMasterList() {
   )
 }
 
-export default ManageFoodMasterList
+export default ManageTrainerAssignmentPage

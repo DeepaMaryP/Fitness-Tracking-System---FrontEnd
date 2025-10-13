@@ -1,8 +1,8 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import SideBarMenu from '../../components/admin/AdminSideBarMenu'
+import SideBarMenu from '../../components/trainer/TrainerSideBarMenu'
 
-function AdminLayOutPage() {
+function TrainerLayOutPage() {
     return (
         <div>
             <div className='font-bold text-2xl bg-blue-900  pl-8 pt-2  text-white '>
@@ -19,5 +19,5 @@ function AdminLayOutPage() {
         </div>
     )
 }
+export default TrainerLayOutPage
 
-export default AdminLayOutPage

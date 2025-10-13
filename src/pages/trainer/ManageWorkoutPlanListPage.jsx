@@ -47,7 +47,7 @@ function ManageWorkoutPlanListPage() {
                         <div className="flex flex-col gap-2 sm:flex-row justify-around items-center px-4 py-5 text-sm text-gray-700 border-b border-gray-200 gap-x-16 dark:border-gray-700">
                             <h1 className='text-xl font-bold'>Manage WorkOut Plan</h1>
                             <div>
-                                <Link to={`/admin/addworkOutPlan`}>
+                                <Link to={`/trainer/addworkOutPlan`}>
                                     <button className="text-white block bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-medium rounded-lg text-sm px-4 py-2.5 text-center dark:focus:ring-blue-900">Add New</button>
                                 </Link>
                             </div>
@@ -91,7 +91,7 @@ function ManageWorkoutPlanListPage() {
                                                     {workout.workout_type}
                                                 </td>
                                                 <td className="relative flex flex-col items-center sm:flex-row p-2 sm:p-4 sm:space-x-2">
-                                                    <Link to={`/admin/addworkOutPlan/${workout._id}`}>
+                                                    <Link to={`/trainer/addworkOutPlan/${workout._id}`}>
                                                         <button className="bg-blue-500 text-white px-3 py-1 mb-2 sm:mb-0 rounded-md text-xs md:text-sm">Edit</button>
                                                     </Link>
                                                     <button className="bg-red-500 text-white px-3 py-1 rounded-md text-xs md:text-sm" onClick={() => doDeleteWorkOutPlan(workout._id)}>Delete</button>

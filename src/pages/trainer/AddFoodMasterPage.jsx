@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
-import { createFoodMaster, fetchFoodMasterWithId, updateFoodMaster } from '../../api/admin/foodMaster';
+import { createFoodMaster, fetchFoodMasterWithId, updateFoodMaster } from '../../api/trainer/foodMaster';
 
 function AddFoodMasterPage() {
     const auth = useSelector((state) => state.auth)
@@ -20,6 +20,7 @@ function AddFoodMasterPage() {
         fat_g: "",
         fiber_g: "",
         sugar_g: "",
+        alternate_units: [{ unit_name: "", grams_equivalent: "" }]
     });
 
     const loadFoodMaster = async () => {
@@ -27,7 +28,7 @@ function AddFoodMasterPage() {
             const data = await fetchFoodMasterWithId(foodId, auth.token)
             SetFoodMaster(data)
         } catch (err) {
-            SetErrors("Unable to get FoodMaster details")
+            setErrors("Unable to get FoodMaster details")
             console.error("Error fetching FoodMaster:", err)
         }
     }
@@ -57,6 +58,26 @@ function AddFoodMasterPage() {
     const handleChange = (e) => {
         const { name, value } = e.target;
         SetFoodMaster({ ...foodMaster, [name]: value });
+    };
+
+    const handleAlternateChange = (index, field, value) => {
+        const newUnits = [...foodMaster.alternate_units];
+        newUnits[index][field] = value;
+        SetFoodMaster({ ...foodMaster, alternate_units: newUnits });
+    };
+
+    const addAlternateUnit = () => {
+        SetFoodMaster({
+            ...foodMaster,
+            alternate_units: [...foodMaster.alternate_units, { unit_name: "", grams_equivalent: ""}]
+        });
+    };
+
+    const removeAlternateUnit = (index) => {
+        SetFoodMaster({
+            ...foodMaster,
+            alternate_units: foodMaster.alternate_units.filter((_, i) => i !== index)
+        });
     };
 
     const createFoodMasterDetails = async () => {
@@ -106,14 +127,14 @@ function AddFoodMasterPage() {
     };
 
     const cancelAddFood = () => {
-        navigate("/admin/foodmaster")
+        navigate("/trainer/foodmaster")
     }
 
     return (
         <div className="max-w-5xl mx-auto bg-white shadow-lg rounded-2xl m-2 mt-10">
             <div className='flex flex-col sm:flex-row justify-center sm:justify-around mb-3 items-center'>
                 <h1 className='text-xl font-bold m-2 sm:m-0 '>Create Food Item</h1>
-                <Link to='/admin/foodmaster' >
+                <Link to='/trainer/foodmaster' >
                     <span className="rounded-md text-blue-600 font-bold px-4 py-1.5 hover:bg-blue-50 transition-colors">Manage FoodMaster</span></Link>
             </div>
 
@@ -198,6 +219,22 @@ function AddFoodMasterPage() {
                     <label className="block text-sm font-medium mb-1">Sugar (g)</label>
                     <input type="number" step="0.01" name="sugar_g" value={foodMaster.sugar_g}
                         onChange={handleChange} className="w-full border border-gray-300 rounded-sm p-2" />
+                </div>
+
+                <div className='col-span-2'>
+                    <h3 className="font-medium mt-4 mb-2">Alternate Units</h3>
+                    {foodMaster.alternate_units.map((unit, index) => (
+                        <div key={index} className="flex gap-4 items-center mb-2">
+                            <input  placeholder="Unit name (e.g., cup)" value={unit.name}
+                                onChange={(e) => handleAlternateChange(index, "name", e.target.value)} className="border p-2"/>
+                            <input  type="number" placeholder="Grams equivalent" value={unit.grams_equivalent}
+                                onChange={(e) => handleAlternateChange(index, "grams_equivalent", e.target.value)} className="border p-2" />                            
+                            <button type="button" onClick={() => removeAlternateUnit(index)} className="bg-red-500 text-white px-3 py-1 rounded-sm hover:bg-red-600" >✕</button>
+                        </div>
+                    ))}
+                    <button type="button" onClick={addAlternateUnit}  className="bg-blue-600 text-white px-3 py-1 rounded-sm hover:bg-blue-700" >
+                        + Add Alternate Unit
+                    </button>
                 </div>
 
                 {/* Submit */}
