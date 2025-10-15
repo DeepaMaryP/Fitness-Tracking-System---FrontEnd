@@ -32,8 +32,9 @@ const authSlice = createSlice(
             }).addCase(signIn.fulfilled, (state, action) => {
                 state.status = "success";
                 state.token = action.payload.token;
-                state.userName = action.payload.name;
-                state.userId = action.payload._Id;
+                state.userName = action.payload.name;                
+                state.userId = action.payload.userId;
+                state.role = action.payload.role;
                 localStorage.setItem("token", action.payload.token);
             }).addCase(signIn.rejected, (state, action) => {
                 state.status = "failed";

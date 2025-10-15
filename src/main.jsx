@@ -28,6 +28,9 @@ import TrainerLayOutPage from './pages/trainer/TrainerLayOutPage'
 import TrainerDashBoardPage from './pages/trainer/TrainerDashBoardPage'
 import AssignTrainerToUserPage from './pages/admin/AssignTrainerToUserPage'
 import ManageTrainerAssignmentPage from './pages/admin/ManageTrainerAssignmentPage'
+import UserLayOutPage from './pages/user/UserLayOutPage'
+import UserDashboardPage from './pages/user/UserDashboardPage'
+import UserProfilePage from './pages/user/UserProfilePage'
 
 const router = createBrowserRouter([
   {
@@ -77,6 +80,17 @@ const router = createBrowserRouter([
       { path: "dietplan", element: <ManageDietPlanListPage /> },
       { path: "adddietplan", element: <AddDietPlanPage /> },
       { path: "adddietplan/:id", element: <AddDietPlanPage /> },
+    ]
+  },
+  , {
+    path: "/user",
+    element: <UserLayOutPage />,
+    errorElement: <ErrorPage />,
+
+    children: [
+      { index: true, element: <UserDashboardPage /> },     
+      { path: "profile", element: <UserProfilePage /> },
+       { path: "profile/:id", element: <UserProfilePage /> },
     ]
   }
 ])

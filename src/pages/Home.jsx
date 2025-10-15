@@ -8,13 +8,23 @@ import Footer from '../components/Footer'
 function Home() {
   return (
     <div>
-    <Header />
-      <div>      
-      <Banner />
+      <Header />
+      <div id="banner">
+        <Banner />
       </div>
-      <Features />
-      <Testimonials />
-      <Footer/>
+
+      <div id="features">
+        <Features />
+      </div>
+
+      <div id="testimonials">
+        <Testimonials />
+      </div>
+
+      <div>
+        <Footer />
+      </div>
+
     </div>
   )
 }

@@ -5,7 +5,7 @@ const BASE_API_URL = "http://localhost:3000/api/user"
 
 export const signIn = createAsyncThunk("signIn", async (credentials, { rejectWithValue }) => {
     try {                      
-        const { data } = await axios.post(`${BASE_API_URL}/login`, credentials)
+        const { data } = await axios.post(`${BASE_API_URL}/login`, credentials)  
         return data
     } catch (error) {
         console.log({ error });
