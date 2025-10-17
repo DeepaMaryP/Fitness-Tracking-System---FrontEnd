@@ -22,6 +22,7 @@ export default function UserProfilePage({ onProfileSaved }) {
       const result = await fetchUserProfileWithId(userId, auth.token)
       if (result.success && result.data) {
         const profileData = result.data;
+        calculateBMI(profileData.height_cm, profileData.weight_kg)
         if (profileData.dob) {
           profileData.dob = new Date(profileData.dob).toISOString().split("T")[0];
           setProfile(profileData)
@@ -60,7 +61,7 @@ export default function UserProfilePage({ onProfileSaved }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     const newForm = { ...profile, [name]: value };
-    setProfile(newForm);
+    setProfile(newForm);   
     if (name === "height_cm" || name === "weight_kg") {
       calculateBMI(newForm.height_cm, newForm.weight_kg);
     }
@@ -75,6 +76,7 @@ export default function UserProfilePage({ onProfileSaved }) {
       const data = await createUserProfile(profileToSave, auth.token);
       if (data.success) {
         console.log("User Profile Created Succesfully")
+        setError("User Profile Created Succesfully")
         onProfileSaved?.();
       } else {
         console.log(data);
@@ -142,7 +144,7 @@ export default function UserProfilePage({ onProfileSaved }) {
           </div>
         )}
 
-        {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+        {error && <p className="text-red-500 text-md text-center">{error}</p>}
 
         <button
           type="submit"

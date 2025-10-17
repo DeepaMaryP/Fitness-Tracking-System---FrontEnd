@@ -41,7 +41,7 @@ function UserLayOutPage() {
     return (
         <div>
             <LogInHeader />
-            {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+            {error && <p className="text-red-500 text-md text-center">{error}</p>}
             {!hasProfile ? (
                 <UserProfilePage onProfileSaved={handleProfileSaved} />
             ) : (
