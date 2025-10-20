@@ -32,6 +32,7 @@ import UserLayOutPage from './pages/user/UserLayOutPage'
 import UserDashboardPage from './pages/user/UserDashboardPage'
 import UserProfilePage from './pages/user/UserProfilePage'
 import TargetGoalPage from './pages/user/TargetGoalPage'
+import MealTrackerHistoryPage from './pages/user/MealTrackerHistoryPage'
 
 const router = createBrowserRouter([
   {
@@ -94,6 +95,7 @@ const router = createBrowserRouter([
       { path: "profile/:id", element: <UserProfilePage /> },
       { path: "target", element: <TargetGoalPage /> },
       { path: "target/:id", element: <TargetGoalPage /> },
+       { path: "foodhistory", element: <MealTrackerHistoryPage /> },
     ]
   }
 ])

@@ -51,6 +51,13 @@ function UserSideMenuBar() {
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                                     <span className="ms-3">My Target</span>
                                 </p></Link>
+                        </li>   
+                         <li>
+                            <Link to= {`/user/foodhistory`} >
+                                <p className="flex items-center p-2 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-200 group"     >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                    <span className="ms-3">Food History</span>
+                                </p></Link>
                         </li>                   
                     </ul>
                 </div>
