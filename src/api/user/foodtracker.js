@@ -33,7 +33,7 @@ export const fetchFoodTrackerByDates = async (userId, startDate, endDate, token)
                     Authorization: `Bearer ${token}`
                 }
             }
-        )       
+        )
         return response.data
         
     } catch (error) {

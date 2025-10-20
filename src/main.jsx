@@ -33,6 +33,8 @@ import UserDashboardPage from './pages/user/UserDashboardPage'
 import UserProfilePage from './pages/user/UserProfilePage'
 import TargetGoalPage from './pages/user/TargetGoalPage'
 import MealTrackerHistoryPage from './pages/user/MealTrackerHistoryPage'
+import BodyMeasurementsPage from './pages/user/BodyMeasurementsPage'
+import BodyMeasurementsProgress from './pages/user/BodyMeasurementsProgress'
 
 const router = createBrowserRouter([
   {
@@ -95,7 +97,9 @@ const router = createBrowserRouter([
       { path: "profile/:id", element: <UserProfilePage /> },
       { path: "target", element: <TargetGoalPage /> },
       { path: "target/:id", element: <TargetGoalPage /> },
-       { path: "foodhistory", element: <MealTrackerHistoryPage /> },
+      { path: "foodhistory", element: <MealTrackerHistoryPage /> },
+      { path: "bodymeasurements", element: <BodyMeasurementsPage /> },
+      { path: "bodylogs", element: <BodyMeasurementsProgress /> },
     ]
   }
 ])

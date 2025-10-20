@@ -15,15 +15,7 @@ import {
 import { fetchFoodTrackerByDates } from "../../api/user/foodtracker";
 import { useSelector } from "react-redux";
 
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
-);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const MealTrackerHistoryPage = () => {
     const [foodHistory, setFoodHistory] = useState([])
