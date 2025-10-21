@@ -17,7 +17,7 @@ function TrainerDashBoardPage() {
 
   useEffect(() => {
     try {
-      dispatch(signIn(credentials))
+    //  dispatch(signIn(credentials))
 
     } catch (error) {
       console.log(error);      

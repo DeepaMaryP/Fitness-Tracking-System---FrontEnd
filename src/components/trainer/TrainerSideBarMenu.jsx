@@ -42,13 +42,27 @@ function TrainerSideMenuBar() {
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                                     <span className="ms-3">User</span>
                                 </p></Link>
-                        </li>                    
-                       
-                         <li>
+                        </li>
+
+                        <li>
                             <Link to='/trainer/foodmaster' >
                                 <p href="#" className="flex items-center p-2 text-white rounded-lg   dark:text-white hover:bg-blue-600 dark:hover:bg-blue-700 group"     >
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon></svg>
                                     <span className="ms-3">Food Master</span>
+                                </p></Link>
+                        </li>
+                        <li>
+                            <Link to='/trainer/exercisemaster' >
+                                <p href="#" className="flex items-center p-2 text-white rounded-lg   dark:text-white hover:bg-blue-600 dark:hover:bg-blue-700 group"     >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon></svg>
+                                    <span className="ms-3">Exercise Master</span>
+                                </p></Link>
+                        </li>
+                        <li>
+                            <Link to='/trainer/dietplan' >
+                                <p href="#" className="flex items-center p-2 text-white rounded-lg   dark:text-white hover:bg-blue-600 dark:hover:bg-blue-700 group"     >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon></svg>
+                                    <span className="ms-3">Diet Plan</span>
                                 </p></Link>
                         </li>
                         <li>
@@ -57,50 +71,6 @@ function TrainerSideMenuBar() {
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon></svg>
                                     <span className="ms-3">WorkOut Plan</span>
                                 </p></Link>
-                        </li>
-                         <li>
-                            <Link to='/trainer/dietplan' >
-                                <p href="#" className="flex items-center p-2 text-white rounded-lg   dark:text-white hover:bg-blue-600 dark:hover:bg-blue-700 group"     >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"></path><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon></svg>
-                                    <span className="ms-3">Diet Plan</span>
-                                </p></Link>
-                        </li>
-
-                        {/* Reports Dropdown */}
-                        <li>
-                            <button
-                                type="button" onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                className="flex items-center w-full p-2 text-base text-white transition duration-75 rounded-lg group hover:bg-blue-600 dark:text-white dark:hover:bg-blue-700"   >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-                                <span className="flex-1 ms-3 text-left whitespace-nowrap">
-                                    Reports
-                                </span>
-                                <svg
-                                    className={`w-3 h-3 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`}
-                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6" >
-                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
-                                </svg>
-                            </button>
-
-                            {isDropdownOpen && (
-                                <ul className="py-2 space-y-2">
-                                    <li>
-                                        <a href="#" className="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-blue-600 dark:text-white dark:hover:bg-blue-700" >
-                                            Products </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" className="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-blue-600  dark:text-white dark:hover:bg-blue-700" >
-                                            Billing
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            href="#" className="flex items-center w-full p-2 text-white transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" >
-                                            Invoice
-                                        </a>
-                                    </li>
-                                </ul>
-                            )}
                         </li>
                     </ul>
                 </div>

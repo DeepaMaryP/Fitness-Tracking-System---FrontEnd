@@ -35,6 +35,9 @@ import TargetGoalPage from './pages/user/TargetGoalPage'
 import MealTrackerHistoryPage from './pages/user/MealTrackerHistoryPage'
 import BodyMeasurementsPage from './pages/user/BodyMeasurementsPage'
 import BodyMeasurementsProgress from './pages/user/BodyMeasurementsProgress'
+import WorkoutTrackerPage from './pages/user/WorkoutTrackerPage '
+import AddExerciseMasterPage from './pages/trainer/AddExerciseMasterPage'
+import ManageExerciseMasterList from './pages/trainer/ManageExerciseMasterList'
 
 const router = createBrowserRouter([
   {
@@ -78,6 +81,9 @@ const router = createBrowserRouter([
       { path: "foodmaster", element: <ManageFoodMasterList /> },
       { path: "addfoodmaster", element: <AddFoodMasterPage /> },
       { path: "addfoodmaster/:id", element: <AddFoodMasterPage /> },
+      { path: "exercisemaster", element: <ManageExerciseMasterList /> },
+      { path: "addexercise", element: <AddExerciseMasterPage /> },
+      { path: "addexercise/:id", element: <AddExerciseMasterPage /> },
       { path: "workoutplan", element: <ManageWorkoutPlanListPage /> },
       { path: "addworkoutplan", element: <AddWorkOutPlanPage /> },
       { path: "addworkoutplan/:id", element: <AddWorkOutPlanPage /> },
@@ -100,6 +106,7 @@ const router = createBrowserRouter([
       { path: "foodhistory", element: <MealTrackerHistoryPage /> },
       { path: "bodymeasurements", element: <BodyMeasurementsPage /> },
       { path: "bodylogs", element: <BodyMeasurementsProgress /> },
+      { path: "workout", element: <WorkoutTrackerPage /> },
     ]
   }
 ])

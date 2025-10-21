@@ -1,28 +1,27 @@
 import axios from "axios";
 
-const BASE_API_URL = "http://localhost:3000/api/workoutplan"
+const BASE_API_URL = "http://localhost:3000/api/exerciseMaster"
 
-export const fetchAllWorkOutPlan = async (token) => {
+export const fetchAllExerciseMaster = async (token) => {
     try {
-        if (!token) return
+        if (!token) return        
         const response = await axios.get(BASE_API_URL, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
-        })    
-        
-        return response.data
+        })
+        return response.data.allExerciseMaster
     } catch (error) {
         if (error.response && error.response.status === 403 && error.response.data.message === "invalid token") {
             localStorage.removeItem("token")
             window.location.href = '/login';
         }
         console.log({ error });
-        return error.response?.data?.message || "Failed to fetch WorkOutPlans";
+        return error.response?.data?.message || "Failed to fetch ExerciseMaster";
     }
 }
 
-export const fetchWorkOutPlanWithId = async (id, token) => {
+export const fetchExerciseMasterWithId = async (id, token) => {
     try {
         if (!token) return
         const response = await axios.get(`${BASE_API_URL}/${id}`,
@@ -39,14 +38,14 @@ export const fetchWorkOutPlanWithId = async (id, token) => {
             window.location.href = '/login';
         }
         console.log({ error });
-        return error.response?.data?.message || "Failed to fetch WorkOutPlan";
+        return error.response?.data?.message || "Failed to fetch ExerciseMaster";
     }
 }
 
-export const updateWorkOutPlan  = async (workout, token) => {
+export const updateExerciseMaster  = async (Exercise, token) => {
     try {
         if (!token) return
-        const response = await axios.patch(`${BASE_API_URL}/${workout._id}`, workout, {
+        const response = await axios.patch(`${BASE_API_URL}/${Exercise._id}`, Exercise, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -58,16 +57,17 @@ export const updateWorkOutPlan  = async (workout, token) => {
             window.location.href = '/login';
         }
         console.log({ error });
-        return error.response?.data?.message || "Failed to update WorkOutPlan";
+        return error.response?.data?.message || "Failed to update ExerciseMaster";
     }
 }
 
-export const createWorkOutPlan  = async (workoutDet, token) => {
+export const createExerciseMaster = async (ExerciseDet, token) => {
     try {
         if (!token) return
-        const { _id, ...workout } = workoutDet;    
+        console.log(ExerciseDet);
         
-        const response = await axios.post(BASE_API_URL, workout, {
+        const { _id, ...Exercise } = ExerciseDet;
+        const response = await axios.post(BASE_API_URL, Exercise, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -80,11 +80,11 @@ export const createWorkOutPlan  = async (workoutDet, token) => {
             localStorage.removeItem("token")
             window.location.href = '/login';
         }
-        return (error.response?.data?.message || 'Failed to Create WorkOutPlan')
+        return (error.response?.data?.message || 'Failed to Create ExerciseMaster')
     }
 }
 
-export const deleteWorkOutPlan = async (id, token) => {
+export const deleteExerciseMaster = async (id, token) => {
     try {
         if (!token) return
         const response = await axios.delete(`${BASE_API_URL}/${id}`, {
@@ -99,6 +99,6 @@ export const deleteWorkOutPlan = async (id, token) => {
             window.location.href = '/login';
         }
         console.log({ error });
-        return error.response?.data?.message || "Failed to delete WorkOutPlan";
+        return error.response?.data?.message || "Failed to delete ExerciseMaster";
     }
 }
