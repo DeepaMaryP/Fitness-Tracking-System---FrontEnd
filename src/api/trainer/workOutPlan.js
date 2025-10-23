@@ -9,8 +9,8 @@ export const fetchAllWorkOutPlan = async (token) => {
             headers: {
                 Authorization: `Bearer ${token}`
             }
-        })    
-        
+        })
+                
         return response.data
     } catch (error) {
         if (error.response && error.response.status === 403 && error.response.data.message === "invalid token") {

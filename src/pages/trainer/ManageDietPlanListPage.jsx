@@ -40,86 +40,91 @@ function ManageDietPlanListPage() {
     }, [])
 
     return (
-        <div>
-            <div>
-                <div>
-                    <div>
-                        <div className="flex flex-col gap-2 sm:flex-row justify-around items-center px-4 py-5 text-sm text-gray-700 border-b border-gray-200 gap-x-16 dark:border-gray-700">
-                            <h1 className='text-xl font-bold'>Manage Diet Plan</h1>
-                            <div>
-                                <Link to={`/trainer/adddietplan`}>
-                                    <button className="text-white block bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-medium rounded-lg text-sm px-4 py-2.5 text-center dark:focus:ring-blue-900">Add New</button>
-                                </Link>
-                            </div>
-                        </div>
+        <div className="min-h-screen bg-gray-50 flex flex-col items-center py-10 px-4">
+            {/* Header Section */}
+            <div className="w-full max-w-6xl flex flex-col sm:flex-row justify-between items-center bg-white rounded-xl shadow-md p-5 mb-6">
+                <h1 className="text-2xl font-bold text-gray-800">
+                    🥗 Manage Diet Plan
+                </h1>
+                <Link to={`/trainer/adddietplan`}>
+                    <button className="mt-3 sm:mt-0 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-medium text-sm shadow-sm transition duration-200">
+                        + Add New
+                    </button>
+                </Link>
+            </div>
 
-                        <div className="relative overflow-x-auto">
-                            <table className="w-full my-10 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                <thead className="text-xs text-white text-justify uppercase bg-blue-800 dark:bg-gray-700 dark:text-white">
-                                    <tr>
-                                        <th scope="col" className="text-center">
-                                            Name
-                                        </th>
-                                        <th scope="col" className="text-center">
-                                            GoalType
-                                        </th>
-                                        <th scope="col" className="px-6 py-3">
-                                            Total Calories
-                                        </th>
-                                        <th scope="col" className="px-6 py-3">
-                                            Protien
-                                        </th>
-                                        <th scope="col" className="px-6 py-3">
-                                            Carbs
-                                        </th>
-                                        <th scope="col" className="px-6 py-3">
-                                            Fat
-                                        </th>
-                                        <th scope="col" className="py-3 px-6">
-                                            Actions
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        dietPlanList?.map(diet =>
-                                            <tr key={diet._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                                <td className="text-center">
-                                                    {diet.plan_name}
-                                                </td>
-                                                <td className="text-center">
-                                                    {diet.goal_type}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    {diet.total_calories}
-                                                </td>
-                                                 <td className="px-6 py-4">
-                                                    {diet.macros?.protein_g}
-                                                </td>
-                                                 <td className="px-6 py-4">
-                                                    {diet.macros?.carbs_g}
-                                                </td>
-                                                 <td className="px-6 py-4">
-                                                    {diet.macros?.fat_g}
-                                                </td>
-                                                <td className="relative flex flex-col items-center sm:flex-row p-2 sm:p-4 sm:space-x-2">
-                                                    <Link to={`/trainer/adddietplan/${diet._id}`}>
-                                                        <button className="bg-blue-500 text-white px-3 py-1 mb-2 sm:mb-0 rounded-md text-xs md:text-sm">Edit</button>
-                                                    </Link>
-                                                    <button className="bg-red-500 text-white px-3 py-1 rounded-md text-xs md:text-sm" onClick={() => doDeleteDietPlan(diet._id)}>Delete</button>
-                                                </td>
-                                            </tr>
-                                        )
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+            {/* Table Section */}
+            <div className="w-full max-w-6xl bg-white rounded-xl shadow overflow-hidden">
+                <table className="w-full text-sm text-left text-gray-600">
+                    <thead className="bg-blue-700 text-white uppercase text-xs">
+                        <tr>
+                            <th className="py-3 px-6 text-center">Plan Name</th>
+                            <th className="py-3 px-6 text-center">Goal Type</th>
+                            <th className="py-3 px-6 text-center">Calories</th>
+                            <th className="py-3 px-6 text-center">Protein (g)</th>
+                            <th className="py-3 px-6 text-center">Carbs (g)</th>
+                            <th className="py-3 px-6 text-center">Fat (g)</th>
+                            <th className="py-3 px-6 text-center">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {dietPlanList?.length > 0 ? (
+                            dietPlanList.map((diet, idx) => (
+                                <tr
+                                    key={diet._id}
+                                    className={`${idx % 2 === 0 ? "bg-gray-50" : "bg-white"
+                                        } hover:bg-blue-50 transition`}
+                                >
+                                    <td className="py-3 px-6 text-center font-medium text-gray-800">
+                                        {diet.plan_name}
+                                    </td>
+                                    <td className="py-3 px-6 text-center">
+                                        {diet.goal_type || "-"}
+                                    </td>
+                                    <td className="py-3 px-6 text-center font-semibold text-gray-700">
+                                        {diet.total_calories ?? 0}
+                                    </td>
+                                    <td className="py-3 px-6 text-center">
+                                        {diet.macros?.protein_g ?? 0}
+                                    </td>
+                                    <td className="py-3 px-6 text-center">
+                                        {diet.macros?.carbs_g ?? 0}
+                                    </td>
+                                    <td className="py-3 px-6 text-center">
+                                        {diet.macros?.fat_g ?? 0}
+                                    </td>
+                                    <td className="py-3 px-6 text-center flex flex-col sm:flex-row justify-center items-center gap-2">
+                                        <Link to={`/trainer/adddietplan/${diet._id}`}>
+                                            <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1.5 rounded-md text-xs font-medium transition">
+                                                Edit
+                                            </button>
+                                        </Link>
+                                        <button
+                                            onClick={() => doDeleteDietPlan(diet._id)}
+                                            className="bg-red-500 hover:bg-red-600 text-white px-4 py-1.5 rounded-md text-xs font-medium transition"
+                                        >
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td
+                                    colSpan="7"
+                                    className="text-center py-6 text-gray-500 italic"
+                                >
+                                    No diet plans found.
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default ManageDietPlanListPage
 

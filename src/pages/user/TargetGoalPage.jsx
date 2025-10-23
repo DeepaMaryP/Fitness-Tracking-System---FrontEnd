@@ -131,7 +131,7 @@ const TargetGoalPage = ({ }) => {
     return (
         <div className="max-w-lg mx-auto bg-white shadow-lg rounded-2xl p-6 mt-8">
             <h2 className="text-2xl font-semibold mb-4 text-center text-blue-700">
-                Set Your Target Goal
+                Set Your Fitness Goal
             </h2>
 
             {/* User Stats */}

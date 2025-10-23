@@ -42,6 +42,27 @@ export const fetchUserTrainerWithUserId = async (id, token) => {
     }
 }
 
+export const fetchUsersAssignedToTrainer = async (trainerId, token) => {
+    try {
+        if (!token) return
+        const response = await axios.get(`${BASE_API_URL}/trainer/${trainerId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        )
+        return response.data
+    } catch (error) {
+        if (error.response && error.response.status === 403 && error.response.data.message === "invalid token") {
+            localStorage.removeItem("token")
+            window.location.href = '/login';
+        }
+        console.log({ error });
+        return error.response?.data?.message || "Failed to fetch UserTrainer";
+    }
+}
+
 export const updateUserTrainer  = async (usertrainer, token) => {
     try {
         if (!token) return
