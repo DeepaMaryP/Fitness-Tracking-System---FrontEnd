@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { createUserProfile, fetchUserProfileWithId } from "../../api/user/userProfile";
+import { createUserProfile, fetchUserProfileWithUserId } from "../../api/user/userProfile";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -19,7 +19,7 @@ export default function UserProfilePage({ onProfileSaved }) {
 
   const fetchProfile = async () => {
     try {
-      const result = await fetchUserProfileWithId(userId, auth.token)
+      const result = await fetchUserProfileWithUserId(userId, auth.token)
       if (result.success && result.data) {
         const profileData = result.data;
         calculateBMI(profileData.height_cm, profileData.weight_kg)

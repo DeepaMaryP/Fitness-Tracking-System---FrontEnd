@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Card, CardHeader, CardTitle, CardContent } from "../../components/ui/Card";
-import { Button } from "../../components/ui/Button";
+import { Button } from "../../components/ui/Buttons";
 import { Input } from "../../components/ui/Input";
 import { Label } from "../../components/ui/Label";
 import { useNavigate } from "react-router-dom";

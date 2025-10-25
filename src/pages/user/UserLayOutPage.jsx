@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom'
 
 import LogInHeader from '../../components/LogInHeader'
-import { fetchUserProfileWithId } from '../../api/user/userProfile';
+import { fetchUserProfileWithUserId } from '../../api/user/userProfile';
 import UserProfilePage from './UserProfilePage';
 import UserSideMenuBar from '../../components/user/UserSideMenuBar';
 
@@ -24,7 +24,7 @@ function UserLayOutPage() {
 
     const fetchProfile = async () => {
         try {
-            const result = await fetchUserProfileWithId(auth.userId, auth.token)
+            const result = await fetchUserProfileWithUserId(auth.userId, auth.token)
             if (result.success && result.data) setHasProfile(true); else setHasProfile(false)
         } catch (err) {
             setHasProfile(false);

@@ -9,8 +9,8 @@ function ManageDietPlanListPage() {
 
     const loadDietPlan = async () => {
         try {
-            const data = await fetchAllDietPlan(auth.token)
-            setDietPlanList(data)
+            const result = await fetchAllDietPlan(auth.token)
+            setDietPlanList(result.data)
         } catch (err) {
             console.error("Error fetching DietPlan:", err)
         }

@@ -43,6 +43,27 @@ export const fetchWorkOutPlanWithId = async (id, token) => {
     }
 }
 
+export const fetchWorkOutPlanWithUserId = async (userId, token) => {
+    try {
+        if (!token) return
+        const response = await axios.get(`${BASE_API_URL}/user/${userId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        )
+        return response.data
+    } catch (error) {
+        if (error.response && error.response.status === 403 && error.response.data.message === "invalid token") {
+            localStorage.removeItem("token")
+            window.location.href = '/login';
+        }
+        console.log({ error });
+        throw new Error(error.response?.data?.message || "Failed to fetch BodyMeasurement");
+    }
+}
+
 export const updateWorkOutPlan  = async (workout, token) => {
     try {
         if (!token) return

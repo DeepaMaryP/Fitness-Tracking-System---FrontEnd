@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { Input } from "../../components/ui/Input";
-import { Button } from "../../components/ui/Button";
+import { Button } from "../../components/ui/Buttons";
 import { Card, CardHeader, CardTitle, CardContent } from "../../components/ui/Card";
 import { fetchAllWorkOutPlan } from "../../api/trainer/workOutPlan";
 

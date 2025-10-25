@@ -12,7 +12,7 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { Card, CardHeader, CardTitle, CardContent } from "../../components/ui/Card";
-import { Button } from "../../components/ui/Button";
+import { Button } from "../../components/ui/Buttons";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { fetchBodyMeasurementForGraphWithUserId } from "../../api/user/bodymeasurement";

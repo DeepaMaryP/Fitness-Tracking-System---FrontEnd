@@ -15,7 +15,7 @@ export default function TrainerDashboard() {
 
   const fetchUsers = async () => {
     try {
-      const result = await fetchUsersAssignedToTrainer(auth.userId, auth.token)
+      const result = await fetchUsersAssignedToTrainer(auth.userId, auth.token)      
       if (result.success && result.data) {
         setUsers(result.data)
       }
@@ -55,7 +55,7 @@ export default function TrainerDashboard() {
             {users
               .filter((u) => u.name.toLowerCase().includes(search))
               .map((user) => (
-                <div key={user._id} onClick={() => navigate(`/trainer/users/${user._id}`)}
+                <div key={user.userId} onClick={() => navigate(`/trainer/user/${user.userId}`)}
                   className="border rounded-2xl p-4 cursor-pointer hover:shadow-lg transition-shadow bg-white"  >
                   <div className="flex justify-between items-center mb-2">
                     <h3 className="text-lg font-medium">{user.name}</h3>                   

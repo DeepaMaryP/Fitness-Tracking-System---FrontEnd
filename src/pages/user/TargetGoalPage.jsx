@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { createTargetGoal, fetchTargetGoalWithUserId } from "../../api/user/targetGoal";
-import { fetchUserProfileWithId } from "../../api/user/userProfile";
+import { fetchUserProfileWithUserId } from "../../api/user/userProfile";
 
 const TargetGoalPage = ({ }) => {
 
@@ -33,7 +33,7 @@ const TargetGoalPage = ({ }) => {
 
     const fetchProfile = async () => {
         try {
-            const result = await fetchUserProfileWithId(auth.userId, auth.token)
+            const result = await fetchUserProfileWithUserId(auth.userId, auth.token)
             if (result.success && result.data) {
                 const profileData = result.data;
                 calculateBMI(profileData)

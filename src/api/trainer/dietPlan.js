@@ -10,7 +10,7 @@ export const fetchAllDietPlan = async (token) => {
                 Authorization: `Bearer ${token}`
             }
         })
-        return response.data.allDietPlans
+        return response.data
     } catch (error) {
         if (error.response && error.response.status === 403 && error.response.data.message === "invalid token") {
             localStorage.removeItem("token")
@@ -42,7 +42,7 @@ export const fetchDietPlanWithId = async (id, token) => {
     }
 }
 
-export const updateDietPlan  = async (diet, token) => {
+export const updateDietPlan = async (diet, token) => {
     try {
         if (!token) return
         const response = await axios.patch(`${BASE_API_URL}/${diet._id}`, diet, {
@@ -61,11 +61,11 @@ export const updateDietPlan  = async (diet, token) => {
     }
 }
 
-export const createDietPlan  = async (dietDet, token) => {
+export const createDietPlan = async (dietDet, token) => {
     try {
         if (!token) return
         const { _id, ...diet } = dietDet;
-               
+
         const response = await axios.post(BASE_API_URL, diet, {
             headers: {
                 Authorization: `Bearer ${token}`

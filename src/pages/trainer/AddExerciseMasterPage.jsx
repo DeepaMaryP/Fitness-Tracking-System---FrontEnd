@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Input } from "../../components/ui/Input";
-import { Button } from "../../components/ui/Button";
+import { Button } from "../../components/ui/Buttons";
 import { Label } from "../../components/ui/Label";
 import { Textarea } from "../../components/ui/Textarea";
 import { Link, useParams } from "react-router-dom";
