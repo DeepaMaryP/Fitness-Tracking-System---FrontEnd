@@ -161,7 +161,7 @@ const UserDetailsPage = () => {
             {/* Detailed Logs Link */}
             <div className="text-center mt-6">
                 <Link
-                    to={`/trainer/user/${userId}/trackers`}
+                    to={`/trainer/user/mealtracker/${userId}`}
                     className="text-blue-600 hover:underline"
                 >
                     View Detailed Food & Workout Logs →

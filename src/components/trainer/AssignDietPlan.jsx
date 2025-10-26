@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { createUserDietPlan } from "../../api/trainer/userDietPlan";
+import { createUserDietPlan, deleteUserDietPlan } from "../../api/trainer/userDietPlan";
 
 const AssignDietPlan = ({ dietPlans, userId, currUserDietPlan }) => {
     const auth = useSelector((state) => state.auth)
     const navigate = useNavigate();
     const [userDietPlan, setUserDietPlan] = useState(currUserDietPlan)
     const [error, setError] = useState("");
-    const [editMode, setEditMode] = useState(false);
+    const [editMode, setEditMode] = useState(!currUserDietPlan ? true : false);
     const [formData, setFormData] = useState({
         userId: userId,
         diet_plan_id: userDietPlan?.diet_plan_id?._id || "",
@@ -16,7 +16,7 @@ const AssignDietPlan = ({ dietPlans, userId, currUserDietPlan }) => {
         end_date: userDietPlan?.end_date?.slice(0, 10) || "",
         assigned_by: auth.userId
     });
-    
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
@@ -40,6 +40,23 @@ const AssignDietPlan = ({ dietPlans, userId, currUserDietPlan }) => {
         }
     };
 
+    const handleRemoveDietPlan = async (planId) => {
+        if (!window.confirm("Are you sure you want to remove this plan?")) return;
+
+        const result = await deleteUserDietPlan(planId, auth.token)
+        if (result.success) {
+            setUserDietPlan(null)
+            setEditMode(true)
+            setFormData({
+                userId: userId,
+                diet_plan_id:  "",
+                start_date:  "",
+                end_date: "",
+                assigned_by: auth.userId
+            }
+            )
+        }
+    };
 
     return (
         <div>
@@ -61,7 +78,12 @@ const AssignDietPlan = ({ dietPlans, userId, currUserDietPlan }) => {
                                 {new Date(userDietPlan.end_date).toLocaleDateString()}
                             </p>
                         </div>
-
+                        <button
+                            className="bg-red-100 hover:bg-red-200 text-red-600 px-3 py-1 rounded text-sm"
+                            onClick={() => handleRemoveDietPlan(userDietPlan._id)}
+                        >
+                            Remove
+                        </button>
                         <button
                             className="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded text-sm"
                             onClick={() => setEditMode(true)}

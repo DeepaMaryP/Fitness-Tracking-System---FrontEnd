@@ -39,6 +39,7 @@ import WorkoutTrackerPage from './pages/user/WorkoutTrackerPage '
 import AddExerciseMasterPage from './pages/trainer/AddExerciseMasterPage'
 import ManageExerciseMasterList from './pages/trainer/ManageExerciseMasterList'
 import UserDetailsPage from './pages/trainer/UserDetailsPage'
+import UserMealTrackerForTrainer from './pages/trainer/UserMealTrackerForTrainer'
 
 const router = createBrowserRouter([
   {
@@ -92,6 +93,7 @@ const router = createBrowserRouter([
       { path: "adddietplan", element: <AddDietPlanPage /> },
       { path: "adddietplan/:id", element: <AddDietPlanPage /> },
       { path: "user/:id", element: <UserDetailsPage /> },
+      { path: "user/mealtracker/:id", element: <UserMealTrackerForTrainer /> },
     ]
   },
   , {

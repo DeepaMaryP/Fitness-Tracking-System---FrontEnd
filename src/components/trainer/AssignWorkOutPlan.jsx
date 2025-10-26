@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { createUserWorkOutPlan } from "../../api/trainer/userWorkOutPlan";
+import { createUserWorkOutPlan, deleteUserWorkOutPlan } from "../../api/trainer/userWorkOutPlan";
 
 const AssignWorkOutPlan = ({ workOutPlans, userId, currWorkOutPlan }) => {
     const auth = useSelector((state) => state.auth)
@@ -17,9 +17,6 @@ const AssignWorkOutPlan = ({ workOutPlans, userId, currWorkOutPlan }) => {
         assigned_by: auth.userId
     });
 
-    console.log(workOutPlans);
-    
-    
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
@@ -43,6 +40,23 @@ const AssignWorkOutPlan = ({ workOutPlans, userId, currWorkOutPlan }) => {
         }
     };
 
+    const handleRemoveWorkOutPlan = async (planId) => {
+        if (!window.confirm("Are you sure you want to remove this plan?")) return;
+
+        const result = await deleteUserWorkOutPlan(planId, auth.token)
+        if (result.success) {
+            setUserWorkOutPlan(null)
+            setEditMode(true)
+            setFormData({
+                userId: userId,
+                workout_plan_id: "",
+                start_date: "",
+                end_date: "",
+                assigned_by: auth.userId
+            }
+            )
+        }
+    };
 
     return (
         <div>
@@ -64,7 +78,12 @@ const AssignWorkOutPlan = ({ workOutPlans, userId, currWorkOutPlan }) => {
                                 {new Date(userWorkOutPlan.end_date).toLocaleDateString()}
                             </p>
                         </div>
-
+                        <button
+                            className="bg-red-100 hover:bg-red-200 text-red-600 px-3 py-1 rounded text-sm"
+                            onClick={() => handleRemoveWorkOutPlan(userWorkOutPlan._id)}
+                        >
+                            Remove
+                        </button>
                         <button
                             className="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded text-sm"
                             onClick={() => setEditMode(true)}
