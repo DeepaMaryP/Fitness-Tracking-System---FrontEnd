@@ -40,6 +40,8 @@ import AddExerciseMasterPage from './pages/trainer/AddExerciseMasterPage'
 import ManageExerciseMasterList from './pages/trainer/ManageExerciseMasterList'
 import UserDetailsPage from './pages/trainer/UserDetailsPage'
 import UserMealTrackerForTrainer from './pages/trainer/UserMealTrackerForTrainer'
+import WorkOutTracketHistoryPage from './pages/user/WorkOutTrackerHistoryPage'
+import WorkoutPlanView from './components/user/WorkOutPlanView'
 
 const router = createBrowserRouter([
   {
@@ -111,6 +113,8 @@ const router = createBrowserRouter([
       { path: "bodymeasurements", element: <BodyMeasurementsPage /> },
       { path: "bodylogs", element: <BodyMeasurementsProgress /> },
       { path: "workout", element: <WorkoutTrackerPage /> },
+      { path: "workouthistory", element: <WorkOutTracketHistoryPage /> },
+      { path: "userworkoutplanview/:id", element: <WorkoutPlanView /> },
     ]
   }
 ])

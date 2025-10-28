@@ -1,94 +1,195 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { Input } from "../../components/ui/Input";
 import { Button } from "../../components/ui/Buttons";
 import { Card, CardHeader, CardTitle, CardContent } from "../../components/ui/Card";
-import { fetchAllWorkOutPlan } from "../../api/trainer/workOutPlan";
+import { fetchAllExerciseMaster } from "../../api/trainer/exerciseMaster";
+import { createWorkOutTracker, fetchUserWorkOutTracker } from "../../api/user/workoutTracker.";
+import { fetchUserWorkOutPlan } from "../../api/trainer/userWorkOutPlan";
 
 const WorkoutTrackerPage = () => {
     const navigate = useNavigate();
     const auth = useSelector((state) => state.auth)
-    const userId = auth.userId
-    const [workoutPlans, setWorkoutPlans] = useState([]);
-    const [formData, setFormData] = useState({
-        workout_plan_id: "",
-        date: new Date().toISOString().split("T")[0],
-        exercises: [
-            { name: "", sets: "", reps: "", duration_min: "", met: "", calories_burned: "" },
-        ],
-        total_calories_burned: 0,
-    });
+    const [error, setError] = useState("");
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+
+    const [workoutTracker, setWorkOutTracker] = useState(
+        {
+            workout_plan_id: null,
+            date: today,
+            exercises: [],
+            total_calories_burned: ""
+        });
+
+    const [exerciseMaster, setexerciseMaster] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [workOutPlan, setWorkOutPlan] = useState();
 
     useEffect(() => {
-        fetchWorkoutPlans();
+        fetchWorkoutPlan();
+        fetchExercises();
+        fetchUserWorkoutTrackers(workoutTracker.date)
     }, []);
 
-    const fetchWorkoutPlans = async () => {
+    const fetchWorkoutPlan = async () => {
         try {
-            const result = await fetchAllWorkOutPlan(auth.token);
-            if (result.success && result.data) {
-                setWorkoutPlans(result.data);
+            const result = await fetchUserWorkOutPlan(auth.userId, auth.token);            
+            if (result.success && result.data) {                
+               setWorkOutPlan(result.data)
             }
         } catch (err) {
             console.error("Error fetching workout plans:", err);
         }
     };
 
-    const handleExerciseChange = (index, field, value) => {
-        const updated = [...formData.exercises];
-        updated[index][field] = value;
+    const fetchUserWorkoutTrackers = async (date) => {
+        try {
+            setWorkOutTracker((prev) => ({ ...prev, exercises: [] }))
+            const result = await fetchUserWorkOutTracker(auth.userId, date, auth.token);
+            if (result.success && result.data) {
+                const tracker = result.data
+                if (tracker.date) {
+                    tracker.date = new Date(tracker.date).toISOString().split("T")[0];
+                }
+                setWorkOutTracker(result.data);
+            }
+        } catch (err) {
+            console.error("Error fetching workout tracker:", err);
+        }
+    };
+
+    const fetchExercises = async () => {
+        try {
+            const result = await fetchAllExerciseMaster(auth.token);
+            setexerciseMaster(result);
+        } catch (err) {
+            console.error("Error fetching Exercise Master:", err);
+        }
+    };
+
+    const handleAddExercise = (exercise) => {
+        const newExercise = { name: exercise.name, sets: "", reps: "", duration_min: "", met: exercise.met, calories_burned: "" }
+        const updated = [...workoutTracker.exercises]
+        updated.push(newExercise)
+        setWorkOutTracker((prev) => ({
+            ...prev,
+            exercises: updated
+        }))
+
+        setSearchTerm("");
+        setError("")
+    };
+
+    const handleRemoveExercise = (workOutIndex) => {
+        const updated = [...workoutTracker.exercises];
+        updated.splice(workOutIndex, 1);
+        const total = updated.reduce((sum, e) => sum + Number(e.calories_burned || 0), 0);
+
+        setWorkOutTracker((prev) => ({
+            ...prev,
+            exercises: updated,
+            total_calories_burned: total.toFixed(1)
+        }))
+        setError("")
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target
+        setWorkOutTracker((prev) => ({
+            ...prev,
+            [name]: value
+        }))
+    }
+
+    const handleExerciseChange = (workOutIndex, field, value) => {
+        const exerciseList = [...workoutTracker.exercises]
+        const curExercise = exerciseList[workOutIndex];
+        curExercise[field] = value
 
         // Recalculate calories when met/duration changes
-        if (field === "duration_min" || field === "met") {
-            const dur = parseFloat(updated[index].duration_min || 0);
-            const met = parseFloat(updated[index].met || 0);
-            updated[index].calories_burned = ((met * 3.5 * 70 * dur) / 200).toFixed(1); // 70kg default
+        if (field === "duration_min") {
+            const dur = parseFloat(value || 0);
+            const met = parseFloat(curExercise.met || 0);
+            const calories_burned = ((met * 3.5 * 70 * dur) / 200).toFixed(1); // 70kg default            
+            curExercise.calories_burned = calories_burned
+        }
+        const total = exerciseList.reduce((sum, e) => sum + Number(e.calories_burned || 0), 0);
+        setWorkOutTracker((prev) => ({
+            ...prev,
+            exercises: exerciseList,
+            total_calories_burned: total.toFixed(1)
+        }))
+        setError("")
+    };
+
+    const validateWorkOutTracker = (tracker) => {
+        const errors = [];
+
+        if (!tracker.user_id) {
+            errors.push("User ID is missing.");
         }
 
-        const total = updated.reduce((sum, e) => sum + Number(e.calories_burned || 0), 0);
-        setFormData({ ...formData, exercises: updated, total_calories_burned: total.toFixed(1) });
-    };
+        const today = new Date()
+        const trackerDate = new Date(tracker.date)
 
-    const addExercise = () => {
-        setFormData({
-            ...formData,
-            exercises: [
-                ...formData.exercises,
-                { name: "", sets: "", reps: "", duration_min: "", met: "", calories_burned: "" },
-            ],
+        if (trackerDate > today) {
+            errors.push("Date cannot be greater than today");
+        }
+
+        if (tracker?.exercises.length == 0) {
+            errors.push("Please add exercise before saving.");
+            return errors;
+        }
+
+        tracker.exercises.forEach((exercise, mealIndex) => {
+
+            if (!exercise.exercise_id && !exercise.name) {
+                errors.push(`Exercise name or ID missing in (row ${mealIndex + 1}).`);
+            }
+
+            if (!exercise.duration_min) {
+                errors.push(`Duration missing in (${exercise.name || "exercise"})`);
+            }
+            if (!exercise.met) {
+                errors.push(`met missing in (${exercise.name || "exercise"})`);
+            }
+
+            if (exercise.calories_burned === undefined || exercise.calories_burned < 0) {
+                errors.push(`Calories missing or invalid in (${exercise.name || "exercise"})`);
+            }
         });
+
+        return errors;
     };
 
-    const removeExercise = (index) => {
-        const updated = formData.exercises.filter((_, i) => i !== index);
-        const total = updated.reduce((sum, e) => sum + Number(e.calories_burned || 0), 0);
-        setFormData({ ...formData, exercises: updated, total_calories_burned: total.toFixed(1) });
-    };
+    const findTrackers = () => {
+        const date = workoutTracker.date
+        fetchUserWorkoutTrackers(date);
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch("/api/userWorkoutTracker", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ user_id: userId, ...formData }),
-            });
-            if (res.ok) {
-                alert("Workout saved successfully!");
-                // Reset form
-                setFormData({
-                    workout_plan_id: "",
-                    date: new Date().toISOString().split("T")[0],
-                    exercises: [{ name: "", sets: "", reps: "", duration_min: "", met: "", calories_burned: "" }],
-                    total_calories_burned: 0,
-                });
+            const newTracker = { user_id: auth.userId, ...workoutTracker }
+            const errors = validateWorkOutTracker(newTracker);
+            if (errors.length > 0) {
+                setError(errors.join("\n"))
+                return;
+            }
+
+            const data = await createWorkOutTracker(newTracker, auth.token)
+            if (data.success) {
+                console.log("WorkOut Tracked Succesfully")
+                setError("WorkOut Tracked Succesfully")
             } else {
-                alert("Error saving workout!");
+                setError(data);
             }
         } catch (err) {
-            console.error("Error:", err);
+            console.error("Error in WorkOut Tracking:", err);
+            setError(err.response?.data?.message || "Failed to Track WorkOut");
         }
     };
 
@@ -99,7 +200,7 @@ const WorkoutTrackerPage = () => {
                     <CardTitle> Add / Edit Workout Tracker</CardTitle>
                     <Button
                         type="button"
-                        onClick={() => navigate("/user/workout-history")}
+                        onClick={() => navigate("/user/workouthistory")}
                         className="bg-blue-600 text-blue-700 border border-blue-400 hover:bg-blue-50"
                     >
                         View Workout History →
@@ -107,94 +208,125 @@ const WorkoutTrackerPage = () => {
                 </CardHeader>
 
                 <CardContent>
-                    <form onSubmit={handleSubmit} className="space-y-5">
+                    <form onSubmit={handleSubmit} className="space-y-4">
                         {/* Workout Plan */}
                         <div>
                             <label className="block text-sm font-medium mb-1">Workout Plan</label>
-                            <select
-                                value={formData.workout_plan_id}
-                                onChange={(e) => setFormData({ ...formData, workout_plan_id: e.target.value })}
-                                className="w-full border border-gray-300 rounded-lg px-3 py-2"
-                            >
-                                <option value="">Select plan</option>
-                                {workoutPlans.map((plan) => (
-                                    <option key={plan._id} value={plan._id}>
-                                        {plan.plan_name}
-                                    </option>
-                                ))}
-                            </select>
+                            <Link to={`/user/userworkoutplanview/${workOutPlan?.workout_plan_id?._id}`}>{workOutPlan?.workout_plan_id?.name}</Link>
                         </div>
 
-                        {/* Date */}
-                        <div>
-                            <label className="block text-sm font-medium mb-1">Date</label>
-                            <Input
-                                type="date"
-                                value={formData.date}
-                                onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                            />
+                        <div className="grid grid-cols-8 items-end space-x-4">
+                            <div className="col-span-2">
+                                <label className="block text-sm font-medium mb-1">Date</label>
+                                <Input type="date" value={workoutTracker.date} onChange={handleChange} name="date" />
+                            </div>
+                            <Button type="button" className="col-span-1" onClick={findTrackers}> Find </Button>
                         </div>
 
                         {/* Exercises Section */}
                         <div>
                             <h3 className="font-semibold mb-2">Exercises</h3>
-                            {formData.exercises.map((ex, index) => (
-                                <div key={index} className="grid grid-cols-6 gap-2 mb-2">
-                                    <Input
-                                        placeholder="Name"
-                                        value={ex.name}
-                                        onChange={(e) => handleExerciseChange(index, "name", e.target.value)}
-                                    />
-                                    <Input
-                                        type="number"
-                                        placeholder="Sets"
-                                        value={ex.sets}
-                                        onChange={(e) => handleExerciseChange(index, "sets", e.target.value)}
-                                    />
-                                    <Input
-                                        type="number"
-                                        placeholder="Reps"
-                                        value={ex.reps}
-                                        onChange={(e) => handleExerciseChange(index, "reps", e.target.value)}
-                                    />
-                                    <Input
-                                        type="number"
-                                        placeholder="Duration (min)"
-                                        value={ex.duration_min}
-                                        onChange={(e) => handleExerciseChange(index, "duration_min", e.target.value)}
-                                    />
-                                    <Input
-                                        type="number"
-                                        placeholder="MET"
-                                        value={ex.met}
-                                        onChange={(e) => handleExerciseChange(index, "met", e.target.value)}
-                                    />
-                                    <Input
-                                        type="number"
-                                        placeholder="Calories"
-                                        value={ex.calories_burned}
-                                        readOnly
-                                    />
-                                    {index > 0 && (
-                                        <Button
-                                            type="button"
-                                            onClick={() => removeExercise(index)}
-                                            className="col-span-6 bg-red-100 text-red-700 hover:bg-red-200"
-                                        >
-                                            Remove
-                                        </Button>
+                            <div className="grid mb-2">
+                                <div className="relative w-full">
+                                    <Input placeholder="Search exercise" value={searchTerm} onChange={(e) => { setSearchTerm(e.target.value); }} />
+                                    {searchTerm && (
+                                        <ul className="absolute bg-white border w-full max-h-40 overflow-y-auto mt-1 rounded shadow z-10">
+                                            {exerciseMaster?.filter((e) =>
+                                                e.name.toLowerCase().includes(searchTerm.toLowerCase())
+                                            )
+                                                .map((e) => (
+                                                    <li
+                                                        key={e._id}
+                                                        onClick={() => handleAddExercise(e)}
+                                                        className="px-3 py-1 hover:bg-blue-100 cursor-pointer"
+                                                    >
+                                                        {e.name}
+                                                    </li>
+                                                ))}
+                                            {exerciseMaster.filter((e) =>
+                                                e.name.toLowerCase().includes(searchTerm.toLowerCase())
+                                            ).length === 0 && (
+                                                    <li className="px-3 py-1 text-gray-500">
+                                                        No match
+                                                        {/* <button
+                                                            className="text-blue-600 underline"
+                                                        // onClick={() =>
+                                                        //     setNewExercise({ ...newFood, name: searchTerm })
+                                                        // }
+                                                        >
+                                                            Add “{searchTerm}”
+                                                        </button> */}
+                                                    </li>
+                                                )}
+                                        </ul>
                                     )}
                                 </div>
-                            ))}
-                            <Button type="button" onClick={addExercise}>
-                                + Add Exercise
-                            </Button>
+                            </div>
                         </div>
+
+                        {/* Table of Exercises */}
+                        {workoutTracker.exercises?.length > 0 ? (
+                            <div className="overflow-x-auto">
+                                <table className="w-full border border-gray-200 text-sm">
+                                    <thead className="bg-gray-100">
+                                        <tr>
+                                            <th className="border px-2 py-1 text-left">Exercise</th>
+                                            <th className="border px-2 py-1">Sets</th>
+                                            <th className="border px-2 py-1">Reps</th>
+                                            <th className="border px-2 py-1">Duration (min)</th>
+                                            <th className="border px-2 py-1">MET</th>
+                                            <th className="border px-2 py-1">Calories</th>
+                                            <th className="border px-2 py-1">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {workoutTracker.exercises?.map((exercise, workOutIndex) => {
+                                            return (
+                                                <tr key={workOutIndex}>
+                                                    <td className="border px-2 py-1">{exercise.name}</td>
+                                                    <td className="border px-2 py-1 w-25">
+                                                        <input type="number" min="0" placeholder="Sets" value={exercise.sets} name="sets" onChange={(e) => handleExerciseChange(workOutIndex, "sets", e.target.value)}
+                                                            className="w-full border rounded px-1 py-0.5" />
+                                                    </td>
+                                                    <td className="border px-2 py-1 w-25">
+                                                        <input type="number" min="0" value={exercise.reps} onChange={(e) => handleExerciseChange(workOutIndex, "reps", e.target.value)}
+                                                            className="w-full border rounded px-1 py-0.5" />
+                                                    </td>
+                                                    <td className="border px-2 py-1 w-25 text-center">
+                                                        <input type="number" min="0" value={exercise.duration_min} onChange={(e) => handleExerciseChange(workOutIndex, "duration_min", e.target.value)}
+                                                            className="w-full border rounded px-1 py-0.5" />
+                                                    </td>
+                                                    <td className="border px-2 py-1 w-25 text-center">
+                                                        {exercise.met}
+                                                    </td>
+                                                    <td className="border px-2 py-1 w-25 text-center">
+                                                        {exercise.calories_burned}
+                                                    </td>
+                                                    <td className="border px-2 py-1 text-center">
+                                                        <button type="button"
+                                                            onClick={() => handleRemoveExercise(workOutIndex)}
+                                                            className="text-red-600 hover:text-red-800 font-semibold" >
+                                                            ✕
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ) : (
+                            <p className="text-gray-500 text-sm italic">
+                                No exercises are added yet
+                            </p>
+                        )}
 
                         {/* Total Calories */}
                         <div className="text-right font-semibold">
-                            Total Calories Burned: {formData.total_calories_burned}
+                            Total Calories Burned: {workoutTracker.total_calories_burned}
                         </div>
+
+                        {error && <p className="text-red-500 text-md text-center">{error}</p>}
 
                         {/* Save */}
                         <Button type="submit" className="w-full mt-4">

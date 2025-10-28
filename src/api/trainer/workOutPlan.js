@@ -24,7 +24,7 @@ export const fetchAllWorkOutPlan = async (token) => {
 
 export const fetchWorkOutPlanWithId = async (id, token) => {
     try {
-        if (!token) return
+        if (!token) return       
         const response = await axios.get(`${BASE_API_URL}/${id}`,
             {
                 headers: {

@@ -2,10 +2,12 @@ import axios from "axios";
 
 const BASE_API_URL = "http://localhost:3000/api/workouttracker"
 
-export const fetchWorkOutTrackerWithUserId = async (userId, token) => {
+export const fetchUserWorkOutTracker = async (userId, date, token) => {
     try {
         if (!token) return
-        const response = await axios.get(`${BASE_API_URL}/${userId}`,
+        const newUrl = `${BASE_API_URL}/tracker?userId=${userId}&date=${date}`
+
+        const response = await axios.get(newUrl,
             {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -67,10 +69,11 @@ export const fetchWorkOutTrackerByDates = async (userId, startDate, endDate, tok
     }
 }
 
-export const createWorkOutTracker = async (WorkOut, token) => {
+export const createWorkOutTracker = async (workOutDet, token) => {
     try {
         if (!token) return
-        const response = await axios.post(BASE_API_URL, WorkOut, {
+        const { _id, ...tracker } = workOutDet;
+        const response = await axios.post(BASE_API_URL, tracker, {
             headers: {
                 Authorization: `Bearer ${token}`
             }

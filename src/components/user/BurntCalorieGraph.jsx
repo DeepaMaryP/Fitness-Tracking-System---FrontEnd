@@ -60,7 +60,7 @@ function BurntCalorieGraph({userId}) {
                 datasets: [
                     {
                         label: "Calories Burnt",
-                        data: data.map(d => d.total_calories),
+                        data: data.map(d => d.total_calories_burned),
                         borderColor: "#3b82f6",
                         backgroundColor: "#93c5fd",
                         tension: 0.4,
@@ -72,7 +72,7 @@ function BurntCalorieGraph({userId}) {
             const grouped = [];
             for (let i = 0; i < data.length; i += 7) {
                 const chunk = data.slice(i, i + 7);
-                const avgCalories = chunk.reduce((s, d) => s + d.total_calories, 0) / chunk.length;
+                const avgCalories = chunk.reduce((s, d) => s + d.total_calories_burned, 0) / chunk.length;
                 grouped.push({
                     label: `Week ${Math.ceil((i + 1) / 7)}`,
                     value: Math.round(avgCalories),
@@ -96,7 +96,7 @@ function BurntCalorieGraph({userId}) {
             data.forEach(d => {
                 const month = new Date(d.date).toLocaleString('default', { month: 'short', year: 'numeric' });
                 if (!months[month]) months[month] = [];
-                months[month].push(d.total_calories);
+                months[month].push(d.total_calories_burned);
             });
 
             const grouped = Object.entries(months).map(([month, vals]) => ({
@@ -123,7 +123,7 @@ function BurntCalorieGraph({userId}) {
         responsive: true,
         plugins: {
             legend: { display: false },
-            title: { display: true, text: `Calories Consumed (Last ${graphPeriod} Days)` },
+            title: { display: true, text: `Calories Burnt (Last ${graphPeriod} Days)` },
         },
     };
 
