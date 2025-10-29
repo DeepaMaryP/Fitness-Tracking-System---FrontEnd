@@ -42,6 +42,7 @@ import UserDetailsPage from './pages/trainer/UserDetailsPage'
 import UserMealTrackerForTrainer from './pages/trainer/UserMealTrackerForTrainer'
 import WorkOutTracketHistoryPage from './pages/user/WorkOutTrackerHistoryPage'
 import WorkoutPlanView from './components/user/WorkOutPlanView'
+import DietPlanView from './components/user/DietPlanView'
 
 const router = createBrowserRouter([
   {
@@ -115,6 +116,7 @@ const router = createBrowserRouter([
       { path: "workout", element: <WorkoutTrackerPage /> },
       { path: "workouthistory", element: <WorkOutTracketHistoryPage /> },
       { path: "userworkoutplanview/:id", element: <WorkoutPlanView /> },
+      { path: "userdietplanview/:id", element: <DietPlanView /> },
     ]
   }
 ])

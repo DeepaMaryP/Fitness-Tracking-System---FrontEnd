@@ -41,7 +41,7 @@ const WorkoutTrackerPage = () => {
                setWorkOutPlan(result.data)
             }
         } catch (err) {
-            console.error("Error fetching workout plans:", err);
+            console.error("Error fetching workout plan:", err);
         }
     };
 
@@ -212,7 +212,8 @@ const WorkoutTrackerPage = () => {
                         {/* Workout Plan */}
                         <div>
                             <label className="block text-sm font-medium mb-1">Workout Plan</label>
-                            <Link to={`/user/userworkoutplanview/${workOutPlan?.workout_plan_id?._id}`}>{workOutPlan?.workout_plan_id?.name}</Link>
+                            <Link to={`/user/userworkoutplanview/${workOutPlan?.workout_plan_id?._id}`}>
+                            <span className="text-blue-400">{workOutPlan?.workout_plan_id?.name}</span> </Link>
                         </div>
 
                         <div className="grid grid-cols-8 items-end space-x-4">

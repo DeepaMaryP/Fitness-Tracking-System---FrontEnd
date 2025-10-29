@@ -44,8 +44,10 @@ const AddDietPlanPage = () => {
 
     const loadDietPlan = async () => {
         try {
-            const fetchedPlan = await fetchDietPlanWithId(dietPlanId, auth.token)           
-            setDietPlan(fetchedPlan)
+            const result = await fetchDietPlanWithId(dietPlanId, auth.token)         
+            if (result.data) {                
+                setDietPlan(result.data)
+            }
         } catch (err) {
             setErrors("Unable to get DietPlan details")
             console.error("Error fetching DietPlan:", err)
@@ -183,7 +185,7 @@ const AddDietPlanPage = () => {
                         if (!newErrors[mealName]) newErrors[mealName] = {};
                         newErrors[mealName][index] = "Please select a food item";
                     }
-                     if (!item.quantity || item.quantity === "") {
+                    if (!item.quantity || item.quantity === "") {
                         valid = false;
                         if (!newErrors[mealName]) newErrors[mealName] = {};
                         newErrors[mealName][index] = "Please enter quantity";

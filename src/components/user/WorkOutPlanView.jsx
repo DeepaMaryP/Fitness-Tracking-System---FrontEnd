@@ -5,18 +5,20 @@ import { fetchWorkOutPlanWithId } from "../../api/trainer/workOutPlan";
 import { useSelector } from "react-redux";
 
 const WorkoutPlanView = () => {
-    const planId = useParams().id  
+    const planId = useParams().id
     const [plan, setPlan] = useState();
     const auth = useSelector((state) => state.auth)
 
     useEffect(() => {
-        fetchWorkPlan();
+        fetchWorkOutPlan();
     }, [])
 
-    const fetchWorkPlan = async () => {
+    const fetchWorkOutPlan = async () => {
         try {
-            const result = await fetchWorkOutPlanWithId(planId, auth.token);      
-            setPlan(result.data);
+            const result = await fetchWorkOutPlanWithId(planId, auth.token);
+            if (result.data) {
+              setPlan(result.data);
+            }
         } catch (err) {
             console.error("Error fetching Exercise Master:", err);
         }
@@ -32,7 +34,7 @@ const WorkoutPlanView = () => {
                     <p className="text-gray-600">{plan.description}</p>
                 </CardHeader>
 
-                <CardContent className="grid grid-cols-2 gap-4 text-sm">                 
+                <CardContent className="grid grid-cols-2 gap-4 text-sm">
                     <div><strong>Duration:</strong> {plan.duration_days} days</div>
                     <div><strong>Estimated Calories Burned:</strong> {plan.estimated_calories_burned} kcal</div>
                 </CardContent>

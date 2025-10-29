@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import food from "../../assets/Food.jpg";
 import { fetchAllFoodMaster } from "../../api/trainer/foodMaster";
 import { fetchTargetGoalWithUserId } from "../../api/user/targetGoal";
 import { createFoodTracker, fetchTodaysFoodTrackerWithUserId } from "../../api/user/foodtracker";
+import { fetchUserDietPlan } from "../../api/trainer/userDietPlan";
 
 const mealTypes = ["Breakfast", "Lunch", "Dinner", "Snack"];
 const unitsList = [
@@ -25,6 +26,7 @@ const MealTracker = () => {
   );
 
   const [allFoods, setAllFoods] = useState([]);
+  const [dietPlan, setDietPlan] = useState();
   const [searchTerm, setSearchTerm] = useState("");
   const [activeMealIndex, setActiveMealIndex] = useState(null);
   const [newFood, setNewFood] = useState({ name: "", ingredients: [] });
@@ -36,6 +38,7 @@ const MealTracker = () => {
   useEffect(() => {
     fetchFoodMaster();
     fetchGoal();
+    fetchDietPlan();
     fetchTodaysFoodTracker();
   }, []);
 
@@ -58,15 +61,26 @@ const MealTracker = () => {
     }
   };
 
+  const fetchDietPlan = async () => {
+    try {
+      const result = await fetchUserDietPlan(auth.userId, auth.token);
+      if (result.success && result.data) {       
+        setDietPlan(result.data)
+      }
+    } catch (err) {
+      console.error("Error fetching Diet plan:", err);
+    }
+  };
+
   const fetchTodaysFoodTracker = async () => {
     try {
       const result = await fetchTodaysFoodTrackerWithUserId(auth.userId, auth.token);
-      if (result.success && result.data) {      
+      if (result.success && result.data) {
         const existingMeals = result.data.meals.map(meal => ({
           ...meal,
           food_items: meal.food_items.map(item => ({
             ...item,
-            name:item.food_id.name,
+            name: item.food_id.name,
             base_nutrition: {
               calories: item.calories ?? 0,
               protein_g: item.protein_g ?? 0,
@@ -77,7 +91,7 @@ const MealTracker = () => {
         }))
         setMeals(existingMeals)
       }
-    } catch (err) {   
+    } catch (err) {
       console.warn("No Food tracker found");
       setMeals(mealTypes?.map((meal) => ({ meal_type: meal, food_items: [] })))
     }
@@ -285,13 +299,21 @@ const MealTracker = () => {
         <div className="flex items-center justify-between">
           <div className="text-xl font-semibold text-gray-800 mb-2 mr-4">
             Total Calories Consumed Today
+            <div>
+              <label className="block text-sm font-medium mb-1 mt-2 text-red-600">Diet Plan</label>
+              <Link to={`/user/userdietplanview/${dietPlan?.diet_plan_id?._id}`}>
+                <span className="text-blue-400">{dietPlan?.diet_plan_id?.plan_name}</span> </Link>
+            </div>           
           </div>
 
           <div className="bg-blue-50 border border-blue-300 rounded-lg shadow-sm p-3 text-center">
             <h2 className="text-lg font-semibold text-blue-700 mb-1">
-              {targetGoal
+              {dietPlan
+                ? `🎯 Target: ${dietPlan.diet_plan_id?.total_calories} kcal`
+                : 
+              (targetGoal
                 ? `🎯 Target: ${targetGoal.daily_calorie_target} kcal`
-                : "🎯 No Target Set"}
+                : "🎯 No Target Set")}
             </h2>
             <p className="text-gray-700">
               <strong>{totalDayNutrition.calories.toFixed(1)}</strong> kcal | Protein:{" "}

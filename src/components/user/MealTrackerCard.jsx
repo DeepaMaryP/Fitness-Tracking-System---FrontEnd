@@ -53,7 +53,6 @@ function MealTrackerCard({userId}) {
         } else {
             const endDate = new Date();
             const startDate = new Date(endDate);
-
             startDate.setDate(endDate.getDate() - range);
             fetchFoodTrackerLogs(userId, startDate, endDate);
         }
