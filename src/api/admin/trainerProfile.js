@@ -104,3 +104,22 @@ export const approveTrainerDetails = async (id, user, token) => {
         return error.response?.data || "Failed to approve trainer";
     }
 }
+
+export const updateTrainerProfile  = async (trainerProile, token) => {
+    try {
+        if (!token) return
+        const response = await axios.patch(`${BASE_API_URL}/${trainerProile._id}`, trainerProile, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return response.data
+    } catch (error) {
+        if (error.response && error.response.status === 403 && error.response.data.message === "invalid token") {
+            localStorage.removeItem("token")
+            window.location.href = '/login';
+        }
+        console.log({ error });
+        return error.response?.data?.message || "Failed to update trainerProile";
+    }
+}

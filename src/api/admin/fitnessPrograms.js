@@ -2,15 +2,10 @@ import axios from "axios";
 
 const BASE_API_URL = "http://localhost:3000/api/fitplans"
 
-export const fetchAllFitnessProgram = async (token) => {
-    try {
-        if (!token) return
-        const response = await axios.get(BASE_API_URL, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
-        return response.data.allPaymentPlan
+export const fetchAllFitnessProgram = async () => {
+    try {       
+        const response = await axios.get(BASE_API_URL)       
+        return response.data;
     } catch (error) {
         if (error.response && error.response.status === 403 && error.response.data.message === "invalid token") {
             localStorage.removeItem("token")

@@ -10,8 +10,11 @@ function FitnessProgramListPage() {
 
     const loadFitnessPrograms = async () => {
         try {
-            const data = await fetchAllFitnessProgram(auth.token)
-            setFitprogramList(data)
+            const result = await fetchAllFitnessProgram(auth.token)
+            if (result.success) {
+                setFitprogramList(result.allPaymentPlan);
+            }
+
         } catch (err) {
             console.error("Error fetching FitnessPrograms:", err)
         }

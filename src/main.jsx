@@ -43,6 +43,8 @@ import UserMealTrackerForTrainer from './pages/trainer/UserMealTrackerForTrainer
 import WorkOutTracketHistoryPage from './pages/user/WorkOutTrackerHistoryPage'
 import WorkoutPlanView from './components/user/WorkOutPlanView'
 import DietPlanView from './components/user/DietPlanView'
+import TrainerProfilePage from './pages/trainer/TrainerProfilePage'
+import PaymentPlansPage from './pages/PaymentPlansPage'
 
 const router = createBrowserRouter([
   {
@@ -54,6 +56,8 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "home", element: <Home /> },
       { path: "login", element: <Login /> },
+      { path: "paymentplan", element: <PaymentPlansPage /> },
+
 
     ]
   }, {
@@ -84,6 +88,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <TrainerDashBoardPage /> },
       { path: "foodmaster", element: <ManageFoodMasterList /> },
+      { path: "profile", element: <TrainerProfilePage /> },
       { path: "addfoodmaster", element: <AddFoodMasterPage /> },
       { path: "addfoodmaster/:id", element: <AddFoodMasterPage /> },
       { path: "exercisemaster", element: <ManageExerciseMasterList /> },

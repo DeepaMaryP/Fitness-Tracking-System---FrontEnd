@@ -43,8 +43,10 @@ function AddUserPage() {
 
   const loadTrainer = async () => {
     try {
-      const data = await fetchTrainerWithUserId(userId, auth.token)
-      setTrainer(data)
+      const result = await fetchTrainerWithUserId(userId, auth.token)
+      if (result.success && result.data) {
+        setTrainer(result.data)
+      }
     } catch (err) {
       SetError("Unable to get trainer details")
       console.error("Error fetching trainer:", err)
@@ -263,7 +265,7 @@ function AddUserPage() {
             <div >
               <label htmlFor="role" className='block' >Role</label>
               <div className='flex w-fit'>
-                <DynamicDropdown onData={getSelectedRole} item={roleList}  selectedItem={user?.role} id="role"  readOnly={user._id != 0} name='Select Role' />
+                <DynamicDropdown onData={getSelectedRole} item={roleList} selectedItem={user?.role} id="role" readOnly={user._id != 0} name='Select Role' />
                 <div>{errorObject.role.length > 0 && <label htmlFor="role" className='text-red-500 pl-2'>{errorObject.role}</label>}</div>
               </div>
             </div>

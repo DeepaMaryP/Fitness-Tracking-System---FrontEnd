@@ -8,7 +8,7 @@ const navigation = [
     { name: 'Home', href: '#', current: true },
     { name: 'Features', href: '#features', current: false },
     { name: 'Testimonials', href: '#testimonials', current: false },
-    { name: 'Payment Plans', href: '#', current: false },
+    { name: 'Payment Plans', current: false },
 ]
 
 function classNames(...classes) {
@@ -43,17 +43,24 @@ function Header() {
                         <div className="hidden sm:ml-6 md:ml-10 sm:block ">
                             <div className="flex space-x-4">
                                 {navigation.map((item) => (
-                                    <a
-                                        key={item.name}
-                                        href={item.href}
-                                        aria-current={item.current ? 'page' : undefined}
-                                        className={classNames(
-                                            item.current ? 'bg-blue-900 text-white' : 'text-blue-600 hover:bg-white/5 hover:text-blue-800',
-                                            'rounded-md px-3 py-2 text-sm font-medium',
-                                        )}
-                                    >
-                                        {item.name}
-                                    </a>
+                                    item.name == 'Payment Plans' ? (<Link to="/paymentplan">
+                                         <span  aria-current={item.current ? 'page' : undefined}
+                                            className={classNames(
+                                                item.current ? 'bg-blue-900 text-white' : 'text-blue-600 hover:bg-white/5 hover:text-blue-800',
+                                                'rounded-md px-3 py-10 my-10 text-sm font-medium',
+                                            )}>{item.name}</span>
+                                         </Link>) :
+                                        <a
+                                            key={item.name}
+                                            href={item.href}
+                                            aria-current={item.current ? 'page' : undefined}
+                                            className={classNames(
+                                                item.current ? 'bg-blue-900 text-white' : 'text-blue-600 hover:bg-white/5 hover:text-blue-800',
+                                                'rounded-md px-3 py-2 text-sm font-medium',
+                                            )}
+                                        >
+                                            {item.name}
+                                        </a>
                                 ))}
                             </div>
                         </div>
@@ -85,7 +92,7 @@ function Header() {
                                 </MenuButton>
                             </Link>
 
-                        {/*     {
+                            {/*     {
                                 <MenuItems transition className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg outline outline-black/5 
                                                             transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in">
                                     <MenuItem>
