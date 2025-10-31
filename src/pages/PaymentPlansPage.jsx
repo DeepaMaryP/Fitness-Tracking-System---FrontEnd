@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchAllFitnessProgram } from "../api/admin/fitnessPrograms";
 import { useSelector } from "react-redux";
 import LogInHeader from "../components/LogInHeader";
+import PaymentButton from "../components/user/PaymentButton";
 
 export default function PaymentPlansPage() {
     const [plans, setPlans] = useState([]);
@@ -96,10 +97,10 @@ export default function PaymentPlansPage() {
                                 </ul>
                             </div>
 
-                            {/* Footer */}
+                            {/* Footer */}                           
                             <div className="text-center pb-6">
-                                <button
-                                    onClick={() => navigate(`/payment/${plan._id}`)}
+                                <button                                    
+                                       onClick={() => navigate(`/login/${plan._id}`)}
                                     className="bg-indigo-800 hover:bg-indigo-700 text-white font-semibold px-6 py-2 rounded-full transition-all duration-200"
                                 >
                                     Subscribe Now

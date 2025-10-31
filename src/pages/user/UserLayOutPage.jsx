@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom'
-
-import LogInHeader from '../../components/LogInHeader'
 import { fetchUserProfileWithUserId } from '../../api/user/userProfile';
 import UserProfilePage from './UserProfilePage';
 import UserSideMenuBar from '../../components/user/UserSideMenuBar';
+import UserHeader from '../../components/user/UserHeader';
 
 
 function UserLayOutPage() {
@@ -40,11 +39,12 @@ function UserLayOutPage() {
 
     return (
         <div>
-            <LogInHeader />
+            <UserHeader />
             {error && <p className="text-red-500 text-md text-center">{error}</p>}
-            {!hasProfile ? (
+            {/* {!hasProfile ? (
                 <UserProfilePage onProfileSaved={handleProfileSaved} />
-            ) : (
+            ) : ( */}
+
                 <div className='grid grid-cols-6 rounded-lg'>
                     <div className='col-span-1'>
                         <UserSideMenuBar />
@@ -54,7 +54,7 @@ function UserLayOutPage() {
                     </div>
                 </div>
 
-            )}
+            {/* )} */}
         </div>
     )
 }

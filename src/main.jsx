@@ -45,6 +45,8 @@ import WorkoutPlanView from './components/user/WorkOutPlanView'
 import DietPlanView from './components/user/DietPlanView'
 import TrainerProfilePage from './pages/trainer/TrainerProfilePage'
 import PaymentPlansPage from './pages/PaymentPlansPage'
+import PaymentButton from './components/user/PaymentButton.jsx'
+import PaymentStatusPage from './pages/PaymentStatusPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -56,8 +58,9 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "home", element: <Home /> },
       { path: "login", element: <Login /> },
+      { path: "login/:id", element: <Login /> },
       { path: "paymentplan", element: <PaymentPlansPage /> },
-
+      { path: "subscribe/:id", element: <PaymentButton /> },
 
     ]
   }, {
@@ -122,6 +125,7 @@ const router = createBrowserRouter([
       { path: "workouthistory", element: <WorkOutTracketHistoryPage /> },
       { path: "userworkoutplanview/:id", element: <WorkoutPlanView /> },
       { path: "userdietplanview/:id", element: <DietPlanView /> },
+      { path: "paymentstatus", element: <PaymentStatusPage /> },
     ]
   }
 ])

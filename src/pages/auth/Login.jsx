@@ -1,15 +1,15 @@
 import React from 'react'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch} from 'react-redux';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { signIn } from '../../api/auth';
 import LogInHeader from '../../components/LogInHeader';
 
-
 export default function Login() {
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const planId = useParams().id;
+
   const [error, SetError] = useState("");
   const [credentials, setCredentials] = useState(
     {
@@ -40,7 +40,11 @@ export default function Login() {
             navigate("/trainer");
             break;
           default:
-            navigate("/user");
+            if (planId) {
+              navigate(`/subscribe/${planId}`)
+            } else {
+              navigate("/user");
+            }
         }
       }
     } catch (error) {
@@ -50,9 +54,11 @@ export default function Login() {
   }
 
   return (
-    <div>     
+    <div>
       <LogInHeader />
-      
+      {planId && <div className='text-center text-blue-600 font-bold'>
+        Please SignIn to continue Subscription
+      </div>}
       <div className="flex w-3/4 lg:w-1/3 mx-auto flex-1 flex-col justify-center mt-14 pb-5 border rounded-lg ">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
