@@ -1,12 +1,12 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 import SideBarMenu from '../../components/trainer/TrainerSideBarMenu'
-import LogInHeader from '../../components/LogInHeader'
+import UserHeader from '../../components/user/UserHeader'
 
 function TrainerLayOutPage() {
     return (
         <div>
-           <LogInHeader />
+           <UserHeader />
             <div className='grid grid-cols-6 rounded-lg'>
                 <div className='col-span-1'>
                     <SideBarMenu />

@@ -64,7 +64,7 @@ const MealTracker = () => {
   const fetchDietPlan = async () => {
     try {
       const result = await fetchUserDietPlan(auth.userId, auth.token);
-      if (result.success && result.data) {       
+      if (result.success && result.data) {
         setDietPlan(result.data)
       }
     } catch (err) {
@@ -299,21 +299,24 @@ const MealTracker = () => {
         <div className="flex items-center justify-between">
           <div className="text-xl font-semibold text-gray-800 mb-2 mr-4">
             Total Calories Consumed Today
+            
+             {(dietPlan && auth.isSubscribed) &&
             <div>
               <label className="block text-sm font-medium mb-1 mt-2 text-red-600">Diet Plan</label>
               <Link to={`/user/userdietplanview/${dietPlan?.diet_plan_id?._id}`}>
                 <span className="text-blue-400">{dietPlan?.diet_plan_id?.plan_name}</span> </Link>
-            </div>           
+            </div>
+}
           </div>
 
           <div className="bg-blue-50 border border-blue-300 rounded-lg shadow-sm p-3 text-center">
             <h2 className="text-lg font-semibold text-blue-700 mb-1">
-              {dietPlan
+              {dietPlan && auth.isSubscribed
                 ? `🎯 Target: ${dietPlan.diet_plan_id?.total_calories} kcal`
-                : 
-              (targetGoal
-                ? `🎯 Target: ${targetGoal.daily_calorie_target} kcal`
-                : "🎯 No Target Set")}
+                :
+                (targetGoal
+                  ? `🎯 Target: ${targetGoal.daily_calorie_target} kcal`
+                  : "🎯 No Target Set")}
             </h2>
             <p className="text-gray-700">
               <strong>{totalDayNutrition.calories.toFixed(1)}</strong> kcal | Protein:{" "}
@@ -327,18 +330,19 @@ const MealTracker = () => {
       </div>
 
       {/* Upgrade Prompt */}
-      <div className="bg-yellow-50 border border-yellow-300 rounded-md p-3 mb-6 flex justify-between items-center">
-        <span className="text-gray-800 font-medium">
-          🚀 Achieve your target faster with personalized plans and trainer
-          support!
-        </span>
-        <button
-          onClick={() => navigate("/plans")}
-          className="bg-yellow-500 text-white font-semibold px-4 py-2 rounded hover:bg-yellow-600"
-        >
-          Upgrade Now
-        </button>
-      </div>
+      {!auth.isSubscribed &&
+        <div className="bg-yellow-50 border border-yellow-300 rounded-md p-3 mb-6 flex justify-between items-center">
+          <span className="text-gray-800 font-medium">
+            🚀 Achieve your target faster with personalized plans and trainer
+            support!
+          </span>
+          <button
+            onClick={() => navigate("/paymentplan")}
+            className="bg-yellow-500 text-white font-semibold px-4 py-2 rounded hover:bg-yellow-600"
+          >
+            Upgrade Now
+          </button>
+        </div>}
 
       {/* Meals */}
       {meals?.map((meal, mealIndex) => {

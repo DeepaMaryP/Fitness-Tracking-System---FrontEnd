@@ -30,9 +30,9 @@ export default function Login() {
     event.preventDefault();
     SetError('');
     try {
-      const resultAction = await dispatch(signIn(credentials)).unwrap();
-      if (resultAction.success) {
-        switch (resultAction.role) {
+      const resultAction = await dispatch(signIn(credentials)).unwrap();    
+      if (resultAction.data.success) {
+        switch (resultAction.data.role) {
           case "Admin":
             navigate("/admin");
             break;

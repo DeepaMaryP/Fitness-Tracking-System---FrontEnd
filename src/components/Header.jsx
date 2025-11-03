@@ -1,14 +1,15 @@
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import { Button, Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import userLogo from '../assets/userLogo.png'
+import userLogo from '../assets/avatar.png'
 import companyLogo from '../assets/CompanyLogo.jpg'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../redux/slice/authSlice'
 
 const navigation = [
     { name: 'Home', href: '#', current: true },
     { name: 'Features', href: '#features', current: false },
     { name: 'Testimonials', href: '#testimonials', current: false },
-    { name: 'Payment Plans', current: false },
 ]
 
 function classNames(...classes) {
@@ -16,6 +17,23 @@ function classNames(...classes) {
 }
 
 function Header() {
+    const navigate = useNavigate();
+    const auth = useSelector((state) => state.auth)
+    const dispatch = useDispatch();
+
+    const goToDashboard = () => {    
+        switch (auth.role) {
+            case "Admin":
+                navigate("/admin");
+                break;
+            case "Trainer":
+                navigate("/trainer");
+                break;
+            default:
+                navigate("/user");
+        }
+    }
+
     return (
         <Disclosure as="nav" className="relative ">
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -40,85 +58,60 @@ function Header() {
                                 className="h-8 w-auto"
                             />
                         </div>
-                        <div className="hidden sm:ml-6 md:ml-10 sm:block ">
+                        <div className="sm:ml-6 md:ml-10 flex">
                             <div className="flex space-x-4">
                                 {navigation.map((item) => (
-                                    item.name == 'Payment Plans' ? (<Link to="/paymentplan">
-                                         <span  aria-current={item.current ? 'page' : undefined}
-                                            className={classNames(
-                                                item.current ? 'bg-blue-900 text-white' : 'text-blue-600 hover:bg-white/5 hover:text-blue-800',
-                                                'rounded-md px-3 py-10 my-10 text-sm font-medium',
-                                            )}>{item.name}</span>
-                                         </Link>) :
-                                        <a
-                                            key={item.name}
-                                            href={item.href}
-                                            aria-current={item.current ? 'page' : undefined}
-                                            className={classNames(
-                                                item.current ? 'bg-blue-900 text-white' : 'text-blue-600 hover:bg-white/5 hover:text-blue-800',
-                                                'rounded-md px-3 py-2 text-sm font-medium',
-                                            )}
-                                        >
-                                            {item.name}
-                                        </a>
+                                    <a
+                                        key={item.name}
+                                        href={item.href}
+                                        aria-current={item.current ? 'page' : undefined}
+                                        className={classNames(
+                                            item.current ? 'bg-blue-900 text-white' : 'text-blue-600 hover:bg-white/5 hover:text-blue-800',
+                                            'rounded-md px-3 py-2 text-sm font-medium',
+                                        )}
+                                    >
+                                        {item.name}
+                                    </a>
                                 ))}
+                                {<Link className='text-sm font-medium py-2 px-3' to="/paymentplan">
+                                    <span className='text-blue-600 hover:bg-white/5 hover:text-blue-800 rounded-md text-sm font-medium'
+                                    >Payment Plans</span>
+                                </Link>}
+                                {auth.isLoggedIn &&
+                                    <button onClick={goToDashboard} className='text-blue-600 hover:bg-white/5 hover:text-blue-800 rounded-md text-sm font-medium px-3 py-2'
+                                    >Dashboard</button>}
                             </div>
                         </div>
-
                     </div>
                     <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                        <button
-                            type="button"
-                            className="relative rounded-full p-1 text-gray-400 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500"
-                        >
-                            <span className="absolute -inset-1.5" />
-                            <span className="sr-only">View notifications</span>
-                            <BellIcon aria-hidden="true" className="size-6" />
-                        </button>
-
                         {/* Profile dropdown */}
                         <Menu as="div" className="relative ml-3">
-                            <Link to="/login">
+
+                            {!auth.isLoggedIn &&
+                                <Link to="/login">
+                                    <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+                                        <span className="absolute -inset-1.5" />
+                                        <span className="sr-only">Open user menu</span>
+                                        <span >Hello, Sign In</span>
+                                    </MenuButton></Link>}
+
+                            {auth.isLoggedIn &&
                                 <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
                                     <span className="absolute -inset-1.5" />
                                     <span className="sr-only">Open user menu</span>
-                                    <span >Hello, Sign In</span>
-                                    {/* <img
-                  alt=""
-                  src={userLogo}
-                //  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                  className="size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10"
-                /> */}
-                                </MenuButton>
-                            </Link>
+                                    <span className='font-medium text-md'>{auth.userName}</span>
+                                    <img alt="" src={userLogo} className="ml-2  size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10" />
+                                </MenuButton>}
+                            {auth.isLoggedIn &&
 
-                            {/*     {
-                                <MenuItems transition className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg outline outline-black/5 
+                                <MenuItems transition className="absolute right-0 z-10 mt-2 w-36 origin-top-right rounded-md bg-white py-1 shadow-lg outline outline-black/5 
                                                             transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in">
                                     <MenuItem>
-                                        <a href="#"
-                                            className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
-                                        >
-                                            Your profile
-                                        </a>
-                                    </MenuItem>
-                                    <MenuItem>
-                                        <a
-                                            href="#"
-                                            className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
-                                        >
-                                            Settings
-                                        </a>
-                                    </MenuItem>
-                                    <MenuItem>
-                                        <a
-                                            href="#"
-                                            className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden"
-                                        >
+                                        <Button onClick={() => { if (window.confirm("Are you sure to logout?")) { dispatch(logout()) } }} className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden" >
                                             Sign out
-                                        </a>
+                                        </Button>
                                     </MenuItem>
-                                </MenuItems>} */}
+                                </MenuItems>}
                         </Menu>
                     </div>
                 </div>

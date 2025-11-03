@@ -1,14 +1,13 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 import SideBarMenu from '../../components/admin/AdminSideBarMenu'
+import UserHeader from '../../components/user/UserHeader'
 
 function AdminLayOutPage() {
     return (
         <div>
-            <div className='font-bold text-2xl bg-blue-900  pl-8 pt-2  text-white '>
-                FitTrack
-            </div>
-            <div className='grid grid-cols-6 rounded-lg'>
+           <UserHeader />
+            <div className='grid grid-cols-6 mt-5  rounded-lg'>
                 <div className='col-span-1'>
                     <SideBarMenu />
                 </div>
