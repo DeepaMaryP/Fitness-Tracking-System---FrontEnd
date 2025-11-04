@@ -7,11 +7,11 @@ function AdminLayOutPage() {
     return (
         <div>
            <UserHeader />
-            <div className='grid grid-cols-6 mt-5  rounded-lg'>
+            <div className='grid grid-cols-6 mt-2  rounded-lg'>
                 <div className='col-span-1'>
                     <SideBarMenu />
                 </div>
-                <div className='col-span-5 ml-5'>
+                <div className='col-span-5 ml-8'>
                     <Outlet />
                 </div>
             </div>

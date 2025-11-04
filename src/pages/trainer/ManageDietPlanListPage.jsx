@@ -40,7 +40,7 @@ function ManageDietPlanListPage() {
     }, [])
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col items-center py-10 px-4">
+        <div className="min-h-screen bg-gray-50 flex flex-col items-center py-5 px-4">
             {/* Header Section */}
             <div className="w-full max-w-6xl flex flex-col sm:flex-row justify-between items-center bg-white rounded-xl shadow-md p-5 mb-6">
                 <h1 className="text-2xl font-bold text-gray-800">

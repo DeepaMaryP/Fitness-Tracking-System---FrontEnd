@@ -42,7 +42,7 @@ function ManageWorkoutPlanListPage() {
     }, [])
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col items-center py-10 px-4">
+        <div className="min-h-screen bg-gray-50 flex flex-col items-center py-5 px-4">
             <div className="w-full max-w-6xl bg-white rounded-xl shadow-md px-6 py-4 flex flex-col sm:flex-row justify-between items-center">
                 <h1 className="text-2xl font-bold text-gray-800">🏋️ Manage Workout Plan</h1>
                 <Link to={`/trainer/addworkOutPlan`}>

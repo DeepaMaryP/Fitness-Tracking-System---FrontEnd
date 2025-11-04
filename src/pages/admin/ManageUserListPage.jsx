@@ -44,7 +44,7 @@ function UserListPage() {
         <div>
             <div>
                 <div>
-                    <div className="flex flex-col gap-2 sm:flex-row justify-around items-center px-4 py-5 text-sm text-gray-700 border-b border-gray-200 gap-x-16 dark:border-gray-700">
+                    <div className="flex flex-col gap-2 sm:flex-row justify-around items-center px-4  text-sm text-gray-700 border-b border-gray-200 gap-x-16 dark:border-gray-700">
                         <h1 className='text-xl font-bold'>Manage Users</h1>
                         <div>
                             <Link to={`/admin/adduser`}>
@@ -54,7 +54,7 @@ function UserListPage() {
                     </div>
 
                     <div className="relative overflow-x-auto">
-                        <table className="w-full my-10 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <table className="w-full my-8 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                             <thead className="text-xs text-white text-justify uppercase bg-blue-800 dark:bg-gray-700 dark:text-white">
                                 <tr>
                                     <th scope="col" className="text-center">

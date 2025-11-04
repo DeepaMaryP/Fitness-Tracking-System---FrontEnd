@@ -44,6 +44,27 @@ export const fetchTargetGoalAndStatOfUser = async (userId, token) => {
     }
 }
 
+export const fetchUserGrowthPercentage = async (token) => {
+    try {
+        if (!token) return
+        const response = await axios.get(`${BASE_API_URL}/goalstat`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        )      
+        return response.data
+    } catch (error) {
+        if (error.response && error.response.status === 403 && error.response.data.message === "invalid token") {
+            localStorage.removeItem("token")
+            window.location.href = '/login';
+        }
+        console.log({ error });
+        throw new Error(error.response?.data?.message || "Failed to fetch targetGoal");
+    }
+}
+
 export const updateTargetGoal  = async (targetGoal, token) => {
     try {
         if (!token) return
