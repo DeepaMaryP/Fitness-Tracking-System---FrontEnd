@@ -11,7 +11,7 @@ import {
 } from "chart.js";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { fetchUserGrowthPercentage } from "../../api/user/targetGoal";
+import { fetchUserGrowthPercentage } from "../../api/admin/reports";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend, Title);
 

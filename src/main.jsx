@@ -48,6 +48,7 @@ import PaymentPlansPage from './pages/PaymentPlansPage'
 import PaymentButton from './components/user/PaymentButton.jsx'
 import PaymentStatusPage from './pages/PaymentStatusPage.jsx'
 import GoalAchievementReport from './pages/admin/GoalAchievementReport.jsx'
+import RevenueGrowthReport from './pages/admin/RevenueGrowthReport.jsx'
 
 const router = createBrowserRouter([
   {
@@ -83,6 +84,7 @@ const router = createBrowserRouter([
       { path: "addfitness", element: <AddFitnessProgramPage /> },
       { path: "addfitness/:id", element: <AddFitnessProgramPage /> },
       { path: "usergoalstat", element: <GoalAchievementReport /> },
+      { path: "revenuestat", element: <RevenueGrowthReport /> },
     ]
   },
   , {

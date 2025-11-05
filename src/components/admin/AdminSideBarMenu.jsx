@@ -89,9 +89,10 @@ function AdminSideBarMenu() {
                                             Goal Achievement Rates </span> </Link>
                                     </li>
                                     <li>
-                                        <a href="#" className="flex items-center w-full p-2  transition duration-75 rounded-lg pl-11 group hover:bg-blue-200 dark:hover:bg-blue-200" >
+                                        <Link to ='/admin/revenuestat'>
+                                        <span className="flex items-center w-full p-2  transition duration-75 rounded-lg pl-11 group hover:bg-blue-200 dark:hover:bg-blue-200" >
                                            Revenue Growth
-                                        </a>
+                                        </span></Link>
                                     </li>                                  
                                 </ul>
                             )}
