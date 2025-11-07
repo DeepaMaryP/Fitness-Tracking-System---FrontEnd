@@ -49,6 +49,7 @@ import PaymentButton from './components/user/PaymentButton.jsx'
 import PaymentStatusPage from './pages/PaymentStatusPage.jsx'
 import GoalAchievementReport from './pages/admin/GoalAchievementReport.jsx'
 import RevenueGrowthReport from './pages/admin/RevenueGrowthReport.jsx'
+import RegistrationPage from './pages/user/RegistrationPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -63,6 +64,7 @@ const router = createBrowserRouter([
       { path: "login/:id", element: <Login /> },
       { path: "paymentplan", element: <PaymentPlansPage /> },
       { path: "subscribe/:id", element: <PaymentButton /> },
+      { path: "register", element: <RegistrationPage /> },
 
     ]
   }, {

@@ -118,6 +118,21 @@ export const updateUserPassword = async (user, token) => {
     }
 }
 
+export const registerNewUser = async (userDet) => {
+    try {       
+        const { _id, ...user } = userDet;
+        const response = await axios.post(`${BASE_API_URL}/register`, user );
+        return response.data
+    } catch (error) {
+        console.log({ error });
+        if (error.response && error.response.status === 403 && error.response.data.message === "invalid token") {
+            localStorage.removeItem("token")
+            window.location.href = '/login';
+        }
+        return (error.response?.data?.message?.includes('duplicate key error') ? "Email Id exists.Please select a different one"
+            : (error.response?.data?.message || 'Failed to Create User'))
+    }
+}
 
 export const createUser = async (userDet, token) => {
     try {
@@ -128,7 +143,6 @@ export const createUser = async (userDet, token) => {
                 Authorization: `Bearer ${token}`
             }
         });
-
         return response.data
     } catch (error) {
         console.log({ error });
