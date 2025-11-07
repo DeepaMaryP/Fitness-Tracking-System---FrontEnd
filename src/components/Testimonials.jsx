@@ -25,6 +25,7 @@ function Testimonials() {
             photo: Testimonial3
         }
     ]
+
     const [current, setCurrent] = useState(0);
 
     const prevSlide = () => {
@@ -36,40 +37,38 @@ function Testimonials() {
     };
 
     return (
-        <div className="relative w-11/12 mx-auto py-8">
-            <div>
-                <div className="flex flex-col md:flex-row">
-                    <div className=" flex justify-center items-center rounded-lg shadow-lg">
-                        <img
-                            src={samples[current].photo}
-                            alt=""
-                            className=" h-3/4"
-                        />
-                    </div>
-                    <div className='flex flex-col justify-center items-center'>
-                        <p className="text-lg md:text-lg italic text-center pt-5 pb-8">
-                            "{samples[current].description}"
-                        </p>
-                        <p className='text-xl font-bold'>
-                           {samples[current].name}
-                        </p>
-                    </div>
+        <div className="relative w-11/12 mx-auto py-12">
+            <h2 className="text-4xl sm:text-5xl font-bold text-center mb-10 text-gray-800">Testimonials</h2>
 
+            <div className="flex flex-col md:flex-row items-center justify-center gap-8 bg-white rounded-2xl shadow-xl p-6">
+                <div className="flex justify-center items-center w-full md:w-1/2">
+                    <img
+                        src={samples[current].photo}
+                        alt={`Photo of ${samples[current].name}`}
+                        className="w-64 h-64 md:w-80 md:h-80 rounded-full object-cover shadow-lg"
+                    />
                 </div>
 
+                <div className="flex flex-col justify-center items-center text-center px-4 md:w-1/2">
+                    <p className="text-lg italic text-gray-700 mb-6">
+                        "{samples[current].description}"
+                    </p>
+                    <p className="text-xl font-semibold text-gray-900">
+                        {samples[current].name}
+                    </p>
+                </div>
             </div>
-
 
             {/* Navigation Buttons */}
             <button
                 onClick={prevSlide}
-                className="absolute left-0 top-1/2 transform -translate-y-1/2 font-bold h-12 w-12 text-blue-300 text-3xl rounded-full shadow hover:bg-blue-700"
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-blue-200 hover:bg-blue-400 text-white font-bold h-10 w-10 rounded-full shadow-lg flex items-center justify-center transition-all duration-300"
             >
                 &lt;
             </button>
             <button
                 onClick={nextSlide}
-                className="absolute right-0 top-1/2 transform -translate-y-1/2  h-12 w-12 font-bold text-blue-300 text-3xl rounded-full shadow hover:bg-blue-700"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-200 hover:bg-blue-400 text-white font-bold h-10 w-10 rounded-full shadow-lg flex items-center justify-center transition-all duration-300"
             >
                 &gt;
             </button>

@@ -1,15 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../../redux/slice/authSlice'
 import companyLogo from '../../assets/CompanyLogo.jpg'
 import userLogo from '../../assets/avatar.png'
-import { logout } from '../../redux/slice/authSlice';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
 function UserHeader() {
   const auth = useSelector((state) => state.auth)
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [menuOpen, setMenuOpen] = useState(false)
 
   const doLogOut = () => {
     if (window.confirm("Are you sure to logout?")) {
@@ -19,53 +21,106 @@ function UserHeader() {
   }
 
   return (
-    <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start mt-5 ml-2">
-      <div className="flex shrink-0 items-center">
-        <div className='font-bold text-3xl text-center mr-2'>
-          FitTrack
+    <header className="sticky top-0 z-50 bg-white shadow-sm">
+      <div className="flex items-center justify-between px-4 py-3 sm:px-6">
+
+        {/* Logo + Title */}
+        <div className="flex items-center gap-2">
+          <img src={companyLogo} alt="FitTrack logo" className="h-10 w-auto rounded-md" />
+          <span className="text-2xl sm:text-3xl font-bold text-blue-900">FitTrack</span>
         </div>
-        <img alt="Your Company" src={companyLogo} className="h-8 w-auto" />
-      </div>
 
-      <div className="sm:ml-6 md:ml-10 sm:block">
-        <div className="flex space-x-4">
-          <Link to='/'>
-            <span className='rounded-md px-3 py-2 text-sm font-medium bg-blue-900 text-white'>Home</span></Link>
+        {/* Desktop Navigation */}
+        <div className="hidden sm:flex items-center gap-6">
+          <Link
+            to="/"
+            className="rounded-md px-3 py-2 text-sm font-medium bg-blue-900 text-white hover:bg-blue-800 transition"
+          >
+            Home
+          </Link>
+
+          <Menu as="div" className="relative">
+            {!auth.isLoggedIn ? (
+              <Link to="/login">
+                <MenuButton className="px-3 py-2 text-sm font-medium text-blue-700 hover:text-blue-900 transition">
+                  Hello, Sign In
+                </MenuButton>
+              </Link>
+            ) : (
+              <>
+                <MenuButton className="flex items-center gap-2 text-blue-800 font-medium hover:text-blue-900">
+                  <span>{auth.userName}</span>
+                  <img
+                    src={userLogo}
+                    alt="User avatar"
+                    className="h-8 w-8 rounded-full border border-gray-300"
+                  />
+                </MenuButton>
+
+                <MenuItems
+                  transition
+                  className="absolute right-0 mt-2 w-36 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
+                >
+                  <MenuItem>
+                    <Button
+                      onClick={doLogOut}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      Sign out
+                    </Button>
+                  </MenuItem>
+                </MenuItems>
+              </>
+            )}
+          </Menu>
         </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="sm:hidden inline-flex items-center justify-center p-2 rounded-md text-blue-700 hover:bg-blue-100 focus:outline-none transition"
+        >
+          {menuOpen ? (
+            <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+          ) : (
+            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+          )}
+        </button>
       </div>
 
-      <div className="absolute inset-y-0 right-0 flex items-center mr-10 sm:static sm:ml-auto sm:pr-0">
-        {/* Profile dropdown */}
-        <Menu as="div" className="relative ml-3">
+      {/* Mobile Menu Dropdown */}
+      {menuOpen && (
+        <div className="sm:hidden border-t border-gray-200 px-4 py-3">
+          <Link
+            to="/"
+            onClick={() => setMenuOpen(false)}
+            className="block px-3 py-2 rounded-md text-base font-medium text-blue-900 hover:bg-blue-100"
+          >
+            Home
+          </Link>
 
-          {!auth.isLoggedIn &&
-            <Link to="/login">
-              <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
-                <span className="absolute -inset-1.5" />
-                <span className="sr-only">Open user menu</span>
-                <span >Hello, Sign In</span>
-              </MenuButton></Link>}
-
-          {auth.isLoggedIn &&
-            <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
-              <span className="absolute -inset-1.5" />
-              <span className="sr-only">Open user menu</span>
-              <span className='font-medium text-md'>{auth.userName}</span>
-              <img alt="" src={userLogo} className="ml-2  size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10" />
-            </MenuButton>}
-          {auth.isLoggedIn &&
-
-            <MenuItems transition className="absolute right-0 z-10 mt-2 w-36 origin-top-right rounded-md bg-white py-1 shadow-lg outline outline-black/5 
-                                                                    transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in">
-              <MenuItem>
-                <Button onClick={doLogOut} className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden" >
-                  Sign out
-                </Button>
-              </MenuItem>
-            </MenuItems>}
-        </Menu>
-      </div>
-    </div>
+          {!auth.isLoggedIn ? (
+            <Link
+              to="/login"
+              onClick={() => setMenuOpen(false)}
+              className="block px-3 py-2 rounded-md text-base font-medium text-blue-900 hover:bg-blue-100"
+            >
+              Hello, Sign In
+            </Link>
+          ) : (
+            <Button
+              onClick={() => {
+                doLogOut()
+                setMenuOpen(false)
+              }}
+              className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-blue-900 hover:bg-blue-100"
+            >
+              Sign out
+            </Button>
+          )}
+        </div>
+      )}
+    </header>
   )
 }
 

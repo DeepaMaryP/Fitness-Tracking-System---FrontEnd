@@ -1,31 +1,76 @@
-import React from 'react'
-import companyLogo from '../assets/CompanyLogo.jpg'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline' // Heroicons built into Tailwind setup
+import companyLogo from '../assets/CompanyLogo.jpg'
 
 function LogInHeader() {
+  const [menuOpen, setMenuOpen] = useState(false)
+
   return (
-    <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start mt-5 ml-2">
-        <div className="flex shrink-0 items-center">
-          <div className='font-bold text-3xl text-center mr-2'>
+    <header className="sticky top-0 z-50 bg-white shadow-sm">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 sm:px-6">
+        
+        {/* Logo & Title */}
+        <div className="flex items-center gap-2">
+          <img
+            src={companyLogo}
+            alt="FitTrack logo"
+            className="h-10 w-auto rounded-md"
+          />
+          <span className="text-2xl sm:text-3xl font-bold text-blue-900">
             FitTrack
-          </div>
-          <img alt="Your Company"  src={companyLogo} className="h-8 w-auto"  />
+          </span>
         </div>
 
-        <div className="sm:ml-6 md:ml-10 sm:block">
-          <div className="flex space-x-4">
-             <Link to='/'>
-              <span className='rounded-md px-3 py-2 text-sm font-medium bg-blue-900 text-white'>Home</span></Link>
-          </div>
-        </div>
-         <div className="sm:ml-6 md:ml-10 sm:block">
-          <div className="flex space-x-4">
-             <Link to='/paymentplan'>
-              <span className='text-blue-600 hover:bg-white/5 hover:text-blue-800 rounded-md px-3 py-2 text-sm font-medium'>Payment Plans</span></Link>
-          </div>
-        </div>
+        {/* Desktop Navigation */}
+        <nav className="hidden sm:flex items-center gap-6">
+          <Link
+            to="/"
+            className="rounded-md px-3 py-2 text-sm font-medium bg-blue-900 text-white hover:bg-blue-800 transition"
+          >
+            Home
+          </Link>
+          <Link
+            to="/paymentplan"
+            className="rounded-md px-3 py-2 text-sm font-medium text-blue-700 hover:text-blue-900 hover:bg-blue-100 transition"
+          >
+            Payment Plans
+          </Link>
+        </nav>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="sm:hidden inline-flex items-center justify-center p-2 rounded-md text-blue-700 hover:bg-blue-100 focus:outline-none transition"
+        >
+          {menuOpen ? (
+            <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+          ) : (
+            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+          )}
+        </button>
       </div>
 
+      {/* Mobile Menu Panel */}
+      {menuOpen && (
+        <div className="sm:hidden bg-white border-t border-gray-200 px-4 py-3">
+          <Link
+            to="/"
+            onClick={() => setMenuOpen(false)}
+            className="block px-3 py-2 rounded-md text-base font-medium text-blue-900 hover:bg-blue-100"
+          >
+            Home
+          </Link>
+          <Link
+            to="/paymentplan"
+            onClick={() => setMenuOpen(false)}
+            className="block px-3 py-2 rounded-md text-base font-medium text-blue-900 hover:bg-blue-100"
+          >
+            Payment Plans
+          </Link>
+        </div>
+      )}
+    </header>
   )
 }
 
