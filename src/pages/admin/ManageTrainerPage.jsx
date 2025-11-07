@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { approveTrainerDetails, getAllTrainers } from '../../api/admin/trainerProfile';
+import { approveTrainerDetails, blockTrainerDetails, getAllTrainers } from '../../api/admin/trainerProfile';
 import { useSelector } from 'react-redux';
 
 function ManageTrainerPage() {
@@ -16,10 +16,15 @@ function ManageTrainerPage() {
         }
     }
 
-    const blockTrainer = (id) => {
+    const blockTrainer = async (id) => {
         if (window.confirm("Are you sure you want to block this trainer?")) {
-
-            console.log("Trainer blocked.");
+            const data = await blockTrainerDetails(id, auth.userId, auth.token)
+            if (data.success) {
+                console.log("Successfully Blocked trainer")
+                await loadTrainers()
+            } else {
+                console.log(data.message);
+            }
         } else {
             // User cancelled
             console.log("Deletion cancelled.");
@@ -107,7 +112,7 @@ function ManageTrainerPage() {
                                                 {trainer.approvedStatus}
                                             </td>
                                             <td className="relative flex flex-col items-center sm:flex-row p-2 sm:p-4 sm:space-x-2">
-                                                {trainer.approvedStatus == "pending" &&
+                                                {["pending", "blocked"].includes(trainer.approvedStatus) &&
                                                     <button className="bg-blue-500 text-white px-3 py-1 mb-2 sm:mb-0 rounded-md text-xs md:text-sm" onClick={() => approveTrainer(trainer._id)}>Approve</button>}
                                                 {trainer.approvedStatus == "approved" &&
                                                     <button className="bg-red-500 text-white px-3 py-1 rounded-md text-xs md:text-sm" onClick={() => blockTrainer(trainer._id)}>Block</button>}

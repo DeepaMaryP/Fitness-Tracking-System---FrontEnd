@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { fetchUserWithId } from "../../api/admin/user";
 
 export default function AssignTrainers({ fetchUnassignedUsers, fetchTrainers, saveUserTrainer, fetchAssignments, userId }) {
   const [users, setUsers] = useState([]);
   const [trainers, setTrainers] = useState([]);
   const navigate = useNavigate()
- 
+
   const [selectedUser, setSelectedUser] = useState("");
   const [selectedTrainers, setSelectedTrainers] = useState([]);
   const [dates, setDates] = useState({ start_date: "", end_date: "" });
@@ -21,21 +22,17 @@ export default function AssignTrainers({ fetchUnassignedUsers, fetchTrainers, sa
 
   const loadUsers = async () => {
     try {
-      const users = await fetchUnassignedUsers(auth.token);
-      setUsers(users)
+      if (userId) {
+        const user = await fetchUserWithId(userId, auth.token);
+        const users = [user]
+        setUsers(users)
+      } else {
+        const users = await fetchUnassignedUsers(auth.token)
+        setUsers(users)
+      }
     } catch (err) {
       SetError("Unable to get User details")
       console.error("Error fetching Users:", err)
-    }
-  }
-
-  const loadTrainers = async () => {
-    try {
-      const trainers = await fetchTrainers(auth.token);
-      setTrainers(trainers)
-    } catch (err) {
-      SetError("Unable to get Trainer details")
-      console.error("Error fetching Trainer:", err)
     }
   }
 
@@ -46,18 +43,18 @@ export default function AssignTrainers({ fetchUnassignedUsers, fetchTrainers, sa
       if (userId) {
         const data = await fetchAssignments(userId, auth.token);
         userAssignments = data.allUserTrainers
-      }     
+      }
 
-      const assignedTrainerIds = userAssignments?.map(a => a.trainer_id?._id);       
+      const assignedTrainerIds = userAssignments?.map(a => a.trainer_id?._id);
       const sortedTrainers = [
         ...trainers.filter(t => assignedTrainerIds.includes(t._id)),
         ...trainers.filter(t => !assignedTrainerIds.includes(t._id))
       ];
       setTrainers(sortedTrainers);
       setSelectedTrainers(assignedTrainerIds);
-      setSelectedUser(userId || "");      
+      setSelectedUser(userId || "");
       const stdate = userAssignments[0]?.start_date?.slice(0, 10) || "";
-      const enddate =userAssignments[0]?.end_date?.slice(0, 10) || "";
+      const enddate = userAssignments[0]?.end_date?.slice(0, 10) || "";
       setDates({ start_date: stdate, end_date: enddate });
 
     } catch (err) {
@@ -67,7 +64,7 @@ export default function AssignTrainers({ fetchUnassignedUsers, fetchTrainers, sa
   }
 
   const handleTrainerChange = (id) => {
-     setSelectedTrainers(prev =>
+    setSelectedTrainers(prev =>
       prev.includes(id)
         ? prev.filter(t => t !== id)
         : [...prev, id]
@@ -82,6 +79,11 @@ export default function AssignTrainers({ fetchUnassignedUsers, fetchTrainers, sa
     }
     if (!dates.start_date) {
       SetError("Please select a start date");
+      return;
+    }
+
+    if (!dates.end_date) {
+      SetError("Please select end date");
       return;
     }
 
@@ -139,19 +141,19 @@ export default function AssignTrainers({ fetchUnassignedUsers, fetchTrainers, sa
           <div className="border rounded p-3 mb-4 h-40 overflow-y-auto">
             {trainers?.map(trainer => (
               <div key={trainer._id} className="flex items-center mb-2">
-            <input
-              type="checkbox"
-              checked={selectedTrainers.includes(trainer.userId._id)}
-              onChange={() => handleTrainerChange(trainer.userId._id)}
-              className="mr-2"
-            />
-            <label>
-              <span className="font-medium">{trainer.userId?.name || "Unnamed"}</span>
-              <span className="text-gray-500 text-sm ml-2">
-                ({trainer.specialization})
-              </span>
-            </label>
-          </div>
+                <input
+                  type="checkbox"
+                  checked={selectedTrainers.includes(trainer.userId._id)}
+                  onChange={() => handleTrainerChange(trainer.userId._id)}
+                  className="mr-2"
+                />
+                <label>
+                  <span className="font-medium">{trainer.userId?.name || "Unnamed"}</span>
+                  <span className="text-gray-500 text-sm ml-2">
+                    ({trainer.specialization})
+                  </span>
+                </label>
+              </div>
             ))}
           </div>
         </div>

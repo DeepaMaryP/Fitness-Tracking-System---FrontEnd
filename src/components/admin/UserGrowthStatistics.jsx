@@ -10,8 +10,9 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
-import { getUserStats } from '../../api/admin/user';
+
 import { useSelector } from 'react-redux';
+import { getUserStats } from '../../api/admin/reports';
 
 ChartJS.register(
     CategoryScale,
@@ -22,8 +23,6 @@ ChartJS.register(
     Tooltip,
     Legend
 );
-
-
 
 const options = {
     responsive: true,
@@ -39,7 +38,6 @@ const options = {
         },
     },
 };
-
 
 function UserGrowthStatistics() {
     const auth = useSelector((state) => state.auth)
