@@ -15,7 +15,7 @@ import {
 } from "chart.js";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-function CalorieConsumptionGraph({userId}) {
+function CalorieConsumptionGraph({ userId }) {
     const auth = useSelector((state) => state.auth);
     const [graphPeriod, setGraphPeriod] = useState(7); // 7,30,90,180
     const [graphfoodHistory, setGraphFoodHistory] = useState([])
@@ -120,29 +120,44 @@ function CalorieConsumptionGraph({userId}) {
 
     const chartOptions = {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
             legend: { display: false },
-            title: { display: true, text: `Calories Consumed (Last ${graphPeriod} Days)` },
+            title: {
+                display: true,
+                text: `Calories Consumed (Last ${graphPeriod} Days)`,
+                font: { size: 16 },
+            },
+        },
+        scales: {
+            x: { ticks: { maxRotation: 45, minRotation: 0 } },
+            y: { beginAtZero: true },
         },
     };
 
     return (
-        <div className="mb-8">
-            <div className="flex gap-2 mb-2">
+        <div className="mb-8 p-2 sm:p-4 bg-white rounded-xl shadow-md">         
+            <div className="flex flex-wrap justify-center gap-2 mb-4">
                 {[7, 30, 90, 180].map((d) => (
                     <button
                         key={d}
                         onClick={() => filterGraphFoodTracks(d)}
-                        className={`px-3 py-1 rounded ${graphPeriod === d ? "bg-blue-600 text-white" : "bg-gray-200 hover:bg-gray-300"
+                        className={`px-3 py-1 rounded text-sm sm:text-base transition-colors duration-200 ${graphPeriod === d
+                                ? "bg-blue-600 text-white shadow-md"
+                                : "bg-gray-200 hover:bg-gray-300 text-gray-700"
                             }`}
                     >
                         {d <= 30 ? `Last ${d} Days` : d === 90 ? "Last 3 Months" : "Last 6 Months"}
                     </button>
                 ))}
             </div>
-            <Line data={prepareGraphData()} options={chartOptions} />
+
+            {/* Chart Container (Responsive height) */}
+            <div className="relative w-full h-64 sm:h-80 md:h-96">
+                <Line data={prepareGraphData()} options={chartOptions} />
+            </div>
         </div>
-    )
+    );
 }
 
 export default CalorieConsumptionGraph

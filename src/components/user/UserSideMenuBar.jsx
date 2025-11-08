@@ -3,8 +3,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 function UserSideMenuBar() {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);   
     const auth = useSelector((state) => state.auth)
 
     return (
@@ -26,10 +25,18 @@ function UserSideMenuBar() {
             </button>
 
             {/* Sidebar */}
-            <aside
-                className={`fixed top-10 left-0 z-40 w-40 h-screen transition-transform 
-                   ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} sm:translate-x-0`} aria-label="Sidebar" >
-                <div className="h-full py-10 overflow-y-auto">
+            {isSidebarOpen && (
+                <div
+                    onClick={() => setIsSidebarOpen(false)}
+                    className="fixed inset-0 bg-black/30 sm:hidden z-30"
+                />
+            )}
+
+            <aside className={`z-40 h-screen transition-transform bg-white border-r border-gray-200
+                    ${isSidebarOpen ? "fixed top-0 left-0 w-40 translate-x-0" : "fixed top-0 left-0 w-40 -translate-x-full"} 
+                    sm:static sm:translate-x-0 sm:w-48`} aria-label="Sidebar"  >
+
+                <div className="h-full py-10 pt-20 overflow-y-auto">
                     <ul className="space-y-2 font-medium">
                         <li>
                             <Link to='/user' >

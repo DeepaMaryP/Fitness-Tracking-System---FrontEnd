@@ -89,7 +89,7 @@ export default function UserProfilePage({ onProfileSaved }) {
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-5 bg-white shadow-xl rounded-2xl px-5">
+    <div className="max-w-xl mx-auto mt-8 bg-white shadow-xl rounded-2xl px-5">
       <h2 className="text-2xl font-bold text-center mb-2">Complete Your Profile</h2>
       <p className="text-center text-gray-600 mb-6">
         We need these details to calculate your BMI and personalize your fitness experience.

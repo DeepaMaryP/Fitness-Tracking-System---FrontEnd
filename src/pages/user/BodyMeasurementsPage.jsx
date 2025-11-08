@@ -115,7 +115,7 @@ const BodyMeasurementsPage = () => {
     }
 
     return (
-        <div className="p-4 max-w-5xl mx-auto">
+        <div className="p-4 max-w-5xl mx-auto mt-8">
             {/* Form */}
             <Card className="shadow-md border rounded-2xl mb-6">
                 <CardHeader>

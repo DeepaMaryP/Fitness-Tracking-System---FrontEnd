@@ -41,21 +41,20 @@ function UserLayOutPage() {
         <div>
             <UserHeader />
             {error && <p className="text-red-500 text-md text-center">{error}</p>}
-            {/* {!hasProfile ? (
-                <UserProfilePage onProfileSaved={handleProfileSaved} />
-            ) : ( */}
 
-                <div className='grid grid-cols-6 rounded-lg'>
-                    <div className='col-span-1'>
-                        <UserSideMenuBar />
-                    </div>
-                    <div className='col-span-5 '>
-                        <Outlet />
-                    </div>
+            <div className="flex flex-col sm:flex-row">
+                {/* Sidebar */}
+                <div className="sm:w-48 sm:shrink-0">
+                    <UserSideMenuBar />
                 </div>
 
-            {/* )} */}
+                {/* Main Content */}
+                <main className="flex-1 sm:ml-0 mt-4 sm:mt-0 p-4 sm:p-6 bg-gray-50 min-h-screen">
+                    <Outlet />
+                </main>
+            </div>
         </div>
+
     )
 }
 export default UserLayOutPage
