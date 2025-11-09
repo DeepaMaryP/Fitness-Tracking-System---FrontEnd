@@ -38,7 +38,7 @@ function AddWorkOutPlanPage() {
         }
     }, []);
 
-    // 🧮 Auto-calculate total calories burned
+    // Auto-calculate total calories burned
     useEffect(() => {
         const total = workoutPlan.exercises.reduce((sum, ex) => {
             if (ex.met && ex.duration_min) {
@@ -51,7 +51,7 @@ function AddWorkOutPlanPage() {
 
     const loadWorkOutPlan = async () => {
         try {
-            const result = await fetchWorkOutPlanWithId(workOutId, auth.token)           
+            const result = await fetchWorkOutPlanWithId(workOutId, auth.token)              
             if (result.success && result.data) {          
                 setWorkoutPlan(result.data)
             }
@@ -71,9 +71,9 @@ function AddWorkOutPlanPage() {
 
     // Handle exercise field change      
     const handleExerciseChange = (index, field, value) => {
-        let updated = [...workoutPlan.exercises];
+        let updated = [...workoutPlan.exercises];        
         updated[index][field] = value;
-
+       
         // When exercise is selected, copy MET from master
         if (field === "exercise_id") {
             const master = exerciseMasterList.find((m) => m._id === value);
@@ -85,7 +85,6 @@ function AddWorkOutPlanPage() {
         setWorkoutPlan((prev) => ({ ...prev, exercises: updated }));
     };
 
-
     // Add new exercise row
     const handleAddExercise = () => {
         setWorkoutPlan((prev) => ({
@@ -94,7 +93,7 @@ function AddWorkOutPlanPage() {
                 ...prev.exercises,
                 { name: "", sets: "", reps: "", duration_min: "", rest_sec: 60, met: "" },
             ],
-        }));
+        }));    
     };
 
     // Remove exercise row

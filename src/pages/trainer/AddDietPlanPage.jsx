@@ -45,7 +45,7 @@ const AddDietPlanPage = () => {
     const loadDietPlan = async () => {
         try {
             const result = await fetchDietPlanWithId(dietPlanId, auth.token)         
-            if (result.data) {                
+            if (result.data) {
                 setDietPlan(result.data)
             }
         } catch (err) {
@@ -112,6 +112,7 @@ const AddDietPlanPage = () => {
         item.baseFood = selectedFood;
         item.unit = selectedFood.alternate_units?.[0]?.name || "g";
         item.quantity = 1;
+console.log(item);
 
         updateMacros(item);
         setDietPlan(updated);
@@ -272,51 +273,55 @@ const AddDietPlanPage = () => {
             {dietPlan.meals[mealName].food_items.length === 0 ? (
                 <p className="text-gray-500 text-sm">No items added yet.</p>
             ) : (
-                dietPlan.meals[mealName].food_items.map((item, index) => (
-                    <div key={index} className="grid grid-cols-10 gap-1 mb-2 items-center bg-white border p-1 rounded-sm">
-                        <div className="col-span-2">
-                            <select value={item.food_id}
-                                onChange={(e) => handleFoodChange(mealName, index, e.target.value)}
-                                className="border rounded-sm p-1 w-full">
-                                <option value="">Select Food</option>
-                                {foodList?.map((food) => (
-                                    <option key={food._id} value={food._id}>
-                                        {food.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+                <div className="overflow-x-auto">
+                    <div className="min-w-[800px]"> {/* ensures scroll area width */}
+                        {dietPlan.meals[mealName].food_items.map((item, index) => (
+                            <div key={index} className="grid grid-cols-10 gap-1 mb-2 items-center bg-white border p-1 rounded-sm">
+                                <div className="col-span-2">
+                                    <select value={item.food_id}
+                                        onChange={(e) => handleFoodChange(mealName, index, e.target.value)}
+                                        className="border rounded-sm p-1 w-full">
+                                        <option value="">Select Food</option>
+                                        {foodList?.map((food) => (
+                                            <option key={food._id} value={food._id}>
+                                                {food.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
 
-                        {/* Unit */}
-                        <div className="col-span-2">
-                            <select value={item.unit} onChange={(e) => handleUnitChange(mealName, index, e.target.value)} className="border rounded-sm p-1 w-full">
-                                <option value="">Select Unit</option>
-                                {item.baseFood?.alternate_units?.map((u) => (
-                                    <option key={u.name} value={u.name}>
-                                        {u.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+                                {/* Unit */}
+                                <div className="col-span-2">
+                                    <select value={item.unit} onChange={(e) => handleUnitChange(mealName, index, e.target.value)} className="border rounded-sm p-1 w-full">
+                                        <option value="">Select Unit</option>
+                                        {item.baseFood?.alternate_units?.map((u) => (
+                                            <option key={u.name} value={u.name}>
+                                                {u.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
 
-                        <input type="number" placeholder="Qty" value={item.quantity} onChange={(e) =>
-                            handleQuantityChange(mealName, index, e.target.value)} className="border rounded-sm p-1" />
-                        <div className="col-span-1 text-center">{item.calories.toFixed(0)} kcal</div>
-                        <div className="col-span-1 text-center">{item.protein_g.toFixed(1)} g</div>
-                        <div className="col-span-1 text-center">{item.carbs_g.toFixed(1)} g</div>
-                        <div className="col-span-1 text-center">{item.fat_g.toFixed(1)} g</div>
-                        <button type="button" onClick={() => handleRemoveFood(mealName, index)}
-                            className="bg-red-500 text-white px-3 py-1 rounded-sm hover:bg-red-600" >
-                            ✕
-                        </button>
-                        {/* Inline error display */}
-                        {errors[mealName] && errors[mealName][index] && (
-                            <span className="text-red-500 text-sm">
-                                {errors[mealName][index]}
-                            </span>
-                        )}
+                                <input type="number" placeholder="Qty" value={item.quantity} onChange={(e) =>
+                                    handleQuantityChange(mealName, index, e.target.value)} className="border rounded-sm p-1" />
+                                <div className="col-span-1 text-center">{item.calories.toFixed(0)} kcal</div>
+                                <div className="col-span-1 text-center">{item.protein_g.toFixed(1)} g</div>
+                                <div className="col-span-1 text-center">{item.carbs_g.toFixed(1)} g</div>
+                                <div className="col-span-1 text-center">{item.fat_g.toFixed(1)} g</div>
+                                <button type="button" onClick={() => handleRemoveFood(mealName, index)}
+                                    className="bg-red-500 text-white px-3 py-1 rounded-sm hover:bg-red-600" >
+                                    ✕
+                                </button>
+                                {/* Inline error display */}
+                                {errors[mealName] && errors[mealName][index] && (
+                                    <span className="text-red-500 text-sm">
+                                        {errors[mealName][index]}
+                                    </span>
+                                )}
+                            </div>
+                        ))}
                     </div>
-                ))
+                </div>
             )}
         </div>
     );

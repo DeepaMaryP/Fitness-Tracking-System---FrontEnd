@@ -131,130 +131,245 @@ function AddFoodMasterPage() {
     }
 
     return (
-        <div className="max-w-5xl mx-auto bg-white shadow-lg rounded-2xl m-2 mt-10">
-            <div className='flex flex-col sm:flex-row justify-center sm:justify-around mb-3 items-center'>
-                <h1 className='text-xl font-bold m-2 sm:m-0 '>Create Food Item</h1>
-                <Link to='/trainer/foodmaster' >
-                    <span className="rounded-md text-blue-600 font-bold px-4 py-1.5 hover:bg-blue-50 transition-colors">Manage FoodMaster</span></Link>
+  <div className="max-w-5xl mx-auto bg-white shadow-lg rounded-2xl m-3 sm:m-5 mt-10 p-4 sm:p-8">
+    {/* Header */}
+    <div className="flex flex-col sm:flex-row justify-center sm:justify-between items-center mb-6 gap-3">
+      <h1 className="text-2xl font-bold text-center sm:text-left">
+        Create Food Item
+      </h1>
+      <Link to="/trainer/foodmaster">
+        <span className="rounded-md text-blue-600 font-semibold px-4 py-2 border border-transparent hover:border-blue-500 hover:bg-blue-50 transition-all">
+          Manage FoodMaster
+        </span>
+      </Link>
+    </div>
+
+    {/* Form */}
+    <form
+      onSubmit={handleSubmit}
+      className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6"
+    >
+      {/* Name */}
+      <div>
+        <label className="block text-sm font-medium mb-1">Name</label>
+        <input
+          type="text"
+          name="name"
+          value={foodMaster.name}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="e.g., Apple"
+        />
+        {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+      </div>
+
+      {/* Category */}
+      <div>
+        <label className="block text-sm font-medium mb-1">Category</label>
+        <input
+          type="text"
+          name="category"
+          value={foodMaster.category}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="e.g., Fruit"
+        />
+        {errors.category && (
+          <p className="text-red-500 text-xs mt-1">{errors.category}</p>
+        )}
+      </div>
+
+      {/* Serving Size */}
+      <div>
+        <label className="block text-sm font-medium mb-1">Serving Size</label>
+        <input
+          type="number"
+          step="0.01"
+          name="serving_size"
+          value={foodMaster.serving_size}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        {errors.serving_size && (
+          <p className="text-red-500 text-xs mt-1">{errors.serving_size}</p>
+        )}
+      </div>
+
+      {/* Serving Unit */}
+      <div>
+        <label className="block text-sm font-medium mb-1">Serving Unit</label>
+        <input
+          type="text"
+          name="serving_unit"
+          value={foodMaster.serving_unit}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="e.g., grams, cup"
+        />
+        {errors.serving_unit && (
+          <p className="text-red-500 text-xs mt-1">{errors.serving_unit}</p>
+        )}
+      </div>
+
+      {/* Calories */}
+      <div>
+        <label className="block text-sm font-medium mb-1">Calories</label>
+        <input
+          type="number"
+          step="0.01"
+          name="calories"
+          value={foodMaster.calories}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        {errors.calories && (
+          <p className="text-red-500 text-xs mt-1">{errors.calories}</p>
+        )}
+      </div>
+
+      {/* Protein */}
+      <div>
+        <label className="block text-sm font-medium mb-1">Protein (g)</label>
+        <input
+          type="number"
+          step="0.01"
+          name="protein_g"
+          value={foodMaster.protein_g}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        {errors.protein_g && (
+          <p className="text-red-500 text-xs mt-1">{errors.protein_g}</p>
+        )}
+      </div>
+
+      {/* Carbs */}
+      <div>
+        <label className="block text-sm font-medium mb-1">Carbs (g)</label>
+        <input
+          type="number"
+          step="0.01"
+          name="carbs_g"
+          value={foodMaster.carbs_g}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        {errors.carbs_g && (
+          <p className="text-red-500 text-xs mt-1">{errors.carbs_g}</p>
+        )}
+      </div>
+
+      {/* Fat */}
+      <div>
+        <label className="block text-sm font-medium mb-1">Fat (g)</label>
+        <input
+          type="number"
+          step="0.01"
+          name="fat_g"
+          value={foodMaster.fat_g}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      {/* Fiber */}
+      <div>
+        <label className="block text-sm font-medium mb-1">Fiber (g)</label>
+        <input
+          type="number"
+          step="0.01"
+          name="fiber_g"
+          value={foodMaster.fiber_g}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      {/* Sugar */}
+      <div>
+        <label className="block text-sm font-medium mb-1">Sugar (g)</label>
+        <input
+          type="number"
+          step="0.01"
+          name="sugar_g"
+          value={foodMaster.sugar_g}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-md p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      {/* Alternate Units */}
+      <div className="md:col-span-2">
+        <h3 className="font-medium mt-4 mb-2">Alternate Units</h3>
+        <div className="space-y-2">
+          {foodMaster.alternate_units.map((unit, index) => (
+            <div
+              key={index}
+              className="flex flex-col sm:flex-row gap-2 sm:gap-4 items-center bg-gray-50 border p-2 rounded-md"
+            >
+              <input
+                placeholder="Unit name (e.g., cup)"
+                value={unit.name}
+                onChange={(e) =>
+                  handleAlternateChange(index, "name", e.target.value)
+                }
+                className="border p-2 rounded-md w-full sm:w-1/3"
+              />
+              <input
+                type="number"
+                placeholder="Grams equivalent"
+                value={unit.grams_equivalent}
+                onChange={(e) =>
+                  handleAlternateChange(index, "grams_equivalent", e.target.value)
+                }
+                className="border p-2 rounded-md w-full sm:w-1/3"
+              />
+              <button
+                type="button"
+                onClick={() => removeAlternateUnit(index)}
+                className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 w-full sm:w-auto"
+              >
+                ✕
+              </button>
             </div>
-
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Name */}
-                <div>
-                    <label className="block text-sm font-medium mb-1">Name</label>
-                    <input type="text" name="name" value={foodMaster.name} onChange={handleChange}
-                        className="w-full border border-gray-300 rounded-sm p-2" placeholder="e.g., Apple" />
-                    {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
-                </div>
-
-                {/* Category */}
-                <div>
-                    <label className="block text-sm font-medium mb-1">Category</label>
-                    <input type="text" name="category" value={foodMaster.category} onChange={handleChange}
-                        className="w-full border border-gray-300 rounded-sm p-2" placeholder="e.g., Fruit" />
-                    {errors.category && <p className="text-red-500 text-xs mt-1">{errors.category}</p>}
-                </div>
-
-                {/* Serving size */}
-                <div>
-                    <label className="block text-sm font-medium mb-1">Serving Size</label>
-                    <input type="number" step="0.01" name="serving_size" value={foodMaster.serving_size} onChange={handleChange}
-                        className="w-full border border-gray-300 rounded-sm p-2" />
-                    {errors.serving_size && (
-                        <p className="text-red-500 text-xs mt-1">{errors.serving_size}</p>
-                    )}
-                </div>
-
-                {/* Serving unit */}
-                <div>
-                    <label className="block text-sm font-medium mb-1">Serving Unit</label>
-                    <input type="text" name="serving_unit" value={foodMaster.serving_unit}
-                        onChange={handleChange} className="w-full border border-gray-300 rounded-sm p-2"
-                        placeholder="e.g., grams, cup" />
-                    {errors.serving_unit && (
-                        <p className="text-red-500 text-xs mt-1">{errors.serving_unit}</p>
-                    )}
-                </div>
-
-                {/* Calories */}
-                <div>
-                    <label className="block text-sm font-medium mb-1">Calories</label>
-                    <input type="number" step="0.01" name="calories" value={foodMaster.calories}
-                        onChange={handleChange} className="w-full border border-gray-300 rounded-sm p-2" />
-                    {errors.calories && <p className="text-red-500 text-xs mt-1">{errors.calories}</p>}
-                </div>
-
-                {/* Protein */}
-                <div>
-                    <label className="block text-sm font-medium mb-1">Protein (g)</label>
-                    <input type="number" step="0.01" name="protein_g" value={foodMaster.protein_g}
-                        onChange={handleChange} className="w-full border border-gray-300 rounded-sm p-2" />
-                    {errors.protein_g && <p className="text-red-500 text-xs mt-1">{errors.protein_g}</p>}
-                </div>
-
-                {/* Carbs */}
-                <div>
-                    <label className="block text-sm font-medium mb-1">Carbs (g)</label>
-                    <input type="number" step="0.01" name="carbs_g" value={foodMaster.carbs_g}
-                        onChange={handleChange} className="w-full border border-gray-300 rounded-sm p-2" />
-                    {errors.carbs_g && <p className="text-red-500 text-xs mt-1">{errors.carbs_g}</p>}
-                </div>
-
-                {/* Fat */}
-                <div>
-                    <label className="block text-sm font-medium mb-1">Fat (g)</label>
-                    <input type="number" step="0.01" name="fat_g" value={foodMaster.fat_g} onChange={handleChange}
-                        className="w-full border border-gray-300 rounded-sm p-2" />
-                </div>
-
-                {/* Fiber */}
-                <div>
-                    <label className="block text-sm font-medium mb-1">Fiber (g)</label>
-                    <input type="number" step="0.01" name="fiber_g" value={foodMaster.fiber_g}
-                        onChange={handleChange} className="w-full border border-gray-300 rounded-sm p-2" />
-                </div>
-
-                {/* Sugar */}
-                <div>
-                    <label className="block text-sm font-medium mb-1">Sugar (g)</label>
-                    <input type="number" step="0.01" name="sugar_g" value={foodMaster.sugar_g}
-                        onChange={handleChange} className="w-full border border-gray-300 rounded-sm p-2" />
-                </div>
-
-                <div className='col-span-2'>
-                    <h3 className="font-medium mt-4 mb-2">Alternate Units</h3>
-                    {foodMaster.alternate_units.map((unit, index) => (
-                        <div key={index} className="flex gap-4 items-center mb-2">
-                            <input  placeholder="Unit name (e.g., cup)" value={unit.name}
-                                onChange={(e) => handleAlternateChange(index, "name", e.target.value)} className="border p-2"/>
-                            <input  type="number" placeholder="Grams equivalent" value={unit.grams_equivalent}
-                                onChange={(e) => handleAlternateChange(index, "grams_equivalent", e.target.value)} className="border p-2" />                            
-                            <button type="button" onClick={() => removeAlternateUnit(index)} className="bg-red-500 text-white px-3 py-1 rounded-sm hover:bg-red-600" >✕</button>
-                        </div>
-                    ))}
-                    <button type="button" onClick={addAlternateUnit}  className="bg-blue-600 text-white px-3 py-1 rounded-sm hover:bg-blue-700" >
-                        + Add Alternate Unit
-                    </button>
-                </div>
-
-                {/* Submit */}
-                <div className="mt-5 flex gap-4 items-center justify-center">
-                    <button
-                        type="submit" className="rounded-md bg-blue-600 px-3 py-2 text-md font-semibold text-white shadow-xs hover:bg-blue-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
-                        Save
-                    </button>
-                    <button type="button" className="border border-transparent bg-white hover:border-blue-500 hover:bg-blue-50 px-4 py-2 rounded transition" onClick={cancelAddFood}>
-                        Cancel
-                    </button>
-                </div>
-
-                {errors.length > 0 &&
-                    <div>
-                        <span className='text-red-400 p-5'>{errors}</span>
-                    </div>}
-            </form>
+          ))}
         </div>
-    )
+        <button
+          type="button"
+          onClick={addAlternateUnit}
+          className="bg-blue-600 text-white px-3 py-1 rounded-md mt-2 hover:bg-blue-700"
+        >
+          + Add Alternate Unit
+        </button>
+      </div>
+
+      {/* Submit Buttons */}
+      <div className="md:col-span-2 mt-6 flex flex-col sm:flex-row gap-3 justify-center items-center">
+        <button
+          type="submit"
+          className="rounded-md bg-blue-600 px-5 py-2 text-md font-semibold text-white shadow hover:bg-blue-500 transition-all"
+        >
+          Save
+        </button>
+        <button
+          type="button"
+          className="border border-gray-300 bg-white hover:border-blue-500 hover:bg-blue-50 px-5 py-2 rounded-md transition-all"
+          onClick={cancelAddFood}
+        >
+          Cancel
+        </button>
+      </div>
+
+      {/* Error Section */}
+      {errors.length > 0 && (
+        <div className="md:col-span-2">
+          <span className="text-red-400 block text-center p-4">{errors}</span>
+        </div>
+      )}
+    </form>
+  </div>
+);
+
 }
 
 export default AddFoodMasterPage

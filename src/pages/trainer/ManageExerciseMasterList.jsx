@@ -55,7 +55,7 @@ function ManageExerciseMasterList() {
             </div>
 
             {/* Table Section */}
-            <div className="w-full max-w-5xl bg-white rounded-xl shadow overflow-hidden">
+            <div className="w-full max-w-5xl bg-white rounded-xl shadow overflow-x-auto">
                 <table className="w-full text-sm text-left text-gray-600">
                     <thead className="bg-blue-700 text-white uppercase text-xs">
                         <tr>

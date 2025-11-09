@@ -46,13 +46,13 @@ function ManageWorkoutPlanListPage() {
             <div className="w-full max-w-6xl bg-white rounded-xl shadow-md px-6 py-4 flex flex-col sm:flex-row justify-between items-center">
                 <h1 className="text-2xl font-bold text-gray-800">🏋️ Manage Workout Plan</h1>
                 <Link to={`/trainer/addworkOutPlan`}>
-                    <button className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-medium rounded-lg text-sm px-4 py-2.5">
+                     <button className="mt-3 sm:mt-0 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-medium text-sm shadow-sm transition duration-200">
                         + Add New
                     </button>
                 </Link>
             </div>
 
-            <div className="w-full max-w-6xl bg-white rounded-xl shadow overflow-hidden mt-6">
+            <div className="w-full max-w-6xl bg-white rounded-xl shadow overflow-x-auto mt-6">
                 <table className="w-full text-sm text-left text-gray-600">
                     <thead className="text-xs text-white uppercase bg-blue-800">
                         <tr>
