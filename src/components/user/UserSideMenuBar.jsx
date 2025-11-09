@@ -47,15 +47,15 @@ function UserSideMenuBar() {
                         </li>
                         <li>
                             <Link to={`/user/profile/${auth.userId}`} >
-                                <p className="flex items-center p-2 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-200 group"     >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                <p className="flex items-center p-2 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-200 group">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <circle cx="12" cy="7" r="4" /> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2" /> </svg>                                  
                                     <span className="ms-3">My Profile</span>
                                 </p></Link>
                         </li>
                         <li>
                             <Link to={`/user/target`} >
                                 <p className="flex items-center p-2 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-200 group"     >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <circle cx="12" cy="12" r="10" strokeWidth="2" /> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l2 2" /> </svg>
                                     <span className="ms-3">Fitness Goal</span>
                                 </p></Link>
                         </li>
@@ -63,7 +63,7 @@ function UserSideMenuBar() {
                             <li>
                                 <Link to={`/user/foodhistory`} >
                                     <p className="flex items-center p-2 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-200 group"     >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" /> </svg>
                                         <span className="ms-3">Food History</span>
                                     </p></Link>
                             </li>}
@@ -71,7 +71,7 @@ function UserSideMenuBar() {
                             <li>
                                 <Link to={`/user/bodymeasurements`} >
                                     <p className="flex items-center p-2 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-200 group"     >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                       <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1M4.2 4.2l.7.7M19.1 19.1l.7.7M1 12h1m20 0h1M4.2 19.8l.7-.7M19.1 4.9l.7-.7" /> </svg>
                                         <span className="ms-3">Body Measurements</span>
                                     </p></Link>
                             </li>}
@@ -79,7 +79,7 @@ function UserSideMenuBar() {
                             <li>
                                 <Link to={`/user/workout`} >
                                     <p className="flex items-center p-2 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-200 group"     >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6M12 9v6M4 6h16M4 18h16" /> </svg>
                                         <span className="ms-3">WorkOuts</span>
                                     </p></Link>
                             </li>}
