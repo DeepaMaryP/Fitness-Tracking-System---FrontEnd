@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_API_URL = "http://localhost:3000/api/user"
-const BASE_API_PAYMENTURL = "http://localhost:3000/api/userpayment"
+const BASE_API_URL = "https://fitness-tracking-system-back-end.vercel.app/api/user"
+const BASE_API_PAYMENTURL = "https://fitness-tracking-system-back-end.vercel.app/api/userpayment"
 
 export const signIn = createAsyncThunk("signIn", async (credentials, { rejectWithValue }) => {
     try {

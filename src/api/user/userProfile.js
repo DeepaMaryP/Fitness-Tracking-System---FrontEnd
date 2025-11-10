@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_API_URL = "http://localhost:3000/api/profile"
+const BASE_API_URL = "https://fitness-tracking-system-back-end.vercel.app/api/profile"
 
 export const fetchUserProfileWithUserId = async (userId, token) => {
     try {

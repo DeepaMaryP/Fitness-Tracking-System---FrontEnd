@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_API_URL = "http://localhost:3000/api/payment"
+const BASE_API_URL = "https://fitness-tracking-system-back-end.vercel.app/api/payment"
 
 export const orderPayment = async (order, token) => {
     try {
