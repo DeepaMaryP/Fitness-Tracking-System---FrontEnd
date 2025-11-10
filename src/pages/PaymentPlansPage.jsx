@@ -38,7 +38,7 @@ export default function PaymentPlansPage() {
                 </h1>
 
                 <div className="grid gap-8 md:grid-cols-3">
-                    {plans.map((plan) => (
+                    {plans?.map((plan) => (
                         <div
                             key={plan._id}
                             className="bg-white border border-gray-200 rounded-2xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col"

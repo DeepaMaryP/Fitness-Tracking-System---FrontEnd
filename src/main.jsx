@@ -50,6 +50,8 @@ import PaymentStatusPage from './pages/PaymentStatusPage.jsx'
 import GoalAchievementReport from './pages/admin/GoalAchievementReport.jsx'
 import RevenueGrowthReport from './pages/admin/RevenueGrowthReport.jsx'
 import RegistrationPage from './pages/user/RegistrationPage.jsx'
+import ProtectedRoute from './components/user/ProtectedRoute.jsx'
+import Unauthorized from './pages/auth/Unauthorized.jsx'
 
 const router = createBrowserRouter([
   {
@@ -65,11 +67,11 @@ const router = createBrowserRouter([
       { path: "paymentplan", element: <PaymentPlansPage /> },
       { path: "subscribe/:id", element: <PaymentButton /> },
       { path: "register", element: <RegistrationPage /> },
-
+      { path: "unauthorized", element: <Unauthorized /> },
     ]
   }, {
     path: "/admin",
-    element: <AdminLayOutPage />,
+    element:  <ProtectedRoute allowedRoles={["Admin"]}><AdminLayOutPage /></ProtectedRoute>,
     errorElement: <ErrorPage />,
 
     children: [
@@ -91,7 +93,7 @@ const router = createBrowserRouter([
   },
   , {
     path: "/trainer",
-    element: <TrainerLayOutPage />,
+    element:  <ProtectedRoute allowedRoles={["Trainer"]}><TrainerLayOutPage /></ProtectedRoute>,
     errorElement: <ErrorPage />,
 
     children: [
@@ -115,7 +117,7 @@ const router = createBrowserRouter([
   },
   , {
     path: "/user",
-    element: <UserLayOutPage />,
+    element:  <ProtectedRoute allowedRoles={["User"]}><UserLayOutPage /></ProtectedRoute>,
     errorElement: <ErrorPage />,
 
     children: [
