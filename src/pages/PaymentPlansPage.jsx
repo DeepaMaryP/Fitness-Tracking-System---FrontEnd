@@ -31,7 +31,7 @@ export default function PaymentPlansPage() {
 
     const doSubscribe = (planId) => {        
         if (!auth.isSubscribed) {
-            if (auth.userId && auth.role == "User") {
+            if (auth.token && auth.role == "User") {
                 navigate(`/subscribe/${planId}`)
             } else {
                 navigate(`/login/${planId}`)
