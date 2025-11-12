@@ -5,6 +5,7 @@ const initialState = {
     userName: null,
     userId: null,
     status: "",
+    role:"",
     token: null,
     error: null,
     isSubscribed: false,
@@ -24,6 +25,7 @@ const authSlice = createSlice(
                 state.userId = null;
                 state.token = null;
                 state.status = "";
+                state.role = "";
                 state.error = null;
                 state.isSubscribed = false;
                 state.isLoggedIn = false;
