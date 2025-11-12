@@ -44,7 +44,7 @@ const UserDetailsPage = () => {
                 ]);
 
                 setProfile(profileRes.data);
-                setGoal(goalRes.data);
+                setGoal(goalRes?.data);
                 setAllDietPlans(alldietRes.data);
                 setUserDietPlan(dietRes.data);
                 setAllWorkoutPlans(allWorkOutRes.data)
@@ -87,7 +87,7 @@ const UserDetailsPage = () => {
                         { profile?.dob && <p><strong>Age:</strong> {calculateAge(profile?.dob)}</p> }
                         <p><strong>Gender:</strong> {profile.gender}</p>
                         <p><strong>Height(cm):</strong> {profile.height_cm}</p>
-                        <p><strong>Goal Type:</strong> {goal.goal_type} </p>
+                        <p><strong>Goal Type:</strong> {goal?.goal_type || ""} </p>
                     </CardContent>
                 </Card>
 
@@ -96,10 +96,10 @@ const UserDetailsPage = () => {
                         <CardTitle>Fitness Goal & Progress</CardTitle>
                     </CardHeader>
                     <CardContent className="text-sm text-gray-700 space-y-2">
-                        <p><strong>Starting Weight:</strong> {goal.start_weight} kg</p>
-                        <p><strong>Current Weight:</strong> {goal.current_weight} kg</p>
-                        <p><strong>Target Weight:</strong> {goal.target_weight} kg</p>
-                        <p><strong>Duration:</strong> {goal.duration_days} days</p>
+                        <p><strong>Starting Weight:</strong> {goal?.start_weight|| ""} kg</p>
+                        <p><strong>Current Weight:</strong> {goal?.current_weight|| ""} kg</p>
+                        <p><strong>Target Weight:</strong> {goal?.target_weight|| ""} kg</p>
+                        <p><strong>Duration:</strong> {goal?.duration_days || ""} days</p>
                         <div className="mt-2">
                             <div className="flex justify-between text-xs text-gray-500 mb-1">
                                 <span>Progress</span>

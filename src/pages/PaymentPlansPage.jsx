@@ -29,6 +29,12 @@ export default function PaymentPlansPage() {
             <div className="text-center text-gray-500 py-10">Loading plans...</div>
         );
 
+    const doSubscribe = (planId) => {
+        if (!auth.isSubscribed) {
+            navigate(`/login/${planId}`)
+        }
+    }
+
     return (
         <div>
             <LogInHeader />
@@ -97,10 +103,10 @@ export default function PaymentPlansPage() {
                                 </ul>
                             </div>
 
-                            {/* Footer */}                           
+                            {/* Footer */}
                             <div className="text-center pb-6">
-                                <button                                    
-                                       onClick={() => navigate(`/login/${plan._id}`)}
+                                <button
+                                    onClick={doSubscribe} disabled = {auth.isSubscribed}
                                     className="bg-indigo-800 hover:bg-indigo-700 text-white font-semibold px-6 py-2 rounded-full transition-all duration-200"
                                 >
                                     Subscribe Now

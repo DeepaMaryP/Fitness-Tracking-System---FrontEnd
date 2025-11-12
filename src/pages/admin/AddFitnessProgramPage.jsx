@@ -29,8 +29,8 @@ function AddFitnessProgramPage() {
 
   const loadFitnessProgram = async () => {
     try {
-      const data = await fetchFitnessProgramWithId(fitProgramId, auth.token)
-      SetFitProgram(data)
+      const result = await fetchFitnessProgramWithId(fitProgramId, auth.token)     
+      SetFitProgram(result.data)
     } catch (err) {
       SetError("Unable to get Fitness Program details")
       console.error("Error fetching FitnessProgram:", err)
@@ -247,7 +247,7 @@ function AddFitnessProgramPage() {
         {/* Trainers Section */}
         <div>
           <h3 className="font-semibold mb-2">Trainers</h3>
-          {fitProgram.features.trainers.map((trainer, index) => {
+          {fitProgram.features.trainers?.map((trainer, index) => {
             // Filter out already selected types, but include the current trainer’s type
             const availableTypes = trainerTypes.filter(
               (t) =>
